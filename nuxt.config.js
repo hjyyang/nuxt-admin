@@ -41,7 +41,7 @@ module.exports = {
    */
   plugins: [{
     src: '@/plugins/element-ui',
-    ssr: true
+    ssr: false
   }, ],
   /*
    ** Nuxt.js dev-modules

@@ -17,6 +17,9 @@ $ npm run start
 
 # 生成静态项目
 $ npm run generate
+
+# 部署前查看打包文件大小(需要安装webpack-bundle-analyzer插件)
+$ npm run build --analyze
 ```
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
