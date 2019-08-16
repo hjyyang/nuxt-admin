@@ -1,6 +1,5 @@
 <template>
-    <div class="admin">
-    </div>
+    <main class="admin"></main>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <main class="settings"></main>
+    <footer>footer</footer>
 </template>
 
 <script>
@@ -11,5 +11,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+footer {
+    min-height: 60px;
+}
 </style>

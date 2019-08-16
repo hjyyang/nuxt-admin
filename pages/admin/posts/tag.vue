@@ -1,6 +1,5 @@
 <template>
-    <div class="admin_tag">
-    </div>
+    <main class="admin_tag"></main>
 </template>
 
 <script>

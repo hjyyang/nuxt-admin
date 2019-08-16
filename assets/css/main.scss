@@ -1,0 +1,180 @@
+html,
+body,
+div,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+input,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+textarea,
+article,
+aside,
+audio,
+canvas,
+figure,
+footer,
+header,
+mark,
+menu,
+nav,
+section,
+time,
+video {
+    margin: 0;
+    padding: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1.2;
+}
+
+article,
+aside,
+dialog,
+figure,
+footer,
+header,
+hgroup,
+nav,
+section,
+blockquote {
+    display: block;
+}
+
+ul,
+ol {
+    list-style: none;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    border: 0 none;
+    margin: 0 auto;
+}
+
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+    font-size: 20px;
+    margin-right: 6px;
+}
+
+ins {
+    text-decoration: underline;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+mark {
+    background: none;
+}
+
+input::-ms-clear {
+    display: none !important;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    // font-family: Verdana, "宋体", sans-serif;
+    // font-family: cursive, Cochin, Georgia, Times, 'Times New Roman', serif;
+    height: 100%;
+    background: #ffffff;
+    font-size: 14px;
+}
+
+a {
+    text-decoration: none !important;
+    transition: all .3s;
+}
+
+.container {
+    max-width: 1200px;
+    padding: 0px 10px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.clearfix:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    clear: both;
+    height: 0;
+}
+
+.clearfix {
+    /* 为了照顾ie6浏览器*/
+    zoom: 1;
+}
+
+.page-enter-active,
+.page-leave-active {
+    transition: opacity .5s;
+}
+
+.page-enter,
+.page-leave-active {
+    opacity: 0;
+}
+
+#__nuxt,#__layout,#__layout>div {
+    height: 100%;
+}
+
+main {
+    min-height: calc(100% - 120px);
+    padding-top: 60px;
+}
