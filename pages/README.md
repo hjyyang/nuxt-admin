@@ -21,3 +21,6 @@ pages下的index.vue是首页文件，每新建一个vue文件会以文件名为
         settings.vue                #后台设置页面
         users.vue                   #用户管理页面
 ```
+
+
+本项目内的命名规则： 样式class命名统一使用下划线，vue事件命名统一使用驼峰命名

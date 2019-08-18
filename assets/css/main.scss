@@ -41,8 +41,8 @@ nav,
 section,
 time,
 video {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 h1,
@@ -51,7 +51,7 @@ h3,
 h4,
 h5,
 h6 {
-    line-height: 1.2;
+	line-height: 1.2;
 }
 
 article,
@@ -64,117 +64,121 @@ hgroup,
 nav,
 section,
 blockquote {
-    display: block;
+	display: block;
 }
 
 ul,
 ol {
-    list-style: none;
+	list-style: none;
 }
 
 img {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    border: 0 none;
-    margin: 0 auto;
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+	border: 0 none;
+	margin: 0 auto;
 }
 
 blockquote,
 q {
-    quotes: none;
+	quotes: none;
 }
 
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-    content: none;
+	content: none;
 }
 
 table {
-    border-collapse: collapse;
-    border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 .icon {
-    width: 1em;
-    height: 1em;
-    vertical-align: -0.15em;
-    fill: currentColor;
-    overflow: hidden;
-    font-size: 20px;
-    margin-right: 6px;
+	width: 1em;
+	height: 1em;
+	vertical-align: -0.15em;
+	fill: currentColor;
+	overflow: hidden;
+	font-size: 20px;
+	margin-right: 6px;
 }
 
 ins {
-    text-decoration: underline;
+	text-decoration: underline;
 }
 
 del {
-    text-decoration: line-through;
+	text-decoration: line-through;
 }
 
 mark {
-    background: none;
+	background: none;
 }
 
 input::-ms-clear {
-    display: none !important;
+	display: none !important;
 }
 
 html {
-    height: 100%;
+	height: 100%;
 }
 
 body {
-    // font-family: Verdana, "宋体", sans-serif;
-    // font-family: cursive, Cochin, Georgia, Times, 'Times New Roman', serif;
-    height: 100%;
-    background: #ffffff;
-    font-size: 14px;
+	// font-family: Verdana, "宋体", sans-serif;
+	height: 100%;
+	font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
+		Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC,
+		WenQuanYi Micro Hei, sans-serif;
+	font-size: 14px;
+	color: #1a1a1a;
+	background: #f6f6f6;
 }
 
 a {
-    text-decoration: none !important;
-    transition: all .3s;
+	text-decoration: none !important;
+	transition: all 0.3s;
 }
 
 .container {
-    max-width: 1200px;
-    padding: 0px 10px;
-    margin: 0 auto;
-    box-sizing: border-box;
+	max-width: 1020px;
+	padding: 0px 10px;
+	margin: 0 auto;
+	box-sizing: border-box;
 }
 
 .clearfix:after {
-    content: "";
-    display: block;
-    visibility: hidden;
-    clear: both;
-    height: 0;
+	content: "";
+	display: block;
+	visibility: hidden;
+	clear: both;
+	height: 0;
 }
 
 .clearfix {
-    /* 为了照顾ie6浏览器*/
-    zoom: 1;
+	/* 为了照顾ie6浏览器*/
+	zoom: 1;
 }
 
 .page-enter-active,
 .page-leave-active {
-    transition: opacity .5s;
+	transition: opacity 0.5s;
 }
 
 .page-enter,
 .page-leave-active {
-    opacity: 0;
+	opacity: 0;
 }
 
-#__nuxt,#__layout,#__layout>div {
-    height: 100%;
+#__nuxt,
+#__layout,
+#__layout > div {
+	height: 100%;
 }
 
-main {
-    min-height: calc(100% - 120px);
-    padding-top: 60px;
+.admin_layout {
+    margin-top: 10px;
 }

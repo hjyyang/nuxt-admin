@@ -1,13 +1,14 @@
 <template>
-    <main class="admin"></main>
+  <div class="admin"></div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {};
-    },
-    asyncData() {}
+  layout: 'admin',
+  data() {
+    return {};
+  },
+  asyncData() {}
 };
 </script>
 
