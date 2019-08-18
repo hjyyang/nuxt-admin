@@ -4,14 +4,18 @@ import {
 	Tag,
 	Dropdown,
 	DropdownMenu,
-    DropdownItem,
-    Message,
-    MessageBox,
-    Dialog,
-    Form,
-    FormItem,
-    Input,
-    Button
+	DropdownItem,
+	Message,
+	MessageBox,
+	Dialog,
+	Form,
+	FormItem,
+	Input,
+	Button,
+	Menu,
+	Submenu,
+	MenuItem,
+	MenuItemGroup
 } from "element-ui";
 import locale from "element-ui/lib/locale/lang/zh-CN";
 
@@ -27,6 +31,10 @@ Vue.component(Form.name, Form);
 Vue.component(FormItem.name, FormItem);
 Vue.component(Input.name, Input);
 Vue.component(Button.name, Button);
+Vue.component(Menu.name, Menu);
+Vue.component(Submenu.name, Submenu);
+Vue.component(MenuItem.name, MenuItem);
+Vue.component(MenuItemGroup.name, MenuItemGroup);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="default_layout">
 		<Header />
         <nuxt />
 		<Footer />
@@ -20,5 +20,5 @@ export default {
 };
 </script>>
 
-<style>
+<style lang="scss">
 </style>

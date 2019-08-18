@@ -24,8 +24,7 @@
 <script>
 export default {
 	data() {
-		return {
-		};
+		return {};
 	},
 	asyncData() {},
 	mounted() {},
@@ -63,7 +62,6 @@ export default {
 			width: 100%;
 			min-height: 52px;
 			background-color: #ffffff;
-			box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
 			background-clip: content-box;
 		}
 	}
@@ -78,6 +76,24 @@ export default {
 		margin-left: auto;
 		border-radius: 50%;
 		overflow: hidden;
+	}
+}
+.default_layout {
+	.app_header {
+		&.is_fixed {
+			.page_header {
+				box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
+			}
+		}
+	}
+}
+.admin_layout {
+	.app_header {
+		&.is_fixed {
+			.page_header {
+				border-bottom: solid 1px #e6e6e6;
+			}
+		}
 	}
 }
 </style>
