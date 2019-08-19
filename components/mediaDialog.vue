@@ -1,12 +1,11 @@
 <template>
-    <section class="users">
-
+    <section class="media_dialog">
+        
     </section>
 </template>
 
 <script>
 export default {
-    layout: "admin",
     data() {
         return {};
     }
@@ -14,7 +13,7 @@ export default {
 </script>
 
 <style lang="scss">
-.users{
-
+.media_dialog{
+    
 }
 </style>

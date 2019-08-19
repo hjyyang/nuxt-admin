@@ -15,7 +15,8 @@ import {
 	Menu,
 	Submenu,
 	MenuItem,
-	MenuItemGroup
+	MenuItemGroup,
+	Upload
 } from "element-ui";
 import locale from "element-ui/lib/locale/lang/zh-CN";
 
@@ -35,6 +36,7 @@ Vue.component(Menu.name, Menu);
 Vue.component(Submenu.name, Submenu);
 Vue.component(MenuItem.name, MenuItem);
 Vue.component(MenuItemGroup.name, MenuItemGroup);
+Vue.component(Upload.name, Upload);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

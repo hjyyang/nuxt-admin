@@ -19,10 +19,12 @@ module.exports = {
       }
     ],
     link: [{
-      rel: 'icon',
-      type: 'image/x-icon',
-      href: '/favicon.ico'
-    }]
+        rel: 'icon',
+        type: 'image/x-icon',
+        href: '/favicon.ico'
+      },
+      { rel: 'stylesheet', href: "//at.alicdn.com/t/font_1358674_rmzrea0lgbp.css" }
+    ]
   },
   /*
    ** Customize the progress-bar color
