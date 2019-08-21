@@ -16,7 +16,10 @@ import {
 	Submenu,
 	MenuItem,
 	MenuItemGroup,
-	Upload
+    Upload,
+    Drawer,
+    Tabs,
+    TabPane
 } from "element-ui";
 import locale from "element-ui/lib/locale/lang/zh-CN";
 
@@ -37,6 +40,9 @@ Vue.component(Submenu.name, Submenu);
 Vue.component(MenuItem.name, MenuItem);
 Vue.component(MenuItemGroup.name, MenuItemGroup);
 Vue.component(Upload.name, Upload);
+Vue.component(Drawer.name, Drawer);
+Vue.component(Tabs.name, Tabs);
+Vue.component(TabPane.name, TabPane);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

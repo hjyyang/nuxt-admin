@@ -1,6 +1,8 @@
 <template>
     <section class="users">
+        <div class="user_main">
 
+        </div>
     </section>
 </template>
 
@@ -15,6 +17,10 @@ export default {
 
 <style lang="scss">
 .users{
-
+    width: 100%;
+    padding: 30px;
+}
+.user_main{
+    background: #ffffff;
 }
 </style>
