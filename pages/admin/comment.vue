@@ -1,6 +1,6 @@
 <template>
-    <section class="users">
-        <div class="user_main">
+    <section class="comment">
+        <div class="comment_main">
             
         </div>
     </section>
@@ -16,11 +16,11 @@ export default {
 </script>
 
 <style lang="scss">
-.users{
+.comment{
     width: 100%;
     padding: 30px;
 }
-.user_main{
+.comment_main{
     background: #ffffff;
 }
 </style>

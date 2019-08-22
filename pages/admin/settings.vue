@@ -28,7 +28,6 @@
 						</el-form-item>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="接口文档">接口文档</el-tab-pane>
 			</el-tabs>
             <el-button type="primary" size="small">保存</el-button>
 		</div>

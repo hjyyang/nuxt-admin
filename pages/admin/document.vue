@@ -1,6 +1,6 @@
 <template>
-    <section class="users">
-        <div class="user_main">
+    <section class="document">
+        <div class="document_main">
             
         </div>
     </section>
@@ -16,11 +16,11 @@ export default {
 </script>
 
 <style lang="scss">
-.users{
+.document{
     width: 100%;
     padding: 30px;
 }
-.user_main{
+.document_main{
     background: #ffffff;
 }
 </style>

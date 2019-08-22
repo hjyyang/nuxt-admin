@@ -26,6 +26,14 @@
                         <i class="iconfont icon-user"></i>
                         <span slot="title">用户</span>
                     </el-menu-item>
+                    <el-menu-item index="/admin/document">
+                        <i class="iconfont icon-wendang"></i>
+                        <span slot="title">文档</span>
+                    </el-menu-item>
+                    <el-menu-item index="/admin/comment">
+                        <i class="iconfont icon-pinglun"></i>
+                        <span slot="title">评论</span>
+                    </el-menu-item>
                 </el-menu>
                 <div class="menu_btn_fixed" @click="menuHideEvent">
                     <i class="el-icon-menu"></i>
