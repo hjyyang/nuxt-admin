@@ -4,35 +4,38 @@
         <main class="admin">
             <aside>
                 <el-menu :class="['admin_menu',menuHide ? 'hide' : '']" :collapse="isCollapse" :router="true" :default-active="this.$route.fullPath">
+                    <el-menu-item @click="menuCollapse" class="center">
+                        <i :class="isCollapse === true ? 'el-icon-s-unfold' : 'el-icon-s-fold'"></i>
+                    </el-menu-item>
                     <el-menu-item index="/admin/settings">
                         <i class="el-icon-setting"></i>
-                        <span slot="title">设置</span>
+                        <span slot="title">Settings</span>
                     </el-menu-item>
                     <el-menu-item index="/admin/media">
                         <i class="el-icon-picture"></i>
-                        <span slot="title">媒体</span>
+                        <span slot="title">Media</span>
                     </el-menu-item>
                     <el-submenu index="/admin/posts">
                         <template slot="title">
                             <i class="el-icon-document"></i>
-                            <span slot="title">文章</span>
+                            <span slot="title">Post</span>
                         </template>
-                        <el-menu-item index="/admin/posts">所有文章</el-menu-item>
-                        <el-menu-item index="/admin/posts/edit">新增</el-menu-item>
-                        <el-menu-item index="/admin/posts/categories">分类</el-menu-item>
-                        <el-menu-item index="/admin/posts/tag">标签</el-menu-item>
+                        <el-menu-item index="/admin/posts">All post</el-menu-item>
+                        <el-menu-item index="/admin/posts/edit">New post</el-menu-item>
+                        <el-menu-item index="/admin/posts/categories">Category</el-menu-item>
+                        <el-menu-item index="/admin/posts/tag">Tag</el-menu-item>
                     </el-submenu>
                     <el-menu-item index="/admin/users">
                         <i class="iconfont icon-user"></i>
-                        <span slot="title">用户</span>
+                        <span slot="title">Users</span>
                     </el-menu-item>
                     <el-menu-item index="/admin/document">
                         <i class="iconfont icon-wendang"></i>
-                        <span slot="title">文档</span>
+                        <span slot="title">Document</span>
                     </el-menu-item>
                     <el-menu-item index="/admin/comment">
                         <i class="iconfont icon-pinglun"></i>
-                        <span slot="title">评论</span>
+                        <span slot="title">Comment</span>
                     </el-menu-item>
                 </el-menu>
                 <div class="menu_btn_fixed" @click="menuHideEvent">
@@ -64,6 +67,9 @@ export default {
     methods: {
         menuHideEvent() {
             this.menuHide = !this.menuHide;
+        },
+        menuCollapse(){
+            this.isCollapse = !this.isCollapse;
         }
     }
 };
@@ -82,9 +88,21 @@ export default {
         }
     }
     .el-menu-item {
-        text-align: center;
+        &.center{
+            text-align: center;
+            &:hover{
+                i{color: #409EFF;}
+            }
+        }
         i {
+            display: inline-block;
+            min-width: 24px;
+            margin-right: 5px;
             font-size: 18px;
+            text-align: center;
+        }
+        span{
+            min-width: 100px;
         }
     }
     .menu_btn_fixed {

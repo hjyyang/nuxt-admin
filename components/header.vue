@@ -1,7 +1,7 @@
 <template>
 	<header class="app_header is_fixed">
 		<div class="page_header">
-			<div class="container">
+			<div class="bigContainer">
 				<nav class="navigator">
 					<el-dropdown @command="dropdownCommand">
 						<div class="header_dropdown">
@@ -15,6 +15,9 @@
 							<el-dropdown-item command="logout">注销</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
+					<div class="name">
+						<span>jon</span>
+					</div>
 				</nav>
 			</div>
 		</div>
@@ -65,7 +68,7 @@ export default {
 			background-clip: content-box;
 		}
 	}
-	.container {
+	.bigContainer {
 		width: 100%;
 	}
 	.navigator {
@@ -76,6 +79,11 @@ export default {
 		margin-left: auto;
 		border-radius: 50%;
 		overflow: hidden;
+	}
+	.name {
+		display: flex;
+		align-items: center;
+		margin-left: 8px;
 	}
 }
 .default_layout {

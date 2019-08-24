@@ -135,7 +135,7 @@ body {
 		WenQuanYi Micro Hei, sans-serif;
 	font-size: 14px;
 	color: #1a1a1a;
-	background: #f6f6f6;
+	background: #eef5f9;
 }
 
 a {
@@ -143,6 +143,11 @@ a {
 	transition: all 0.3s;
 }
 
+.bigContainer{
+	padding: 0px 60px;
+	margin: 0 auto;
+	box-sizing: border-box;
+}
 .container {
 	max-width: 1020px;
 	padding: 0px 10px;

@@ -12,10 +12,10 @@
 			>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">
-					将文件拖到此处，或
-					<em>点击上传</em>
+					Drag the file here, or
+					<em>click upload</em>
 				</div>
-				<div class="el-upload__tip" slot="tip">上传文件大小不能超过2MB</div>
+				<div class="el-upload__tip" slot="tip">Upload file size cannot exceed 2MB</div>
 			</el-upload>
 		</div>
 		<div class="file_list">
@@ -191,23 +191,31 @@ export default {
 	}
 }
 @media (max-width: 1600px) {
-	.media .file_list li {
-		width: calc(12.5% - 20px);
+	.media {
+		.file_list li {
+			width: calc(12.5% - 20px);
+		}
 	}
 }
 @media (max-width: 1366px) {
-	.media .file_list li {
-		width: calc(14.28% - 20px);
+	.media {
+		.file_list li {
+			width: calc(14.28% - 20px);
+		}
 	}
 }
 @media (max-width: 1200px) {
-	.media .file_list li {
-		width: calc(16.66% - 20px);
+	.media {
+		.file_list li {
+			width: calc(16.66% - 20px);
+		}
 	}
 }
 @media (max-width: 768px) {
-	.media .file_list li {
-		width: calc(25% - 20px);
+	.media {
+		.file_list li {
+			width: calc(25% - 20px);
+		}
 	}
 }
 @media (max-width: 540px) {
@@ -219,13 +227,15 @@ export default {
 	}
 }
 @media (max-width: 320px) {
-	.media .file_list {
-		ul {
-			margin-left: -10px;
-		}
-		li {
-			width: calc(50% - 10px);
-			margin-left: 10px;
+	.media {
+		.file_list {
+			ul {
+				margin-left: -10px;
+			}
+			li {
+				width: calc(50% - 10px);
+				margin-left: 10px;
+			}
 		}
 	}
 }
