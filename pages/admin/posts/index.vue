@@ -30,6 +30,7 @@
 					size="small"
 					:disabled="multipleSelection.length > 0 ? false : true"
 					class="detele_btn"
+					@click="multipleSelectionDelete"
 				>Batch Delete</el-button>
 			</div>
 			<div class="posts_list">
@@ -46,11 +47,20 @@
 							<nuxt-link to>{{ scope.row.title }}</nuxt-link>
 						</template>
 					</el-table-column>
-					<el-table-column prop="describe" label="Describe" min-width="120"></el-table-column>
-					<el-table-column prop="publish_date" label="Publish Date" width="160" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="last_modified_date" label="Last Modified Date" width="160"></el-table-column>
-					<el-table-column prop="like_count" label="Like Count" width="120"></el-table-column>
-					<el-table-column prop="count" label="Pv Count" width="120"></el-table-column>
+					<el-table-column prop="describe" label="Describe" min-width="140"></el-table-column>
+					<el-table-column prop="publish_date" label="Publish Date" width="150" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="last_modified_date" label="Modified Date" width="150"></el-table-column>
+					<el-table-column prop="like_count" label="Like Count" width="110"></el-table-column>
+					<el-table-column prop="count" label="Pv Count" width="110"></el-table-column>
+					<el-table-column fixed="right" label="Status" width="120">
+						<template slot-scope="scope">
+							<el-switch
+								v-model="scope.row.publish_status"
+								@change="postStatusChange(1)"
+								active-icon-class="el-icon-check"
+							></el-switch>
+						</template>
+					</el-table-column>
 					<el-table-column fixed="right" label="operation" width="120">
 						<nuxt-link to class="edit">
 							<i class="el-icon-edit"></i>
@@ -62,7 +72,7 @@
 					<el-pagination
 						@size-change="sizeChange"
 						@current-change="currentChange"
-                        :current-page.sync="currentPage"
+						:current-page.sync="currentPage"
 						layout="prev, pager, next, jumper"
 						:total="100"
 					></el-pagination>
@@ -123,7 +133,8 @@ export default {
 					publish_date: "2019-08-03",
 					last_modified_date: "2019-08-16",
 					like_count: 2,
-					count: 3
+					count: 3,
+					publish_status: true
 				},
 				{
 					title: "test",
@@ -131,59 +142,12 @@ export default {
 					publish_date: "2019-08-03",
 					last_modified_date: "2019-08-16",
 					like_count: 2,
-					count: 3
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					publish_date: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					count: 3
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					publish_date: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					count: 3
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					publish_date: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					count: 3
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					publish_date: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					count: 3
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					publish_date: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					count: 3
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					publish_date: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					count: 3
+					count: 3,
+					publish_status: false
 				}
 			],
-            multipleSelection: [],
-            currentPage: 1
+			multipleSelection: [],
+			currentPage: 1
 		};
 	},
 	methods: {
@@ -193,6 +157,35 @@ export default {
 		},
 		postDeleteEvent() {
 			//文章删除事件
+			this.$confirm(
+				"Are you sure to delete this article?",
+				"prompt",
+				{
+					confirmButtonText: "true",
+					cancelButtonText: "cancel",
+					type: "warning"
+				}
+			)
+				.then(() => {})
+				.catch(() => {});
+		},
+		multipleSelectionDelete() {
+			//文章多选删除
+
+			this.$confirm(
+				"Make sure to delete the checked article？",
+				"prompt",
+				{
+					confirmButtonText: "true",
+					cancelButtonText: "cancel",
+					type: "warning"
+				}
+			)
+				.then(() => {})
+				.catch(() => {});
+		},
+		postStatusChange(val) {
+			console.log(val);
 		},
 		sizeChange(val) {
 			console.log(`每页 ${val} 条`);
@@ -265,12 +258,23 @@ export default {
 			cursor: pointer;
 		}
 	}
-    .paged{
-        display: flex;
-        padding-top: 60px;
-        padding-bottom: 30px;
-        .el-pagination{
-            margin-left: auto;
+	.paged {
+		display: flex;
+		padding-top: 60px;
+		padding-bottom: 30px;
+		.el-pagination {
+			margin-left: auto;
+		}
+	}
+}
+
+@media (max-width:1000px){
+    .posts_main {
+        .search_wrap{
+            flex-wrap: wrap;
+        }
+        .search_title{
+            margin-bottom: 20px;
         }
     }
 }

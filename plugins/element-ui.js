@@ -22,7 +22,8 @@ import {
     TabPane,
     DatePicker,
     Table,
-    TableColumn
+    TableColumn,
+    Switch
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/en";
 import locale from 'element-ui/lib/locale';
@@ -52,6 +53,7 @@ Vue.component(TabPane.name, TabPane);
 Vue.component(DatePicker.name, DatePicker);
 Vue.component(Table.name, Table);
 Vue.component(TableColumn.name, TableColumn);
+Vue.component(Switch.name, Switch);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
