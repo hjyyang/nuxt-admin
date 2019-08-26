@@ -19,9 +19,15 @@ import {
     Upload,
     Drawer,
     Tabs,
-    TabPane
+    TabPane,
+    DatePicker,
+    Table,
+    TableColumn
 } from "element-ui";
-import locale from "element-ui/lib/locale/lang/zh-CN";
+import lang from "element-ui/lib/locale/lang/en";
+import locale from 'element-ui/lib/locale';
+
+locale.use(lang)
 
 Vue.component(Pagination.name, Pagination);
 Vue.component(Tag.name, Tag);
@@ -43,6 +49,9 @@ Vue.component(Upload.name, Upload);
 Vue.component(Drawer.name, Drawer);
 Vue.component(Tabs.name, Tabs);
 Vue.component(TabPane.name, TabPane);
+Vue.component(DatePicker.name, DatePicker);
+Vue.component(Table.name, Table);
+Vue.component(TableColumn.name, TableColumn);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
