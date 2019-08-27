@@ -65,7 +65,7 @@ export default {
 		};
 	},
 	mounted() {
-		if (window.innerWidth <= 540) {
+		if (window.outerWidth <= 540) {
 			this.menuHide = true;
 		}
 	},

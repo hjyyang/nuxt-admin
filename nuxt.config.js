@@ -23,7 +23,10 @@ module.exports = {
         type: 'image/x-icon',
         href: '/favicon.ico'
       },
-      { rel: 'stylesheet', href: "//at.alicdn.com/t/font_1358674_vhcuszfj8hj.css" }
+      {
+        rel: 'stylesheet',
+        href: "//at.alicdn.com/t/font_1358674_2rghrludukn.css"
+      }
     ]
   },
   /*

@@ -185,7 +185,11 @@ export default {
 				.catch(() => {});
 		},
 		postStatusChange(val) {
+			//文章发布开关
 			console.log(val);
+			setTimeout(()=>{
+				this.postsData[val].publish_status = false;
+			},1000)
 		},
 		sizeChange(val) {
 			console.log(`每页 ${val} 条`);

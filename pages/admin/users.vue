@@ -53,7 +53,18 @@ export default {
 	},
 	methods: {
 		deleteRow(index, rows) {
-			rows.splice(index, 1);
+			//用户删除事件
+			this.$confirm(
+				"Are you sure to delete this user?",
+				"prompt",
+				{
+					confirmButtonText: "true",
+					cancelButtonText: "cancel",
+					type: "warning"
+				}
+			)
+				.then(() => {})
+				.catch(() => {});
 		}
 	}
 };
