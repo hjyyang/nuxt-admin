@@ -61,7 +61,7 @@ export default {
 	data() {
 		return {
 			isCollapse: true,
-			menuHide: false
+            menuHide: false,
 		};
 	},
 	mounted() {

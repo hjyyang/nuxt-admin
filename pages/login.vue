@@ -10,7 +10,7 @@
 						<el-input v-model="loginForm.userName" placeholder="请输入用户名"></el-input>
 					</el-form-item>
 					<el-form-item prop="pass">
-						<el-input type="password" v-model="loginForm.pass" placeholder="请输入密码" autocomplete="off"></el-input>
+						<el-input type="password" v-model="loginForm.pass" show-password placeholder="请输入密码" autocomplete="off"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button @click="submitForm('loginForm')" type="primary">登录</el-button>

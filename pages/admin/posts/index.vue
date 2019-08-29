@@ -256,6 +256,7 @@ export default {
 		.edit {
 			margin-right: 10px;
 			color: #409eff;
+            background: none;
 		}
 		.delete {
 			color: #f56c6c;

@@ -24,7 +24,9 @@ import {
     Table,
     TableColumn,
     Switch,
-    Popover
+    Popover,
+    Select,
+    Option
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/en";
 import locale from 'element-ui/lib/locale';
@@ -56,6 +58,8 @@ Vue.component(Table.name, Table);
 Vue.component(TableColumn.name, TableColumn);
 Vue.component(Switch.name, Switch);
 Vue.component(Popover.name, Popover);
+Vue.component(Select.name, Select);
+Vue.component(Option.name, Option);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
