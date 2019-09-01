@@ -26,7 +26,10 @@ import {
     Switch,
     Popover,
     Select,
-    Option
+    Option,
+    Radio,
+    RadioGroup,
+    RadioButton
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/en";
 import locale from 'element-ui/lib/locale';
@@ -60,6 +63,9 @@ Vue.component(Switch.name, Switch);
 Vue.component(Popover.name, Popover);
 Vue.component(Select.name, Select);
 Vue.component(Option.name, Option);
+Vue.component(Radio.name, Radio);
+Vue.component(RadioGroup.name, RadioGroup);
+Vue.component(RadioButton.name, RadioButton);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

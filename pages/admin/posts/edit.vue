@@ -22,30 +22,73 @@
 							<i class="el-icon-circle-close" v-if="postData.coverImg" @click="postData.coverImg = ''"></i>
 							<img :src="postData.coverImg" alt />
 							<button
-								@click="mediaDialogShowEvent('coverImg')"
+								@click="mediaDialogShowEv('coverImg')"
 								v-if="!postData.coverImg"
 							>Click here to add an image</button>
 						</div>
 						<i class="el-icon-picture" slot="reference" @click="popoverVisible = !popoverVisible"></i>
 					</el-popover>
 				</div>
-				<button class="publish_btn" @click="drawerVisible = true">Publish</button>
+				<button class="drawer_btn" @click="drawerVisible = true">Publish</button>
 			</div>
 		</header>
 		<mediaDialog
 			:mediaDialogVisible="mediaDialogVisible"
-			v-on:visible="mediaDialogVisibleEvent"
+			v-on:visible="mediaDialogVisibleEv"
 			v-on:getUrl="getUrl"
 		/>
-		<el-drawer title="Published articles" :visible.sync="drawerVisible" direction="rtl" class="edit_drawer">
-			<el-select v-model="postData.currentCategory" placeholder="Please select category">
-				<el-option
-					v-for="(item,index) in postData.categoryList"
-					:key="index"
-					:label="item.cName"
-					:value="item.cValue"
-				></el-option>
-			</el-select>
+		<el-drawer :visible.sync="drawerVisible" direction="rtl" class="edit_drawer">
+			<el-button type="primary" class="publish_btn">Identify and publish</el-button>
+			<div class="category_wrap">
+				<h4>Category</h4>
+				<el-radio-group v-model="postData.currentCategory" size="small">
+					<el-radio
+						:label="item.cValue"
+						v-for="(item,index) in postData.categoryList"
+						:key="index"
+					>{{item.cName}}</el-radio>
+				</el-radio-group>
+				<div class="new-wrap">
+					<a class="new" v-if="!categoryInputVisible" @click="showCategoryTagInput">New Category</a>
+					<div class="new_input" v-else>
+						<el-input
+							v-model="postData.newCategoryValue"
+							ref="saveCategoryInput"
+							placeholder="New category name"
+							@keyup.enter.native="categoryInputConfirm"
+							@blur="categoryInputConfirm"
+						></el-input>
+						<el-button type="primary" icon="el-icon-check" @click="categoryInputConfirm"></el-button>
+					</div>
+				</div>
+			</div>
+			<div class="tag_wrap">
+				<h4>Tag</h4>
+				<div class="tag_main">
+					<el-tag
+						:key="index"
+						:type="tag.selected ? 'success' : ''"
+						v-for="(tag,index) in postData.postTags"
+						:disable-transitions="false"
+						@click="selectTagEv(index)"
+					>{{tag.tagName}}</el-tag>
+					<el-button
+						v-if="!tagInputVisible"
+						class="button_new_tag"
+						size="small"
+						@click="showNewTagInput"
+					>+ New Tag</el-button>
+					<el-input
+						class="input_new_tag"
+						v-else
+						v-model="postData.NewTagValue"
+						ref="saveTagInput"
+						size="small"
+						@keyup.enter.native="tagInputConfirm"
+						@blur="tagInputConfirm"
+					></el-input>
+				</div>
+			</div>
 		</el-drawer>
 	</section>
 </template>
@@ -65,20 +108,48 @@ export default {
 				coverImg: "",
 				categoryList: [
 					{
-						cName: "js",
+						cName: "unclassified",
+						cValue: 0
+					},
+					{
+						cName: "javascript",
 						cValue: 1
+					},
+					{
+						cName: "plugin",
+						cValue: 2
 					}
 				],
-				currentCategory: ""
+				currentCategory: 0,
+				newCategoryValue: "",
+				postTags: [
+					{
+						tagName: "js",
+						tagIndex: 0,
+						selected: true
+					},
+					{
+						tagName: "css",
+						tagIndex: 3,
+						selected: false
+					},
+					{
+						tagName: "mml",
+						tagIndex: 2,
+						selected: false
+					}
+				],
+				NewTagValue: ""
 			},
 			whoClick: "",
-            drawerVisible: false,
+			drawerVisible: false,
+			categoryInputVisible: false,
+			tagInputVisible: false
 		};
-    },
-    mounted(){
-    },
+	},
+	mounted() {},
 	methods: {
-		mediaDialogVisibleEvent(e) {
+		mediaDialogVisibleEv(e) {
 			//media组件控制显示隐藏
 			this.mediaDialogVisible = e;
 		},
@@ -90,10 +161,39 @@ export default {
 			}
 			this.mediaDialogVisible = false;
 		},
-		mediaDialogShowEvent(s) {
+		mediaDialogShowEv(s) {
 			//当前页面控制media组件显示隐藏
 			this.whoClick = s;
 			this.mediaDialogVisible = true;
+		},
+		selectTagEv(e) {
+			//标签选择
+			this.postData.postTags[e].selected = !this.postData.postTags[e]
+				.selected;
+		},
+		showNewTagInput() {
+			//显示tag添加input
+			this.tagInputVisible = true;
+			this.$nextTick(_ => {
+				this.$refs.saveTagInput.$refs.input.focus();
+			});
+		},
+		tagInputConfirm() {
+			//新增tag确认事件
+			this.tagInputVisible = false;
+			this.postData.NewTagValue = "";
+		},
+		showCategoryTagInput() {
+			//显示catgory添加input
+			this.categoryInputVisible = true;
+			this.$nextTick(_ => {
+				this.$refs.saveCategoryInput.$refs.input.focus();
+			});
+		},
+		categoryInputConfirm() {
+			//新增category确认事件
+			this.categoryInputVisible = false;
+			this.postData.newCategoryValue = "";
 		}
 	}
 };
@@ -147,7 +247,7 @@ export default {
 			outline: none;
 		}
 	}
-	.publish_btn {
+	.drawer_btn {
 		border: none;
 		outline: none;
 		font-size: 16px;
@@ -188,9 +288,79 @@ export default {
 		font-size: 16px;
 		cursor: pointer;
 		transition: all 0.3s;
+		&:hover {
+			opacity: 0.8;
+		}
 	}
 }
-.edit_drawer{
-
+.edit_drawer {
+	.el-drawer {
+		width: 24% !important;
+	}
+	header {
+		// font-size: 18px;
+		margin-bottom: 10px;
+	}
+	.el-drawer__body {
+		padding: 0px 20px;
+	}
+	.publish_btn {
+		width: 100%;
+		margin-bottom: 30px;
+	}
+	.category_wrap {
+		border-bottom: 1px solid #ebeef5;
+	}
+	h4 {
+		margin-bottom: 20px;
+		font-size: 16px;
+		color: #909090;
+	}
+	.el-radio {
+		margin-bottom: 12px;
+	}
+	.new-wrap {
+		margin: 10px 0px 30px;
+	}
+	a.new {
+		font-size: 14px;
+		color: #007fff;
+		text-decoration: underline !important;
+		cursor: pointer;
+		&:hover {
+			opacity: 0.8;
+		}
+	}
+	.new_input {
+		display: flex;
+		input {
+			border-top-right-radius: 0px;
+			border-bottom-right-radius: 0px;
+			border-right: 0px;
+		}
+		button {
+			border-top-left-radius: 0px;
+			border-bottom-left-radius: 0px;
+		}
+	}
+	.tag_wrap {
+		padding-top: 30px;
+		.tag_main {
+			line-height: 32px;
+		}
+		.el-tag {
+			cursor: pointer;
+			& + .el-tag {
+				margin: 0px 0px 16px 12px;
+			}
+		}
+		.button_new_tag {
+			margin-left: 10px;
+		}
+		.input_new_tag {
+			max-width: 93px;
+			margin-left: 10px;
+		}
+	}
 }
 </style>
