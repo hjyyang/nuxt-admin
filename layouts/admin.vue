@@ -14,33 +14,33 @@
 					</el-menu-item>
 					<el-menu-item index="/admin/settings">
 						<i class="el-icon-setting"></i>
-						<span slot="title">Settings</span>
+						<span slot="title">配置</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/media">
 						<i class="el-icon-picture"></i>
-						<span slot="title">Media</span>
+						<span slot="title">媒体</span>
 					</el-menu-item>
 					<el-submenu index="/admin/posts">
 						<template slot="title">
 							<i class="el-icon-document"></i>
-							<span slot="title">Post</span>
+							<span slot="title">文章</span>
 						</template>
-						<el-menu-item index="/admin/posts">All post</el-menu-item>
-						<el-menu-item index="/admin/posts/edit">New post</el-menu-item>
-						<el-menu-item index="/admin/posts/categories">Category</el-menu-item>
-						<el-menu-item index="/admin/posts/tag">Tag</el-menu-item>
+						<el-menu-item index="/admin/posts">所有</el-menu-item>
+						<el-menu-item index="/admin/posts/edit">新增</el-menu-item>
+						<el-menu-item index="/admin/posts/categories">分类</el-menu-item>
+						<el-menu-item index="/admin/posts/tag">标签</el-menu-item>
 					</el-submenu>
 					<el-menu-item index="/admin/users">
 						<i class="el-icon-s-custom"></i>
-						<span slot="title">Users</span>
+						<span slot="title">用户</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/document">
 						<i class="iconfont icon-wendang"></i>
-						<span slot="title">Document</span>
+						<span slot="title">文档</span>
 					</el-menu-item>
 					<el-menu-item index="/admin/comment">
 						<i class="iconfont icon-pinglun"></i>
-						<span slot="title">Comment</span>
+						<span slot="title">评论</span>
 					</el-menu-item>
 				</el-menu>
 				<div class="menu_btn_fixed" @click="menuHideEvent">

@@ -12,10 +12,10 @@
 			>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">
-					Drag the file here, or
-					<em>click upload</em>
+					将文件拖到这里，或者
+					<em>点击上传</em>
 				</div>
-				<div class="el-upload__tip" slot="tip">Upload file size cannot exceed 2MB</div>
+				<div class="el-upload__tip" slot="tip">上传文件大小不能超过2MB</div>
 			</el-upload>
 		</div>
 		<div class="file_list">

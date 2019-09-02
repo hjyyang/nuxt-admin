@@ -3,7 +3,7 @@
 		<div class="posts_main">
 			<div class="search_wrap">
 				<div class="search_title">
-					<el-input v-model="searchTitleValue" placeholder="Search by title"></el-input>
+					<el-input v-model="searchTitleValue" placeholder="通过标题搜索"></el-input>
 					<el-button type="primary" icon="el-icon-search"></el-button>
 				</div>
 				<div class="search_date">
@@ -13,16 +13,16 @@
 						align="top"
 						unlink-panels
 						range-separator="~"
-						start-placeholder="Start"
-						end-placeholder="End"
+						start-placeholder="开始时间"
+						end-placeholder="结束时间"
 						:picker-options="pickerOptions"
 					></el-date-picker>
-					<el-button type="primary" icon="el-icon-search">Search</el-button>
+					<el-button type="primary" icon="el-icon-search">搜索</el-button>
 				</div>
 			</div>
 			<div class="post_operation">
 				<nuxt-link to="/admin/posts/edit" class="new_btn">
-					<el-button type="primary" icon="el-icon-plus" size="small">Add New Article</el-button>
+					<el-button type="primary" icon="el-icon-plus" size="small">添加新文章</el-button>
 				</nuxt-link>
 				<el-button
 					type="primary"
@@ -31,7 +31,7 @@
 					:disabled="multipleSelection.length > 0 ? false : true"
 					class="detele_btn"
 					@click="multipleSelectionDelete"
-				>Batch Delete</el-button>
+				>批量删除</el-button>
 			</div>
 			<div class="posts_list">
 				<el-table
@@ -42,17 +42,17 @@
 					@selection-change="selectionChange"
 				>
 					<el-table-column type="selection" width="55" fixed></el-table-column>
-					<el-table-column label="Title" width="120" fixed>
+					<el-table-column label="标题" width="120" fixed>
 						<template slot-scope="scope">
 							<nuxt-link to>{{ scope.row.title }}</nuxt-link>
 						</template>
 					</el-table-column>
-					<el-table-column prop="describe" label="Describe" min-width="140"></el-table-column>
-					<el-table-column prop="publish_date" label="Publish Date" width="150" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="last_modified_date" label="Modified Date" width="150"></el-table-column>
-					<el-table-column prop="like_count" label="Like Count" width="110"></el-table-column>
-					<el-table-column prop="count" label="Pv Count" width="110"></el-table-column>
-					<el-table-column fixed="right" label="Status" width="120">
+					<el-table-column prop="describe" label="描述" min-width="140"></el-table-column>
+					<el-table-column prop="publish_date" label="发布时间" width="150" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="last_modified_date" label="修改时间" width="150"></el-table-column>
+					<el-table-column prop="like_count" label="喜欢数量" width="110"></el-table-column>
+					<el-table-column prop="count" label="浏览数量" width="110"></el-table-column>
+					<el-table-column fixed="right" label="状态" width="120">
 						<template slot-scope="scope">
 							<el-switch
 								v-model="scope.row.publish_status"
@@ -61,7 +61,7 @@
 							></el-switch>
 						</template>
 					</el-table-column>
-					<el-table-column fixed="right" label="operation" width="120">
+					<el-table-column fixed="right" label="操作" width="120">
 						<nuxt-link to class="edit">
 							<i class="el-icon-edit"></i>
 						</nuxt-link>
@@ -158,11 +158,11 @@ export default {
 		postDeleteEvent() {
 			//文章删除事件
 			this.$confirm(
-				"Are you sure to delete this article?",
-				"prompt",
+				"你确定要删除这篇文章吗?",
+				"提示",
 				{
-					confirmButtonText: "true",
-					cancelButtonText: "cancel",
+					confirmButtonText: "确定",
+					cancelButtonText: "取消",
 					type: "warning"
 				}
 			)
@@ -173,11 +173,11 @@ export default {
 			//文章多选删除
 
 			this.$confirm(
-				"Make sure to delete the checked article？",
-				"prompt",
+				"确定删除选中的文章？",
+				"提示",
 				{
-					confirmButtonText: "true",
-					cancelButtonText: "cancel",
+					confirmButtonText: "确定",
+					cancelButtonText: "取消",
 					type: "warning"
 				}
 			)

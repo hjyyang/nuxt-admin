@@ -46,9 +46,14 @@ module.exports = {
    ** Plugins to load before mounting the App
    */
   plugins: [{
-    src: '@/plugins/element-ui',
-    ssr: true
-  }, ],
+      src: '@/plugins/element-ui',
+      ssr: true
+    },
+    {
+      src: '@/plugins/vue-mavon-editor',
+      srr: false
+    }
+  ],
   /*
    ** Nuxt.js dev-modules
    */

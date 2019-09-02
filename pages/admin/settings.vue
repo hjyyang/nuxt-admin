@@ -2,15 +2,15 @@
 	<section class="settings">
 		<div class="setting_main">
 			<el-tabs type="border-card">
-				<el-tab-pane label="confing">
+				<el-tab-pane label="配置">
 					<el-form label-position="right" label-width="140px" :model="formData">
-						<el-form-item label="title">
+						<el-form-item label="网站标题">
 							<el-input v-model="formData.name"></el-input>
 						</el-form-item>
-						<el-form-item label="slogan">
+						<el-form-item label="Slogan">
 							<el-input v-model="formData.region"></el-input>
 						</el-form-item>
-						<el-form-item label="logo">
+						<el-form-item label="Logo">
 							<el-input v-model="formData.logo"></el-input>
 							<div class="pic" @click="mediaDialogVisible = true">
 								<i class="el-icon-plus"></i>
@@ -19,12 +19,12 @@
 								</div>
 							</div>
 						</el-form-item>
-						<el-form-item label="Copyright">
+						<el-form-item label="版权(copyright)">
 							<el-input v-model="formData.copyright"></el-input>
 						</el-form-item>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="share">
+				<el-tab-pane label="分享">
 					<el-form label-position="right" label-width="140px" :model="formData">
 						<el-form-item label="Github">
 							<el-input v-model="formData.name"></el-input>
@@ -37,14 +37,14 @@
 						</el-form-item>
 					</el-form>
 				</el-tab-pane>
-                <el-tab-pane label="Administrator Settings">
+                <el-tab-pane label="管理员设置">
 					<el-form label-position="right" label-width="140px" :model="formData">
-						Administrator Settings
+						管理员设置
 					</el-form>
 				</el-tab-pane>
 			</el-tabs>
 			<div class="save_btn">
-				<el-button type="primary" size="small">save</el-button>
+				<el-button type="primary" size="small">保存</el-button>
 			</div>
 		</div>
 		<mediaDialog

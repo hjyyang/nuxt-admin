@@ -2,7 +2,7 @@
 	<section class="media_dialog">
 		<el-dialog :visible.sync="mediaDialogVisible" width="90%" :before-close="dialogClose">
 			<el-tabs v-model="activeName">
-				<el-tab-pane label="File list" name="list">
+				<el-tab-pane label="文件列表" name="list">
 					<div class="file_list">
 						<ul @click="fileEvent" class="list">
 							<li class="file_item" v-for="(item,index) in fileList" :key="index" :fileIndex="index">
@@ -13,7 +13,7 @@
 						</ul>
 					</div>
 				</el-tab-pane>
-				<el-tab-pane label="Upload" name="upload">
+				<el-tab-pane label="上传" name="upload">
 					<div class="upload_container">
 						<el-upload
 							class="upload"
@@ -26,10 +26,10 @@
 						>
 							<i class="el-icon-upload"></i>
 							<div class="el-upload__text">
-								Drag the file here, or
-								<em>click upload</em>
+								将文件拖到这里，或者
+								<em>点击上传</em>
 							</div>
-							<div class="el-upload__tip" slot="tip">Upload file size cannot exceed 2MB</div>
+							<div class="el-upload__tip" slot="tip">上传文件大小不能超过2MB</div>
 						</el-upload>
 					</div>
 				</el-tab-pane>

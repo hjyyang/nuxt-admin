@@ -2,11 +2,11 @@
 	<section class="users">
 		<div class="user_main">
 			<el-table :data="userData" style="width: 100%">
-				<el-table-column prop="id" fixed label="User Id" width="120"></el-table-column>
-				<el-table-column prop="name" label="User Name" width="180"></el-table-column>
-				<el-table-column prop="registrationTime" label="Registration Time" width="180"></el-table-column>
-				<el-table-column prop="email" min-width="200" label="Email"></el-table-column>
-				<el-table-column fixed="right" label="delete" width="120" class-name="delete">
+				<el-table-column prop="id" fixed label="Id" width="120"></el-table-column>
+				<el-table-column prop="name" label="用户名" width="180"></el-table-column>
+				<el-table-column prop="registrationTime" label="注册时间" width="180"></el-table-column>
+				<el-table-column prop="email" min-width="200" label="邮箱"></el-table-column>
+				<el-table-column fixed="right" label="操作" width="120" class-name="delete">
 					<template slot-scope="scope">
 						<el-button @click.native.prevent="deleteRow(scope.$index, userData)" type="text">
 							<i class="el-icon-delete"></i>
@@ -55,11 +55,11 @@ export default {
 		deleteRow(index, rows) {
 			//用户删除事件
 			this.$confirm(
-				"Are you sure to delete this user?",
-				"prompt",
+				"您确定要删除此用户吗?",
+				"提示",
 				{
-					confirmButtonText: "true",
-					cancelButtonText: "cancel",
+					confirmButtonText: "确定",
+					cancelButtonText: "取消",
 					type: "warning"
 				}
 			)
