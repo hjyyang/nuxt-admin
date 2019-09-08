@@ -39,7 +39,7 @@
 					@change="postContentChange"
 					:scrollStyle="true"
 					fontSize="14px"
-					:subfield="true"
+					:subfield="toolbarsOption.preview"
 					:boxShadow="false"
 					v-model="postData.editContent"
 				/>
@@ -102,6 +102,10 @@
 					></el-input>
 				</div>
 			</div>
+			<div class="describe_wrap">
+				<h4>描述</h4>
+				<el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="postData.postDescribe"></el-input>
+			</div>
 		</el-drawer>
 	</section>
 </template>
@@ -146,8 +150,8 @@ export default {
 				],
 				NewTagValue: "",
 				postTitle: "",
-				editContent:
-					'不知道你说什么<img src="http://via.placeholder.com/260x240">'
+				editContent: "",
+				postDescribe: ""
 			},
 			whoClick: "",
 			drawerVisible: false,
@@ -175,6 +179,11 @@ export default {
 		};
 	},
 	mounted() {
+		if (window) {
+			if (window.outerWidth <= 768) {
+				this.toolbarsOption.preview = false;
+			}
+		}
 		this.$nextTick(() => {
 			//使用mavonEditor实例
 			if (this.$refs.md) {
@@ -378,13 +387,16 @@ export default {
 	}
 	.el-drawer__body {
 		padding: 0px 20px;
+		> div {
+			border-bottom: 1px solid #ebeef5;
+			&:last-of-type {
+				border-bottom: none;
+			}
+		}
 	}
 	.publish_btn {
 		width: 100%;
 		margin-bottom: 30px;
-	}
-	.category_wrap {
-		border-bottom: 1px solid #ebeef5;
 	}
 	h4 {
 		margin-bottom: 20px;
@@ -420,6 +432,7 @@ export default {
 	}
 	.tag_wrap {
 		padding-top: 30px;
+		padding-bottom: 20px;
 		.tag_main {
 			line-height: 32px;
 		}
@@ -437,6 +450,9 @@ export default {
 			margin-left: 10px;
 		}
 	}
+	.describe_wrap {
+		padding-top: 30px;
+	}
 }
 .mavonEditor {
 	max-width: 100%;
@@ -450,6 +466,45 @@ export default {
 	.op-image.popup-dropdown,
 	.add-image-link-wrapper {
 		display: none !important;
+	}
+}
+
+@media (max-width: 768px) {
+	.edit {
+		.postTitle {
+			max-width: 200px;
+			input {
+				font-size: 18px;
+			}
+		}
+	}
+	.edit_drawer {
+		.el-drawer {
+			width: 50% !important;
+		}
+	}
+}
+@media (max-width: 540px) {
+	.edit {
+		.status_text {
+			display: none;
+		}
+		.postTitle {
+			max-width: 180px;
+			padding-left: 20px;
+		}
+	}
+	.edit_drawer {
+		.el-drawer {
+			width: 70% !important;
+		}
+	}
+}
+@media (max-width: 375px) {
+	.edit_drawer {
+		.el-drawer {
+			width: 90% !important;
+		}
 	}
 }
 </style>

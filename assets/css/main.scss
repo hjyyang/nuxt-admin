@@ -131,9 +131,9 @@ html {
 body {
 	// font-family: Verdana, "宋体", sans-serif;
 	height: 100%;
-	font-family: -apple-system, BlinkMacSystemFont, Helvetica Neue, PingFang SC,
-		Microsoft YaHei, Source Han Sans SC, Noto Sans CJK SC,
-		WenQuanYi Micro Hei, sans-serif;
+	font-family: "Noto Serif SC", "Source Han Serif SC", "Source Han Serif",
+		"source-han-serif-sc", "PT Serif", "SongTi SC", "MicroSoft Yahei",
+		Georgia, serif;
 	font-size: 14px;
 	color: #1a1a1a;
 	background: #eef5f9;
@@ -144,7 +144,7 @@ a {
 	transition: all 0.3s;
 }
 
-.bigContainer{
+.bigContainer {
 	padding: 0px 60px;
 	margin: 0 auto;
 	box-sizing: border-box;
