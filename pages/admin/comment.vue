@@ -21,6 +21,8 @@ export default {
     padding: 30px;
 }
 .comment_main{
+    padding: 30px;
+    box-sizing: border-box;
     background: #ffffff;
 }
 </style>

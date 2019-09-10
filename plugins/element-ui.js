@@ -29,7 +29,9 @@ import {
     Option,
     Radio,
     RadioGroup,
-    RadioButton
+    RadioButton,
+    Collapse,
+    CollapseItem
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/en";
 import locale from 'element-ui/lib/locale';
@@ -66,6 +68,8 @@ Vue.component(Option.name, Option);
 Vue.component(Radio.name, Radio);
 Vue.component(RadioGroup.name, RadioGroup);
 Vue.component(RadioButton.name, RadioButton);
+Vue.component(Collapse.name, Collapse);
+Vue.component(CollapseItem.name, CollapseItem);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;
