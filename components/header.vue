@@ -1,7 +1,7 @@
 <template>
 	<header class="app_header is_fixed">
 		<div class="page_header">
-			<div class="bigContainer">
+			<div class="container">
 				<nav class="navigator">
 					<el-dropdown @command="dropdownCommand">
 						<div class="header_dropdown">
@@ -15,9 +15,6 @@
 							<el-dropdown-item command="logout">注销</el-dropdown-item>
 						</el-dropdown-menu>
 					</el-dropdown>
-					<div class="name">
-						<span>jon</span>
-					</div>
 				</nav>
 			</div>
 		</div>
@@ -64,11 +61,11 @@ export default {
 			align-items: center;
 			width: 100%;
 			min-height: 52px;
-			background-color: #ffffff;
+			background-color: #1976d2;
 			background-clip: content-box;
 		}
 	}
-	.bigContainer {
+	.container {
 		width: 100%;
 	}
 	.navigator {
@@ -80,26 +77,12 @@ export default {
 		border-radius: 50%;
 		overflow: hidden;
 	}
-	.name {
-		display: flex;
-		align-items: center;
-		margin-left: 8px;
-	}
 }
 .default_layout {
 	.app_header {
 		&.is_fixed {
 			.page_header {
 				box-shadow: 0 1px 3px rgba(26, 26, 26, 0.1);
-			}
-		}
-	}
-}
-.admin_layout {
-	.app_header {
-		&.is_fixed {
-			.page_header {
-				border-bottom: solid 1px #e6e6e6;
 			}
 		}
 	}

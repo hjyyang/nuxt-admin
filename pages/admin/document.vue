@@ -30,7 +30,8 @@ export default {
 <style lang="scss">
 .document {
 	width: 100%;
-	padding: 30px;
+    padding: 30px;
+    box-sizing: border-box;
 }
 .document_main {
 	padding: 30px;
@@ -38,6 +39,11 @@ export default {
     background: #ffffff;
     .el-tab-pane{
         padding-top: 20px;
+    }
+}
+@media (max-width: 540px) {
+    .document{
+        padding: 30px 10px;
     }
 }
 </style>

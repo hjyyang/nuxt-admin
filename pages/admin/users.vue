@@ -71,13 +71,8 @@ export default {
 </script>
 
 <style lang="scss">
-.open_menu {
-	.users {
-		width: calc(100% - 141px);
-	}
-}
+
 .users {
-	width: calc(100% - 65px);
 	padding: 30px;
 	box-sizing: border-box;
     transition: all .5s;
@@ -92,5 +87,10 @@ export default {
 			color: #f56c6c;
 		}
 	}
+}
+@media (max-width: 540px) {
+    .users{
+        padding: 30px 10px;
+    }
 }
 </style>

@@ -19,7 +19,7 @@
 			</el-upload>
 		</div>
 		<div class="file_list">
-			<ul @click="fileEvent" class="list">
+			<ul @click="fileEv" class="list">
 				<li v-for="(item,index) in fileList" :key="index">
 					<div class="pic">
 						<img :src="item.url" alt />
@@ -61,7 +61,7 @@ export default {
 	},
 	mounted() {},
 	methods: {
-		fileEvent(e) {
+		fileEv(e) {
 			let ev = ev || window.event,
 				target = ev.target || ev.srcElement,
 				fileIndex;
@@ -183,8 +183,24 @@ export default {
 			}
 			i {
 				cursor: pointer;
+				transition: all 0.3s;
+
 				&:nth-of-type(2n-1) {
 					margin-right: 10px;
+					&:hover {
+						animation: scale ease-in-out 0.5s;
+					}
+				}
+			}
+			@keyframes scale {
+				0% {
+					transform: scale(1);
+				}
+				50% {
+					transform: scale(0.7);
+				}
+				100% {
+					transform: scale(1.2);
 				}
 			}
 		}

@@ -163,4 +163,9 @@ export default {
         }
 	}
 }
+@media (max-width: 540px){
+    .admin_categories{
+        padding: 30px 10px;
+    }
+}
 </style>

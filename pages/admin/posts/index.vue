@@ -65,7 +65,7 @@
 						<nuxt-link to class="edit">
 							<i class="el-icon-edit"></i>
 						</nuxt-link>
-						<i class="el-icon-delete delete" @click="postDeleteEvent"></i>
+						<i class="el-icon-delete delete" @click="postDeleteEv"></i>
 					</el-table-column>
 				</el-table>
 				<div class="paged">
@@ -155,7 +155,7 @@ export default {
 			//多选事件
 			this.multipleSelection = val;
 		},
-		postDeleteEvent() {
+		postDeleteEv() {
 			//文章删除事件
 			this.$confirm(
 				"你确定要删除这篇文章吗?",
@@ -202,13 +202,7 @@ export default {
 </script>
 
 <style lang="scss">
-.open_menu {
-	.posts {
-		width: calc(100% - 141px);
-	}
-}
 .posts {
-	width: calc(100% - 65px);
 	padding: 30px;
 	box-sizing: border-box;
 }
@@ -281,6 +275,12 @@ export default {
         .search_title{
             margin-bottom: 20px;
         }
+    }
+}
+
+@media (max-width: 540px){
+    .posts{
+        padding: 30px 10px;
     }
 }
 </style>

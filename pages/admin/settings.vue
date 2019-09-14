@@ -49,7 +49,7 @@
 		</div>
 		<mediaDialog
 			:mediaDialogVisible="mediaDialogVisible"
-			v-on:visible="mediaDialogVisibleEvent"
+			v-on:visible="mediaDialogVisibleEv"
 			v-on:getUrl="getUrl"
 		/>
 	</section>
@@ -75,7 +75,7 @@ export default {
 		};
 	},
 	methods: {
-		mediaDialogVisibleEvent(e) {
+		mediaDialogVisibleEv(e) {
 			//media组件显示隐藏
 			this.mediaDialogVisible = e;
 		},
@@ -130,7 +130,13 @@ export default {
 			width: 30px;
 			height: 30px;
 			font-size: 30px;
+            transition: all .3s;
 		}
+        &:hover{
+            i{
+                transform: rotate(180deg);
+            }
+        }
 		&::before {
 			content: "";
 			display: block;
@@ -149,7 +155,7 @@ export default {
 }
 @media (max-width: 540px) {
 	.settings {
-		padding: 10px;
+		padding:  30px 10px;
 	}
 	.setting_main {
 		padding: 0px 0px 20px 0px;

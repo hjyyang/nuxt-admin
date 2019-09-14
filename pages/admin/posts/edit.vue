@@ -463,8 +463,7 @@ export default {
 	.markdown-body {
 		height: 100%;
 	}
-	.op-image.popup-dropdown,
-	.add-image-link-wrapper {
+	.op-image.popup-dropdown {
 		display: none !important;
 	}
 }
