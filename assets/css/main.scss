@@ -184,3 +184,136 @@ a {
 #__layout > div {
 	height: 100%;
 }
+
+.hover_scale {
+	i {
+		display: inline-block;
+	}
+	&:hover {
+		i:nth-of-type(1) {
+			animation: scale 0.5s infinite;
+		}
+	}
+}
+.hover_rotate {
+	i {
+		display: inline-block;
+	}
+	&:hover {
+		i:nth-of-type(1) {
+			animation: rotate 0.5s infinite;
+		}
+	}
+}
+.hover_translate {
+	i {
+		display: inline-block;
+	}
+	&:hover {
+		i:nth-of-type(1) {
+			animation: translate 0.5s infinite;
+		}
+	}
+}
+.hover_translate_vertical {
+	i {
+		display: inline-block;
+	}
+	&:hover {
+		i:nth-of-type(1) {
+			animation: translateVertical 0.5s infinite;
+		}
+	}
+}
+@keyframes scale {
+	0% {
+		transform: scale(1);
+	}
+	50% {
+		transform: scale(0.7);
+	}
+	100% {
+		transform: scale(1.2);
+	}
+}
+@keyframes rotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	30% {
+		transform: rotate(45deg);
+	}
+	60% {
+		transform: rotate(-45deg);
+	}
+	100% {
+		transform: rotate(0deg);
+	}
+}
+@keyframes translateVertical {
+	0% {
+		transform: translate(0%, 0%);
+	}
+	30% {
+		transform: translate(0%, 4px);
+	}
+	60% {
+		transform: translate(0%, -4px);
+	}
+	90% {
+		transform: translate(0%, 0%);
+	}
+}
+@keyframes translate {
+	0% {
+		transform: translate(0%, 0%);
+	}
+	30% {
+		transform: translate(4px, 0%);
+	}
+	60% {
+		transform: translate(-4px, 0%);
+	}
+	90% {
+		transform: translate(0%, 0%);
+	}
+}
+
+.card_list{
+    display: flex;
+    margin-left: -20px;
+}
+.card {
+    margin-left: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    background: #ffffff;
+}
+.col1{
+    width: calc(10% - 20px);
+}
+.col2{
+    width: calc(20% - 20px);
+}
+.col3{
+    width: calc(30% - 20px);
+}
+.col4{
+    width: calc(40% - 20px);
+}
+.col5{
+    width: calc(50% - 20px);
+}
+.col6{
+    width: calc(60% - 20px);
+}
+.col7{
+    width: calc(70% - 20px);
+}
+.col8{
+    width: calc(80% - 20px);
+}
+.col9{
+    width: calc(90% - 20px);
+}

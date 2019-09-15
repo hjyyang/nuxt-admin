@@ -29,15 +29,19 @@
 						:mode="mobile ? 'vertical' : 'horizontal'"
 						:default-active="this.$route.fullPath"
 					>
-						<el-menu-item index="/admin/settings">
+						<el-menu-item index="/admin" class="hover_scale">
+							<i class="el-icon-s-data"></i>
+							<span slot="title">数据</span>
+						</el-menu-item>
+						<el-menu-item index="/admin/settings" class="hover_scale">
 							<i class="el-icon-setting"></i>
 							<span slot="title">配置</span>
 						</el-menu-item>
-						<el-menu-item index="/admin/media">
+						<el-menu-item index="/admin/media" class="hover_rotate">
 							<i class="el-icon-picture"></i>
 							<span slot="title">媒体</span>
 						</el-menu-item>
-						<el-submenu index="/admin/posts">
+						<el-submenu index="/admin/posts" class="hover_translate_vertical">
 							<template slot="title">
 								<i class="el-icon-document"></i>
 								<span slot="title">文章</span>
@@ -59,15 +63,15 @@
 								<span slot="title">标签</span>
 							</el-menu-item>
 						</el-submenu>
-						<el-menu-item index="/admin/users">
+						<el-menu-item index="/admin/users" class="hover_translate">
 							<i class="el-icon-s-custom"></i>
 							<span slot="title">用户</span>
 						</el-menu-item>
-						<el-menu-item index="/admin/document">
+						<el-menu-item index="/admin/document" class="hover_rotate">
 							<i class="iconfont icon-wendang"></i>
 							<span slot="title">文档</span>
 						</el-menu-item>
-						<el-menu-item index="/admin/comment">
+						<el-menu-item index="/admin/comment" class="hover_scale">
 							<i class="iconfont icon-pinglun"></i>
 							<span slot="title">评论</span>
 						</el-menu-item>
@@ -118,7 +122,7 @@ export default {
 					this.$router.push(command);
 				}
 			}
-		},
+		}
 	}
 };
 </script>>
