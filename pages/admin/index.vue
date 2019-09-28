@@ -7,9 +7,9 @@
 			<div class="browser_data_wrap card col3">
 				<div class="browser_data"></div>
 			</div>
-			<div class="map_data_wrap card">
+			<!-- <div class="map_data_wrap card">
 				<div class="map_data"></div>
-			</div>
+			</div> -->
 		</div>
 	</section>
 </template>
@@ -30,7 +30,6 @@ export default {
 	mounted() {
 		this.PV();
 		this.browser();
-		this.map();
 	},
 	methods: {
 		PV() {
@@ -107,8 +106,7 @@ export default {
 					}
 				]
 			});
-		},
-		map() {}
+		}
 	}
 };
 </script>
@@ -120,7 +118,7 @@ export default {
 	.card_list {
 		flex-wrap: wrap;
 		.card:last-of-type {
-			margin-bottom: 0px;
+			// margin-bottom: 0px;
 		}
 	}
 	.PV_data_wrap {

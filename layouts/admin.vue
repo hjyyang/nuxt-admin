@@ -6,6 +6,7 @@
 					<div class="ment_show" @click="menuShow = !menuShow" v-if="mobile">
 						<i class="iconfont icon-caidan"></i>
 					</div>
+                    <div class="logo"><nuxt-link to="/"><img src="~/static/logo.png" alt=""></nuxt-link></div>
 					<nav class="navigator">
 						<el-dropdown @command="dropdownCommand">
 							<div class="header_dropdown">
@@ -158,10 +159,13 @@ export default {
 			cursor: pointer;
 		}
 	}
+    .logo{
+        margin: 0 auto;
+    }
 	.navigator {
 		display: flex;
 		height: 100%;
-		margin-left: auto;
+		// margin-left: auto;
 	}
 	.el-dropdown {
 		border-radius: 50%;
