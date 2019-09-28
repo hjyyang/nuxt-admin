@@ -2,7 +2,7 @@
     <div class="default_layout">
 		<Header />
         <nuxt />
-		<Footer />
+		<!-- <Footer /> -->
     </div>
 </template>
 
