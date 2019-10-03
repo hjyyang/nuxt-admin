@@ -144,7 +144,8 @@ export default {
 		}
 	}
 	.container {
-		display: flex;
+        display: flex;
+        align-items: center;
 		width: 100%;
 	}
 	.ment_show {
