@@ -1,6 +1,10 @@
-$menuColor: #666666;
-$currentMenuColor: #fe9600;
-$subMenuBackground: #fff;
+
+.app_dropdown {
+	.el-dropdown-menu__item:hover {
+        color: $currentColor !important;
+        background-color: rgba($color: $currentColor, $alpha: 0.1) !important;
+	}
+}
 
 .app_header {
 	position: fixed;
@@ -32,6 +36,7 @@ $subMenuBackground: #fff;
 		a {
 			color: #464646;
 			&:hover {
+				color: $currentColor;
 				rt {
 					opacity: 1;
 				}
@@ -39,6 +44,7 @@ $subMenuBackground: #fff;
 		}
 		ruby {
 			-webkit-ruby-position: after;
+			transition: all 0.3s;
 		}
 		rt {
 			transition: all 0.3s;
@@ -71,6 +77,10 @@ $subMenuBackground: #fff;
 		padding: 4px 7px;
 		font-size: 18px;
 		cursor: pointer;
+		transition: all 0.3s;
+		&:hover {
+			color: $currentColor;
+		}
 	}
 	.navigator {
 		float: right;
@@ -108,7 +118,7 @@ nav#app_menu {
 			transform: translate(-50%, 10px);
 			width: 100%;
 			height: 4px;
-			background: $currentMenuColor;
+			background: $currentColor;
 			transition: all 0.3s;
 			opacity: 0;
 		}
@@ -118,12 +128,12 @@ nav#app_menu {
 				transform: translate(-50%, 0px);
 			}
 			> a {
-				color: $currentMenuColor;
+				color: $currentColor;
 			}
 		}
 		&.current {
 			> a {
-				color: $currentMenuColor;
+				color: $currentColor;
 			}
 		}
 		> a {
@@ -177,7 +187,7 @@ nav#app_menu {
 		}
 		&:hover {
 			a {
-				color: $currentMenuColor;
+				color: $currentColor;
 			}
 		}
 	}

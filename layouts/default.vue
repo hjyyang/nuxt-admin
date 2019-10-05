@@ -34,7 +34,7 @@ export default {
 					scrollTop = document.body.scrollTop;
 				}
 
-				if (window.innerHeight <= scrollTop) {
+				if (scrollTop > 20) {
 					document
 						.getElementsByClassName("app_header")[0]
 						.getElementsByClassName("page_header")[0].className =
@@ -52,4 +52,7 @@ export default {
 </script>>
 
 <style lang="scss">
+body  .default_layout{
+	background: #ffffff;
+}
 </style>

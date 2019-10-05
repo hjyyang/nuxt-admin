@@ -78,8 +78,8 @@ img {
 	width: auto;
 	max-height: 100%;
 	border: 0 none;
-    margin: 0 auto;
-    transition: all .3s;
+	margin: 0 auto;
+	transition: all 0.3s;
 }
 
 blockquote,
@@ -138,6 +138,10 @@ body {
 	font-size: 14px;
 	color: #1a1a1a;
 	background: #eef5f9;
+
+	.el-image {
+		display: block;
+	}
 }
 
 a {
@@ -186,11 +190,11 @@ a {
 	opacity: 0;
 }
 
-#__nuxt,
-#__layout,
-#__layout > div {
-	height: 100%;
-}
+// #__nuxt,
+// #__layout,
+// #__layout > div {
+// 	height: 100%;
+// }
 
 .hover_scale {
 	i {
@@ -325,4 +329,7 @@ a {
 	width: calc(90% - 20px);
 }
 
+@import "/color.scss";
 @import "/menu.scss";
+
+@import "/page/home.scss";

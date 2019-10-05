@@ -4,9 +4,9 @@
 			<div class="logo">
 				<nuxt-link to="/">
 					<ruby>
-						<span>羊飼いの狼男</span>
+						<span>風間の少年</span>
 						<rp></rp>
-						<rt>牧羊的狼人</rt>
+						<rt>风间的少年</rt>
 						<rp></rp>
 					</ruby>
 				</nuxt-link>
@@ -73,7 +73,7 @@
 					<div class="header_dropdown">
 						<i class="iconfont icon-user1"></i>
 					</div>
-					<el-dropdown-menu slot="dropdown">
+					<el-dropdown-menu slot="dropdown" class="app_dropdown">
 						<!-- <el-dropdown-item command="/admin">后台管理</el-dropdown-item> -->
 						<!-- <el-dropdown-item command="/user">我的主页</el-dropdown-item> -->
 						<el-dropdown-item command="/login">注册</el-dropdown-item>
@@ -119,6 +119,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss">
-</style>
