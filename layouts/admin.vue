@@ -6,7 +6,11 @@
 					<div class="ment_show" @click="menuShow = !menuShow" v-if="mobile">
 						<i class="iconfont icon-caidan"></i>
 					</div>
-                    <div class="logo"><nuxt-link to="/"><img src="~/static/logo.png" alt=""></nuxt-link></div>
+					<div class="logo">
+						<nuxt-link to="/">
+							<img src="~/static/logo.png" alt />
+						</nuxt-link>
+					</div>
 					<nav class="navigator">
 						<el-dropdown @command="dropdownCommand">
 							<div class="header_dropdown">
@@ -99,6 +103,7 @@ export default {
 		};
 	},
 	mounted() {
+		document.getElementsByTagName("body")[0].className = "admin";
 		if (window) {
 			if (window.outerWidth <= 540) {
 				this.mobile = true;
@@ -126,7 +131,7 @@ export default {
 		}
 	}
 };
-</script>>
+</script>
 
 <style lang="scss">
 .admin_header {
@@ -144,8 +149,8 @@ export default {
 		}
 	}
 	.container {
-        display: flex;
-        align-items: center;
+		display: flex;
+		align-items: center;
 		width: 100%;
 	}
 	.ment_show {
@@ -160,9 +165,9 @@ export default {
 			cursor: pointer;
 		}
 	}
-    .logo{
-        margin: 0 auto;
-    }
+	.logo {
+		margin: 0 auto;
+	}
 	.navigator {
 		display: flex;
 		height: 100%;

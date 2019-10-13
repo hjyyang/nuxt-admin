@@ -1,19 +1,22 @@
 <template>
-    <div>
+	<div class="signin_layout">
 		<!-- <Header /> -->
-        <nuxt />
-    </div>
+		<nuxt />
+		<Footer />
+	</div>
 </template>
 
 <script>
-import Header from "~/components/header.vue"
+import Header from "~/components/header.vue";
+import Footer from "~/components/footer.vue";
 export default {
 	components: {
-        Header
-    },
-    data() {
-        return {};
-    }
+        Header,
+        Footer
+	},
+	data() {
+		return {};
+	}
 };
 </script>>
 

@@ -1,16 +1,16 @@
 <template>
 	<main class="home">
 		<div class="home_banner">
-			<div class="banner_main">
-				<div class="item">
-					<div class="pic"><img src="/theme/banner4.jpg" alt /></div>
-					<div class="banner_content">
-						<div class="minContainer">
-                            <h1 dataTitle="Hi,Jon!">Hi,Jon!</h1>
-
-                        </div>
+			<div class="banner_main" style="background-image: url(/hzw-theme/banner2.jpg);">
+				<div class="banner_content">
+					<div class="minContainer">
+						<h1 dataTitle="HI,JON!">HI,JON!</h1>
+						<div class="passage">
+							<p>食事をするのは生きているためで、生きているのは食事をするためではない、人生は自分のすばらしいことを生きるべきだ</p>
+						</div>
 					</div>
 				</div>
+				<div class="down_back"></div>
 			</div>
 		</div>
 

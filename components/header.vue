@@ -13,15 +13,15 @@
 			</div>
 			<nav id="app_menu">
 				<ul class="menu">
-					<li class="item current">
+					<li class="item current" index="/">
 						<nuxt-link to="/" class="hover_scale">
 							<span>
 								<i class="iconfont icon-1"></i>首页
 							</span>
 						</nuxt-link>
 					</li>
-					<li class="item">
-						<nuxt-link to="/" class="hover_rotate">
+					<li class="item" index="/archive">
+						<nuxt-link to="/archive" class="hover_rotate">
 							<i class="el-icon-s-management"></i>
 							<span>归档</span>
 						</nuxt-link>
@@ -74,7 +74,7 @@
 						<i class="iconfont icon-user1"></i>
 					</div>
 					<el-dropdown-menu slot="dropdown" class="app_dropdown">
-						<!-- <el-dropdown-item command="/admin">后台管理</el-dropdown-item> -->
+						<el-dropdown-item command="/admin">后台管理</el-dropdown-item>
 						<!-- <el-dropdown-item command="/user">我的主页</el-dropdown-item> -->
 						<el-dropdown-item command="/login">注册</el-dropdown-item>
 						<el-dropdown-item command="/login">登录</el-dropdown-item>
@@ -115,6 +115,11 @@ export default {
 					this.$router.push(command);
 				}
 			}
+		}
+	},
+	watch: {
+		$route() {
+			console.log(this.$route)
 		}
 	}
 };

@@ -1,16 +1,22 @@
 <template>
-    <div class="edit_layout">
-        <nuxt />
-    </div>
+	<div class="edit_layout">
+		<nuxt />
+	</div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {};
-    }
+	data() {
+		return {};
+	},
+	mounted() {
+		document.getElementsByTagName("body")[0].className = "edit";
+	}
 };
-</script>>
+</script>
 
 <style lang="scss">
+.edit_layout {
+	height: 100vh;
+}
 </style>

@@ -2,7 +2,7 @@
 	<div class="default_layout">
 		<Header />
 		<nuxt />
-		<!-- <Footer /> -->
+		<Footer />
 	</div>
 </template>
 
@@ -18,12 +18,12 @@ export default {
 		return {};
 	},
 	mounted() {
+		document.getElementsByTagName("body")[0].className = "";
 		this.menuScroll();
 	},
 	methods: {
 		menuScroll() {
 			let scrollTop = 0;
-
 			window.onscroll = () => {
 				if (
 					document.documentElement &&
@@ -32,18 +32,24 @@ export default {
 					scrollTop = document.documentElement.scrollTop;
 				} else if (document.body) {
 					scrollTop = document.body.scrollTop;
-				}
-
-				if (scrollTop > 20) {
+                }
+				if (
 					document
 						.getElementsByClassName("app_header")[0]
-						.getElementsByClassName("page_header")[0].className =
-						"page_header show";
-				} else {
-					document
-						.getElementsByClassName("app_header")[0]
-						.getElementsByClassName("page_header")[0].className =
-						"page_header";
+				) {
+					if (scrollTop > 20) {
+						document
+							.getElementsByClassName("app_header")[0]
+							.getElementsByClassName(
+								"page_header"
+							)[0].className = "page_header show";
+					} else {
+						document
+							.getElementsByClassName("app_header")[0]
+							.getElementsByClassName(
+								"page_header"
+							)[0].className = "page_header";
+					}
 				}
 			};
 		}
@@ -52,7 +58,4 @@ export default {
 </script>>
 
 <style lang="scss">
-body  .default_layout{
-	background: #ffffff;
-}
 </style>
