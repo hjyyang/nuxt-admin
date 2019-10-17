@@ -1,8 +1,7 @@
-
 .app_dropdown {
 	.el-dropdown-menu__item:hover {
-        color: $currentColor !important;
-        background-color: rgba($color: $currentColor, $alpha: 0.1) !important;
+		color: $currentColor !important;
+		background-color: rgba($color: $currentColor, $alpha: 0.1) !important;
 	}
 }
 
@@ -131,7 +130,11 @@ nav#app_menu {
 				color: $currentColor;
 			}
 		}
-		&.current {
+		&.active {
+			&::before {
+				opacity: 1;
+				transform: translate(-50%, 0px);
+			}
 			> a {
 				color: $currentColor;
 			}
@@ -179,6 +182,11 @@ nav#app_menu {
 		}
 	}
 	li.sub_item {
+		&.active {
+			> a {
+				color: $currentColor;
+			}
+		}
 		a {
 			display: inline-block;
 			width: 100%;

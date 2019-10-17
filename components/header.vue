@@ -13,58 +13,35 @@
 			</div>
 			<nav id="app_menu">
 				<ul class="menu">
-					<li class="item current" index="/">
-						<nuxt-link to="/" class="hover_scale">
-							<span>
-								<i class="iconfont icon-1"></i>首页
-							</span>
+					<li
+						:class="['item', $route.fullPath=== item.path ? 'active' : '']"
+						v-for="(item,index) in menuData"
+						:key="index"
+					>
+						<nuxt-link
+							:to="item.path"
+							:class="hoverDynamic[Math.ceil(Math.random()*hoverDynamic.length)-1]"
+						>
+							<i :class="item.icon"></i>
+							<span>{{item.name}}</span>
 						</nuxt-link>
-					</li>
-					<li class="item" index="/archive">
-						<nuxt-link to="/archive" class="hover_rotate">
-							<i class="el-icon-s-management"></i>
-							<span>归档</span>
-						</nuxt-link>
-						<ul class="sub_menu">
-							<li class="sub_item">
-								<nuxt-link to="/" class="hover_rotate">
+						<ul class="sub_menu" v-if="item.subMenu.length > 0">
+							<li
+								:class="['sub_item', $route.fullPath === sub.path ? 'active' : '']"
+								v-for="(sub,sIndex) in item.subMenu"
+								:key="sIndex"
+							>
+								<nuxt-link
+									:to="sub.path"
+									:class="hoverDynamic[Math.ceil(Math.random()*hoverDynamic.length)-1]"
+								>
 									<span>
-										<i class="el-icon-document"></i>文章
-									</span>
-								</nuxt-link>
-							</li>
-							<li class="sub_item">
-								<nuxt-link to="/" class="hover_rotate">
-									<span>
-										<i class="iconfont icon-icon_category"></i>分类
-									</span>
-								</nuxt-link>
-							</li>
-							<li class="sub_item">
-								<nuxt-link to="/" class="hover_rotate">
-									<span>
-										<i class="iconfont icon-biaoqian1"></i>标签
+										<i :class="sub.icon"></i>
+										{{sub.name}}
 									</span>
 								</nuxt-link>
 							</li>
 						</ul>
-					</li>
-					<li class="item">
-						<nuxt-link to="/" class="hover_translate">
-							<i class="iconfont icon-about"></i>关于
-						</nuxt-link>
-					</li>
-					<li class="item">
-						<nuxt-link to="/" class="hover_translate_vertical">
-							<i class="el-icon-edit-outline"></i>
-							<span>留言板</span>
-						</nuxt-link>
-					</li>
-					<li class="item">
-						<nuxt-link to="/" class="hover_scale">
-							<i class="iconfont icon-icon-test"></i>
-							<span>吉他</span>
-						</nuxt-link>
 					</li>
 				</ul>
 			</nav>
@@ -93,10 +70,65 @@
 export default {
 	data() {
 		return {
-			mobile: false
+			mobile: false,
+			menuData: [
+				{
+					name: "首页",
+					icon: "iconfont icon-1",
+					path: "/",
+					subMenu: []
+				},
+				{
+					name: "归档",
+					icon: "el-icon-s-management",
+					path: "/archive",
+					subMenu: [
+						{
+							name: "文章",
+							icon: "el-icon-document",
+							path: "/article"
+						},
+						{
+							name: "分类",
+							icon: "iconfont icon-icon_category",
+							path: "/classify"
+						},
+						{
+							name: "标签",
+							icon: "iconfont icon-biaoqian1",
+							path: "/tag"
+						}
+					]
+				},
+				{
+					name: "关于",
+					icon: "iconfont icon-about",
+					path: "/about",
+					subMenu: []
+				},
+				{
+					name: "留言板",
+					icon: "el-icon-edit-outline",
+					path: "/message-board",
+					subMenu: []
+				},
+
+				{
+					name: "吉他",
+					icon: "iconfont icon-icon-test",
+					path: "/guitar",
+					subMenu: []
+				}
+			],
+			hoverDynamic: [
+				"hover_scale",
+				"hover_rotate",
+				"hover_translate",
+				"hover_translate_vertical"
+			]
 		};
 	},
-	asyncData() {},
+	async asyncData(app) {},
 	mounted() {},
 	methods: {
 		dropdownCommand(command) {
@@ -115,11 +147,6 @@ export default {
 					this.$router.push(command);
 				}
 			}
-		}
-	},
-	watch: {
-		$route() {
-			console.log(this.$route)
 		}
 	}
 };

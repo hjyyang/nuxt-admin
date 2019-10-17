@@ -1,10 +1,107 @@
-.page_banner{
-    display: flex;
-    align-items: center;
-    min-height: 400px;
-    background: pink;
-    h1{
-        color: #ffffff;
-        font-size: 50px;
+.page_banner {
+	display: flex;
+	align-items: center;
+	min-height: 400px;
+	background: pink;
+	h1 {
+		color: #ffffff;
+		font-size: 50px;
+	}
+}
+
+.archive {
+	.archive_wrap {
+		padding: 60px 0px 120px;
+	}
+}
+
+.timeline {
+	position: relative;
+	padding-top: 60px;
+	&::before {
+		content: attr(year);
+		position: absolute;
+		top: 0px;
+		left: 50%;
+		transform: translateX(-50%);
+		font-size: 28px;
+		font-weight: bold;
+	}
+	.item {
+		position: relative;
+		width: 50%;
+		padding: 30px 0px 10px;
+		box-sizing: border-box;
+		&:nth-of-type(1) {
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				transform: translate(50%, -100%);
+				width: 8px;
+				height: 8px;
+				border: 4px solid $currentColor;
+				border-radius: 50%;
+				// background: rgba($color: #ffffff, $alpha: 1);
+			}
+		}
+		&:nth-of-type(2n-1) {
+			padding-right: 30px;
+			text-align: right;
+			border-right: 1px solid rgba($color: $currentColor, $alpha: .2);
+			&::before {
+				right: 0px;
+				transform: translateX(50%);
+			}
+			h3.line_title {
+				margin-left: auto;
+			}
+			.date {
+				margin-left: 20px;
+			}
+		}
+		&:nth-of-type(2n) {
+			margin-left: auto;
+			margin-right: 1px;
+			padding-left: 30px;
+			border-left: 1px solid rgba($color: $currentColor, $alpha: .2);
+			&::before {
+				left: 0px;
+				transform: translateX(-50%);
+			}
+			.date {
+				order: -1;
+				margin-right: 20px;
+			}
+		}
+		&::before {
+			content: attr(month);
+			position: absolute;
+			top: 24px;
+			padding: 4px 8px;
+			box-sizing: border-box;
+			background: $background;
+			font-weight: bold;
+			font-size: 18px;
+		}
+	}
+	.line {
+		display: flex;
+		// align-items: center;
+		margin-bottom: 20px;
+		&:last-of-type {
+			margin-bottom: 0px;
+		}
+		.date {
+            width: 30px;
+            font-weight: 200;
+		}
+    }
+    a{
+        color: $color;
+        &:hover{
+            color: $currentColor;
+        }
     }
 }
