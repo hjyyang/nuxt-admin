@@ -24,7 +24,7 @@
 		top: 0px;
 		left: 50%;
 		transform: translateX(-50%);
-		font-size: 28px;
+		font-size: 26px;
 		font-weight: bold;
 	}
 	.item {
@@ -78,8 +78,9 @@
 		&::before {
 			content: attr(month);
 			position: absolute;
-			top: 24px;
-			padding: 4px 8px;
+			top: 22px;
+			line-height: 1.2;
+			padding: 6px 8px;
 			box-sizing: border-box;
 			background: $background;
 			font-weight: bold;
@@ -99,7 +100,8 @@
 		}
     }
     a{
-        color: $color;
+		color: $color;
+		@include elps-wrap(2);
         &:hover{
             color: $currentColor;
         }
