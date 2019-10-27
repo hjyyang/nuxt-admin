@@ -17,7 +17,7 @@
 
 .timeline {
 	position: relative;
-	padding-top: 60px;
+    padding-top: 60px;
 	&::before {
 		content: attr(year);
 		position: absolute;
@@ -30,26 +30,29 @@
 	.item {
 		position: relative;
 		width: 50%;
-		padding: 30px 0px 10px;
+		padding: 10px 0px 40px;
 		box-sizing: border-box;
 		&:nth-of-type(1) {
+            padding: 30px 0px 40px;
 			&::after {
 				content: "";
 				position: absolute;
 				top: 0px;
-				right: 0px;
+				right: -1px;
 				transform: translate(50%, -100%);
 				width: 8px;
 				height: 8px;
-				border: 4px solid $currentColor;
+				border: 4px solid rgba($color: $color, $alpha: 0.8);
 				border-radius: 50%;
-				// background: rgba($color: #ffffff, $alpha: 1);
-			}
+            }
+            &::before{
+                top: 24px;
+            }
 		}
 		&:nth-of-type(2n-1) {
 			padding-right: 30px;
 			text-align: right;
-			border-right: 1px solid rgba($color: $currentColor, $alpha: .2);
+			border-right: 2px solid #eef5f9;
 			&::before {
 				right: 0px;
 				transform: translateX(50%);
@@ -63,9 +66,9 @@
 		}
 		&:nth-of-type(2n) {
 			margin-left: auto;
-			margin-right: 1px;
+			margin-right: 2px;
 			padding-left: 30px;
-			border-left: 1px solid rgba($color: $currentColor, $alpha: .2);
+			border-left: 2px solid #eef5f9;
 			&::before {
 				left: 0px;
 				transform: translateX(-50%);
@@ -78,14 +81,27 @@
 		&::before {
 			content: attr(month);
 			position: absolute;
-			top: 22px;
+			top: 3px;
 			line-height: 1.2;
-			padding: 6px 8px;
+			padding: 6px 8px 8px;
 			box-sizing: border-box;
 			background: $background;
 			font-weight: bold;
-			font-size: 18px;
-		}
+            font-size: 18px;
+            color: $color;
+        }
+        &:hover{
+            .item_main{
+                margin-top: 0%;
+            }
+        }
+	}
+	.item_wrap {
+		overflow: hidden;
+	}
+	.item_main {
+        // margin-top: -100%;
+        transition: all .3s;
 	}
 	.line {
 		display: flex;
@@ -95,15 +111,16 @@
 			margin-bottom: 0px;
 		}
 		.date {
-            width: 30px;
-            font-weight: 200;
+			width: 30px;
+			font-weight: 200;
+            color: $color;
 		}
-    }
-    a{
+	}
+	a {
 		color: $color;
 		@include elps-wrap(2);
-        &:hover{
-            color: $currentColor;
-        }
-    }
+		&:hover {
+			color: $currentColor;
+		}
+	}
 }

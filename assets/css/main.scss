@@ -135,8 +135,6 @@ body {
 		"source-han-serif-sc", "PT Serif", "SongTi SC", "MicroSoft Yahei",
 		Georgia, serif;
 	font-size: 14px;
-	color: #1a1a1a;
-    background: #ffffff;
     
     &.admin,&.edit{
         background: #eef5f9;
@@ -338,3 +336,9 @@ a {
 @import "/page/home.scss";
 @import "/page/login.scss";
 @import "/page/archive.scss";
+@import "/page/comments.scss";
+
+body{
+    color: $color;
+    background: $background;
+}

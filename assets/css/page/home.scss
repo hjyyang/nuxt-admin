@@ -17,8 +17,6 @@
 		background-attachment: fixed;
 		background-repeat: no-repeat;
 		background-size: cover;
-		border-bottom-right-radius: 16%;
-		border-bottom-left-radius: 16%;
 	}
 	.banner_content {
 		width: 100%;
@@ -26,10 +24,34 @@
 	.down_back {
 		position: absolute;
 		left: 50%;
-		bottom: 20px;
+		bottom: 10px;
 		transform: translate(-50%, 0%);
-		max-width: 40px;
-		box-shadow: 10px 0px 30px rgba(0, 0, 0, 0.1);
+		max-width: 60px;
+		cursor: pointer;
+		animation: anDown 0.8s infinite ease-in-out;
+		i {
+			font-size: 60px;
+			color: #ffffff;
+			text-shadow: 4px 0 rgba($color: #000000, $alpha: 0.5);
+			transition: all 0.3s;
+		}
+		&:hover {
+			i {
+				text-shadow: 4px 0 rgba($color: #000000, $alpha: 0.8);
+			}
+		}
+	}
+
+	@keyframes anDown {
+		0% {
+			transform: translateY(10%);
+		}
+		50% {
+			transform: translateY(0%);
+		}
+		100% {
+			transform: translateY(10%);
+		}
 	}
 
 	h1 {
@@ -38,23 +60,26 @@
 		text-align: center;
 		color: #ffffff;
 		font-size: 80px;
+		font-weight: bold;
 		&::before {
-			content: attr(dataTitle);
+			content: attr(data-title);
 			position: absolute;
 			top: 0;
 			left: -1px;
 			width: 100%;
 			height: 100%;
 			clip: rect(0, 0, 0, 0);
+			font-weight: bold;
 		}
 		&::after {
-			content: attr(dataTitle);
+			content: attr(data-title);
 			position: absolute;
 			left: 1px;
 			top: 0;
 			width: 100%;
 			height: 100%;
 			clip: rect(0, 0, 0, 0);
+			font-weight: bold;
 		}
 		&:hover {
 			&::after {
@@ -119,12 +144,12 @@
 		border-radius: 10px;
 		background: rgba($color: #000000, $alpha: 0.6);
 		text-align: center;
-        color: rgba($color: #fff, $alpha: 0.8);
-        &:hover{
-            p::before{
-                animation: move 2s;
-            }
-        }
+		color: rgba($color: #fff, $alpha: 0.8);
+		&:hover {
+			p::before {
+				animation: move 2s;
+			}
+		}
 		&::before {
 			content: "";
 			position: absolute;
@@ -136,16 +161,16 @@
 			border-color: transparent transparent rgba(0, 0, 0, 0.6) transparent;
 		}
 		p {
-            position: relative;
-            overflow: hidden;
+			position: relative;
+			overflow: hidden;
 			&::before {
 				content: "";
 				position: absolute;
 				top: 0px;
 				left: -10%;
 				width: 20px;
-                height: 100%;
-                transform: rotate(20deg);
+				height: 100%;
+				transform: rotate(20deg);
 				background: -webkit-gradient(
 					linear,
 					left top,
@@ -166,19 +191,24 @@
 		}
 	}
 }
+h2.col_title {
+	margin-bottom: 50px;
+	border-bottom: 1px dashed #d8d6d6;
+	span {
+		display: inline-block;
+		padding: 0px 10px;
+		margin-left: 20px;
+		background: $background;
+		transform: translate(0%, 10px);
+    }
+    i.min{
+        font-size: 14px;
+        font-style: normal;
+    }
+}
 .home_article {
 	padding-top: 80px;
-	h2.col_title {
-		margin-bottom: 50px;
-		border-bottom: 1px dashed #d8d6d6;
-		span {
-			display: inline-block;
-			padding: 0px 10px;
-			margin-left: 20px;
-			background: $background;
-			transform: translate(0%, 10px);
-		}
-	}
+
 	.item {
 		position: relative;
 		display: flex;
@@ -187,7 +217,6 @@
 		background: $background;
 		box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 0.5);
 		transition: all 0.3s;
-		color: #666666;
 		overflow: hidden;
 		&:hover {
 			box-shadow: 0 5px 10px 5px rgba(110, 110, 110, 0.4);
@@ -219,7 +248,7 @@
 	}
 	h3.post_title {
 		a {
-			color: #1a1a1a;
+			color: $titleColor;
 			&:hover {
 				color: $currentColor;
 			}
@@ -240,8 +269,8 @@
 			margin-right: 12px;
 		}
 		a {
-			color: #666666;
 			font-size: 14px;
+			color: $titleColor;
 			&:hover {
 				color: $currentColor;
 			}
@@ -256,7 +285,6 @@
 		-webkit-line-clamp: 4;
 		height: 86px;
 		padding-top: 14px;
-		color: #666666;
 		font-size: 15px;
 		overflow: hidden;
 	}

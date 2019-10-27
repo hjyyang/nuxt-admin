@@ -9,31 +9,39 @@
 			<div class="minContainer">
 				<div class="timeline" year="2018">
 					<div class="item" month="1月">
-						<div class="line">
-							<h3 class="line_title">
-								<nuxt-link to>更新时间条</nuxt-link>
-							</h3>
-							<strong class="date">14日</strong>
-						</div>
-                        <div class="line">
-							<h3 class="line_title">
-								<nuxt-link to>test test test</nuxt-link>
-							</h3>
-							<strong class="date">16日</strong>
+						<div class="item_wrap">
+							<div class="item_main">
+								<div class="line">
+									<h3 class="line_title">
+										<nuxt-link to>更新时间条</nuxt-link>
+									</h3>
+									<strong class="date">14日</strong>
+								</div>
+								<div class="line">
+									<h3 class="line_title">
+										<nuxt-link to>test test test</nuxt-link>
+									</h3>
+									<strong class="date">16日</strong>
+								</div>
+							</div>
 						</div>
 					</div>
-                    <div class="item" month="2月">
-						<div class="line">
-							<h3 class="line_title">
-								<nuxt-link to>更新时间条</nuxt-link>
-							</h3>
-							<strong class="date">14日</strong>
-						</div>
-                        <div class="line">
-							<h3 class="line_title">
-								<nuxt-link to>test test test</nuxt-link>
-							</h3>
-							<strong class="date">16日</strong>
+					<div class="item" month="2月">
+						<div class="item_wrap">
+							<div class="item_main">
+								<div class="line">
+									<h3 class="line_title">
+										<nuxt-link to>更新时间条</nuxt-link>
+									</h3>
+									<strong class="date">14日</strong>
+								</div>
+								<div class="line">
+									<h3 class="line_title">
+										<nuxt-link to>test test test</nuxt-link>
+									</h3>
+									<strong class="date">16日</strong>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

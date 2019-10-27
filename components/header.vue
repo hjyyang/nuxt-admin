@@ -53,8 +53,7 @@
 					<el-dropdown-menu slot="dropdown" class="app_dropdown">
 						<el-dropdown-item command="/admin">后台管理</el-dropdown-item>
 						<!-- <el-dropdown-item command="/user">我的主页</el-dropdown-item> -->
-						<el-dropdown-item command="/login">注册</el-dropdown-item>
-						<el-dropdown-item command="/login">登录</el-dropdown-item>
+						<el-dropdown-item command="/login">Log In</el-dropdown-item>
 						<!-- <el-dropdown-item command="logout">注销</el-dropdown-item> -->
 					</el-dropdown-menu>
 				</el-dropdown>
@@ -62,6 +61,9 @@
 			<div class="search">
 				<i class="el-icon-search"></i>
 			</div>
+			<!-- <div class="github">
+				
+			</div> -->
 		</div>
 	</header>
 </template>
@@ -97,6 +99,11 @@ export default {
 							name: "标签",
 							icon: "iconfont icon-biaoqian1",
 							path: "/tag"
+                        },
+                        {
+							name: "书单",
+							icon: "iconfont icon-book",
+							path: "/bookList"
 						}
 					]
 				},
@@ -109,7 +116,7 @@ export default {
 				{
 					name: "留言板",
 					icon: "el-icon-edit-outline",
-					path: "/message-board",
+					path: "/comments",
 					subMenu: []
 				},
 

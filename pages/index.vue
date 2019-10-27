@@ -4,17 +4,19 @@
 			<div class="banner_main" style="background-image: url(/hzw-theme/banner2.jpg);">
 				<div class="banner_content">
 					<div class="minContainer">
-						<h1 dataTitle="HI,JON!">HI,JON!</h1>
+						<h1 data-title="HI,JON!">HI,JON!</h1>
 						<div class="passage">
 							<p>食事をするのは生きているためで、生きているのは食事をするためではない、人生は自分のすばらしいことを生きるべきだ</p>
 						</div>
 					</div>
 				</div>
-				<div class="down_back"></div>
+				<div class="down_back" @click="bannerDown">
+					<i class="iconfont icon-chuanmao"></i>
+				</div>
 			</div>
 		</div>
 
-		<section class="home_article">
+		<section class="home_article" ref="aTarget">
 			<div class="minContainer">
 				<h2 class="col_title">
 					<span>新しい</span>
@@ -63,12 +65,22 @@
 </template>
 
 <script>
+import yTools from "~/assets/js/tool";
 export default {
 	data() {
 		return {
-			article: [1, 2, 3, 4, 5]
+			article: [1, 2, 3, 4, 5],
+			yTool: {}
 		};
 	},
-	asyncData() {}
+	asyncData() {},
+	mounted() {
+		this.yTool = new yTools();
+	},
+	methods: {
+		bannerDown(e) {
+			this.yTool.anchor(this.$refs.aTarget.offsetTop, 100);
+		}
+	}
 };
 </script>
