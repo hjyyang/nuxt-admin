@@ -134,7 +134,7 @@ body {
 	font-family: "Noto Serif SC", "Source Han Serif SC", "Source Han Serif",
 		"source-han-serif-sc", "PT Serif", "SongTi SC", "MicroSoft Yahei",
 		Georgia, serif;
-	font-size: 14px;
+    font-size: 14px;
     
     &.admin,&.edit{
         background: #eef5f9;
@@ -330,7 +330,7 @@ a {
 	width: calc(90% - 20px);
 }
 
-@import "/common.scss";
+@import "/variable.scss";
 @import "/menu.scss";
 
 @import "/page/home.scss";

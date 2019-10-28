@@ -56,10 +56,24 @@
 						class="list_con"
 					>这是一个测试内容，我随便写写就好 这是一个测试内容，我随便写写就好 这是一个测试内容，我随便写写就好 这是一个测试内容，我随便写写就好 这是一个测试内容，我随便写写就好</div>
 				</div>
+				<div class="paged">
+					<el-pagination
+						@size-change="sizeChange"
+						@current-change="currentChange"
+						:current-page.sync="currentPage"
+						:pager-count="5"
+						:hide-on-single-page="true"
+						layout="prev, pager, next, jumper"
+						:total="120"
+					></el-pagination>
+				</div>
 
-                <div class="exitCon">
-                    <textarea></textarea>
-                </div>
+				<div class="exitCon">
+					<div :class="['exitComm',exitChecked ? 'focus' : '']" data-text="在对的时间遇到对的你...">
+						<textarea @focus="exitFocus" @blur="exitBlur"></textarea>
+					</div>
+					<button type="button">BiuBiuBiu~</button>
+				</div>
 			</div>
 		</section>
 	</main>
@@ -68,8 +82,25 @@
 <script>
 export default {
 	data() {
-		return {};
+		return {
+            currentPage: 1,
+            exitChecked: false
+		};
 	},
-	asyncData() {}
+	asyncData() {},
+	methods: {
+		sizeChange(val) {
+			console.log(`每页 ${val} 条`);
+		},
+		currentChange(val) {
+			console.log(`当前页: ${val}`);
+		},
+		exitFocus() {
+			this.exitChecked = true;
+		},
+		exitBlur() {
+            this.exitChecked = false;
+        }
+	}
 };
 </script>
