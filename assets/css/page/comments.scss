@@ -9,11 +9,17 @@
 	}
 	.list_head {
 		display: flex;
+		&:hover {
+			.list_face{
+                transform: rotateY(360deg);
+            }
+		}
 	}
 	.list_face {
 		max-width: 44px;
 		width: 100%;
-		margin-right: 10px;
+        margin-right: 10px;
+        transition: all .8s;
 		img {
 			border-radius: 50%;
 		}
@@ -69,14 +75,14 @@
 				padding: 0px 8px;
 				background: #ffffff;
 				transition: all 0.3s;
-                border-radius: 4px;
+				border-radius: 4px;
 			}
 			&.focus {
 				&::before {
-                    top: -8px;
-                    background: $currentColor;
-                    color: #ffffff;
-                    font-size: 12px;
+					top: -8px;
+					background: $currentColor;
+					color: #ffffff;
+					font-size: 12px;
 				}
 			}
 		}
@@ -113,7 +119,8 @@
 			&:hover {
 				border-color: $currentColor;
 				color: $currentColor;
-				box-shadow: inset 0px 0px 8px 0px rgba($color: $currentColor, $alpha: 0.4);
+				box-shadow: inset 0px 0px 8px 0px
+					rgba($color: $currentColor, $alpha: 0.4);
 			}
 		}
 	}

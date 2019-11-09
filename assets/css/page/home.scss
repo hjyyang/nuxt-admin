@@ -11,7 +11,8 @@
 	.banner_main {
 		position: relative;
 		display: flex;
-		align-items: center;
+        align-items: center;
+        max-height: 1080px;
 		height: 100vh;
 		background-position: center top;
 		background-attachment: fixed;

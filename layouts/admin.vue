@@ -8,7 +8,7 @@
 					</div>
 					<div class="logo">
 						<nuxt-link to="/">
-							<img src="~/static/logo.png" alt />
+							<img src="~/assets/image/logo.png" alt />
 						</nuxt-link>
 					</div>
 					<nav class="navigator">

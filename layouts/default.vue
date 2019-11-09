@@ -1,6 +1,6 @@
 <template>
 	<div class="default_layout">
-		<Header />
+		<Header :isMobile="isMobile"></Header>
 		<nuxt />
 		<Footer />
 	</div>
@@ -15,11 +15,14 @@ export default {
 		Footer
 	},
 	data() {
-		return {};
+		return {
+			isMobile: false
+		};
 	},
 	mounted() {
 		document.getElementsByTagName("body")[0].className = "";
 		this.menuScroll();
+		this.mobileMonitor();
 	},
 	methods: {
 		menuScroll() {
@@ -32,11 +35,8 @@ export default {
 					scrollTop = document.documentElement.scrollTop;
 				} else if (document.body) {
 					scrollTop = document.body.scrollTop;
-                }
-				if (
-					document
-						.getElementsByClassName("app_header")[0]
-				) {
+				}
+				if (document.getElementsByClassName("app_header")[0]) {
 					if (scrollTop > 20) {
 						document
 							.getElementsByClassName("app_header")[0]
@@ -52,15 +52,29 @@ export default {
 					}
 				}
 			};
+		},
+		mobileMonitor() {
+			if (!window) return;
+			if (window.outerWidth <= 1024) {
+				this.isMobile = true;
+            }
+            let vm = this;
+			window.onresize = function() {
+				if (window.outerWidth <= 1024) {
+					vm.isMobile = true;
+				} else {
+					vm.isMobile = false;
+				}
+			};
 		}
 	}
 };
 </script>>
 
 <style lang="scss">
-.default_layout{
-    >main{
-        min-height: calc(100vh - 60px);
-    }
+.default_layout {
+	> main {
+		min-height: calc(100vh - 60px);
+	}
 }
 </style>

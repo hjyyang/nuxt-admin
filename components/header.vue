@@ -11,7 +11,7 @@
 					</ruby>
 				</nuxt-link>
 			</div>
-			<nav id="app_menu">
+			<nav id="app_menu" v-if="!mobile">
 				<ul class="menu">
 					<li
 						:class="['item', $route.fullPath=== item.path ? 'active' : '']"
@@ -45,7 +45,7 @@
 					</li>
 				</ul>
 			</nav>
-			<div class="navigator">
+			<div class="navigator" v-if="!mobile">
 				<el-dropdown @command="dropdownCommand">
 					<div class="header_dropdown">
 						<i class="iconfont icon-user1"></i>
@@ -58,13 +58,43 @@
 					</el-dropdown-menu>
 				</el-dropdown>
 			</div>
-			<div class="search">
+			<div class="search" v-if="!mobile" @click="searchEv">
 				<i class="el-icon-search"></i>
 			</div>
-			<!-- <div class="github">
-				
-			</div> -->
+			<div class="responsive_menu_toggle" v-if="mobile" @click="openSliderMenu">
+				<i class="iconfont icon-caidan"></i>
+			</div>
 		</div>
+		<el-drawer :visible.sync="drawerVisible" direction="rtl" class="menu_drawer">
+			<div class="menu_wrpa">
+				<div class="item">
+					<div class="search" @click="searchEv">
+						<i class="el-icon-search"></i>
+					</div>
+				</div>
+				<div class="item" v-for="(item,index) in menuData" :key="index">
+					<div class="item_main">
+						<nuxt-link :to="item.path">
+							<span>{{item.name}}</span>
+						</nuxt-link>
+						<div class="down" v-if="item.subMenu.length > 0">
+							<i class="el-icon-arrow-down" @click.self="slideToggle(index)"></i>
+						</div>
+					</div>
+					<ul class="sub_menu" v-if="item.subMenu.length > 0" v-show="item.show">
+						<li
+							:class="['sub_item', $route.fullPath === sub.path ? 'active' : '']"
+							v-for="(sub,sIndex) in item.subMenu"
+							:key="sIndex"
+						>
+							<nuxt-link :to="sub.path">
+								<span>{{sub.name}}</span>
+							</nuxt-link>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</el-drawer>
 	</header>
 </template>
 
@@ -78,7 +108,8 @@ export default {
 					name: "首页",
 					icon: "iconfont icon-1",
 					path: "/",
-					subMenu: []
+					subMenu: [],
+					show: false
 				},
 				{
 					name: "归档",
@@ -99,32 +130,36 @@ export default {
 							name: "标签",
 							icon: "iconfont icon-biaoqian1",
 							path: "/tag"
-                        },
-                        {
+						},
+						{
 							name: "书单",
 							icon: "iconfont icon-book",
 							path: "/bookList"
 						}
-					]
+					],
+					show: false
 				},
 				{
 					name: "关于",
 					icon: "iconfont icon-about",
 					path: "/about",
-					subMenu: []
+					subMenu: [],
+					show: false
 				},
 				{
 					name: "留言板",
 					icon: "el-icon-edit-outline",
 					path: "/comments",
-					subMenu: []
+					subMenu: [],
+					show: false
 				},
 
 				{
-					name: "吉他",
+					name: "音乐",
 					icon: "iconfont icon-icon-test",
-					path: "/guitar",
-					subMenu: []
+					path: "/music",
+					subMenu: [],
+					show: false
 				}
 			],
 			hoverDynamic: [
@@ -132,8 +167,15 @@ export default {
 				"hover_rotate",
 				"hover_translate",
 				"hover_translate_vertical"
-			]
+			],
+			mobile: this.isMobile,
+			drawerVisible: false
 		};
+	},
+	props: {
+		isMobile: {
+			type: Boolean
+		}
 	},
 	async asyncData(app) {},
 	mounted() {},
@@ -154,6 +196,26 @@ export default {
 					this.$router.push(command);
 				}
 			}
+		},
+		searchEv() {
+			console.log(this);
+		},
+		openSliderMenu() {
+			this.drawerVisible = true;
+		},
+		slideToggle(index) {
+			this.menuData[index].show = !this.menuData[index].show;
+		}
+	},
+	watch: {
+		isMobile: function(val, oldVal) {
+			this.mobile = val;
+			if (!val) {
+				this.drawerVisible = false;
+			}
+		},
+		$route(to, from) {
+			this.drawerVisible = false;
 		}
 	}
 };

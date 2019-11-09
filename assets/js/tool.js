@@ -1,33 +1,59 @@
-function ytool() {
-	"use strict";
-	this.init = function() {};
-	this.anchor = function(...a) {
-		if (!window) return;
-		let move,
-			goTo = window.scrollY,
-			step = a[0] / a[1];
+var inProgress = null,
+	options = {};
 
-		if (window.scrollY - a[0] > 0) {
-			//向上移动
-			move = setInterval(function() {
-				if (goTo > a[0]) {
-					goTo = goTo - step;
-					window.scrollTo(0, goTo);
-				} else {
-					window.clearInterval(move);
-				}
-			}, 0);
-		} else {
-			move = setInterval(function() {
-				if (goTo < a[0]) {
-					goTo = goTo + step;
-					window.scrollTo(0, goTo);
-				} else {
-					window.clearInterval(move);
-				}
-			}, 0);
+function yTool(elem) {
+	return new yTool.prototype.init(elem);
+}
+yTool.prototype = {
+	constructor: yTool,
+	init: function(elem) {
+		this.elem = elem ? elem : null;
+	},
+	anchor: function(duration) {
+		options = {
+			start: window ? window.scrollY : 0,
+			prop: "scrollTo",
+			end: this.elem.offsetTop,
+			duration: duration,
+			startTime: Date.now(),
+			unit: "px"
+		};
+		inProgress = true;
+		animate();
+	},
+	run: function(prop, now) {
+		if (prop === "scrollTo") {
+			window.scrollTo(0, now);
 		}
-	};
+	}
+};
+yTool.prototype.init.prototype = yTool.prototype;
+
+function tick() {
+	//获取动画进度
+	var currentTime = Date.now(),
+		remaining = Math.max(
+			0,
+			options.startTime + options.duration - currentTime
+		),
+		temp = remaining / options.duration || 0,
+		percent = 1 - temp;
+	return percent;
 }
 
-export default ytool;
+function animate() {
+	//持续执行动画函数
+	if (inProgress) {
+		if (document.hidden === false && window.requestAnimationFrame) {
+			window.requestAnimationFrame(animate);
+		}
+		let percent = tick(),
+			now = (options.end - options.start) * percent + options.start;
+		yTool.prototype.run(options.prop, now);
+		if (percent >= 1) {
+			inProgress = null;
+		}
+	}
+}
+
+export default yTool;

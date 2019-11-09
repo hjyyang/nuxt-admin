@@ -15,7 +15,11 @@
 				</div>
 			</div>
 		</div>
-
+		<div
+			class="test"
+			ref="test"
+			style="height: 100px;padding-top: 30px;display: none;background: pink;"
+		></div>
 		<section class="home_article" ref="aTarget">
 			<div class="minContainer">
 				<h2 class="col_title">
@@ -65,21 +69,18 @@
 </template>
 
 <script>
-import yTools from "~/assets/js/tool";
+import yTool from "~/assets/js/tool";
 export default {
 	data() {
 		return {
-			article: [1, 2, 3, 4, 5],
-			yTool: {}
+			article: [1, 2, 3, 4, 5]
 		};
 	},
 	asyncData() {},
-	mounted() {
-		this.yTool = new yTools();
-	},
+	mounted() {},
 	methods: {
 		bannerDown(e) {
-			this.yTool.anchor(this.$refs.aTarget.offsetTop, 100);
+			yTool(this.$refs.aTarget).anchor(500);
 		}
 	}
 };
