@@ -35,4 +35,52 @@
 		font-size: 14px;
 		transform: translateX(-100%);
 	}
+	.title_main {
+		transition: all 0.3s;
+	}
+	h2.col_title {
+		display: flex;
+		.title_wrap {
+			max-height: 25px;
+			overflow: hidden;
+			transform: translate(0%, 10px);
+		}
+		@keyframes mymove {
+			0% {
+				transform: translateY(0%);
+			}
+			50% {
+				transform: translateY(16%);
+			}
+			100% {
+				transform: translateY(0%);
+			}
+		}
+		.play {
+			display: flex;
+			align-items: center;
+			padding: 0px 10px;
+			margin-left: 20px;
+			background: #ffffff;
+			cursor: pointer;
+			transition: all 0.3s;
+			font-size: 16px;
+			line-height: 25px;
+			animation: mymove 1s infinite;
+			i {
+				font-size: 21px;
+			}
+			&:hover {
+				color: $currentColor;
+			}
+		}
+		span {
+			transform: translate(0%, 0%);
+		}
+	}
+	.item:hover {
+		.title_main {
+			transform: translateY(-50%);
+		}
+	}
 }

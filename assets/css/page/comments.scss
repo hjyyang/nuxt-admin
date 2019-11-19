@@ -10,16 +10,16 @@
 	.list_head {
 		display: flex;
 		&:hover {
-			.list_face{
-                transform: rotateY(360deg);
-            }
+			.list_face {
+				transform: rotateY(360deg);
+			}
 		}
 	}
 	.list_face {
 		max-width: 44px;
 		width: 100%;
-        margin-right: 10px;
-        transition: all .8s;
+		margin-right: 10px;
+		transition: all 0.8s;
 		img {
 			border-radius: 50%;
 		}
@@ -83,6 +83,9 @@
 					background: $currentColor;
 					color: #ffffff;
 					font-size: 12px;
+				}
+				textarea {
+					border-color: $currentColor;
 				}
 			}
 		}

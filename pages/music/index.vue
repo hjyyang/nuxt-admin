@@ -9,11 +9,18 @@
 			<div class="minContainer">
 				<div class="item">
 					<h2 class="col_title">
-						<span>纯音乐</span>
+						<div class="title_wrap">
+							<div class="title_main">
+								<span>纯音乐</span>
+								<div class="play">
+									<i class="el-icon-video-play"></i>顺序播放
+								</div>
+							</div>
+						</div>
 					</h2>
 					<ul>
 						<li>
-							<nuxt-link to>
+							<nuxt-link to="/music/天空之城">
 								<div class="poster">
 									<img src="/upload/2019/10/tiankongzhichneg.jpeg" alt />
 								</div>

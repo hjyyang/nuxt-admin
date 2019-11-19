@@ -69,8 +69,11 @@
 				</div>
 
 				<div class="exitCon">
-					<div :class="['exitComm',exitChecked ? 'focus' : '']" data-text="在对的时间遇到对的你...">
-						<textarea @focus="exitFocus" @blur="exitBlur"></textarea>
+					<div
+						:class="['exitComm',exitChecked || commentCont !== '' ? 'focus' : '']"
+						data-text="在对的时间遇到对的你..."
+					>
+						<textarea @focus="exitFocus" @blur="exitBlur" v-model="commentCont"></textarea>
 					</div>
 					<button type="button">BiuBiuBiu~</button>
 				</div>
@@ -83,8 +86,9 @@
 export default {
 	data() {
 		return {
-            currentPage: 1,
-            exitChecked: false
+			currentPage: 1,
+			exitChecked: false,
+			commentCont: ""
 		};
 	},
 	asyncData() {},
@@ -99,8 +103,8 @@ export default {
 			this.exitChecked = true;
 		},
 		exitBlur() {
-            this.exitChecked = false;
-        }
+			this.exitChecked = false;
+		}
 	}
 };
 </script>

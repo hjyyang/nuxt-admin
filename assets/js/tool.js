@@ -25,7 +25,10 @@ yTool.prototype = {
 		if (prop === "scrollTo") {
 			window.scrollTo(0, now);
 		}
-	}
+	},
+	lazy: function() {
+        
+    }
 };
 yTool.prototype.init.prototype = yTool.prototype;
 
