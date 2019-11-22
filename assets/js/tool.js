@@ -59,4 +59,4 @@ function animate() {
 	}
 }
 
-export default yTool;
+module.exports = yTool;
