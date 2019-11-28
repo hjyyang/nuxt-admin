@@ -1,6 +1,19 @@
 <template>
 	<div class="default_layout">
 		<Header :isMobile="isMobile"></Header>
+		<div class="fixed_contact">
+			<ul>
+				<li>
+					<a href>
+						<i class="iconfont icon-github-copy"></i>
+					</a>
+				</li>
+				<li>
+					<i class="iconfont icon-weixin"></i>
+                    <div class="popup"><img src="http://via.placeholder.com/160x160?text=1" alt=""></div>
+				</li>
+			</ul>
+		</div>
 		<nuxt />
 		<Footer />
 	</div>
@@ -9,6 +22,7 @@
 <script>
 import Header from "~/components/header.vue";
 import Footer from "~/components/footer.vue";
+import yTool from "~/assets/js/tool";
 export default {
 	components: {
 		Header,
@@ -22,7 +36,8 @@ export default {
 	mounted() {
 		document.getElementsByTagName("body")[0].className = "";
 		this.menuScroll();
-		this.mobileMonitor();
+        this.mobileMonitor();
+        yTool.lazysize();
 	},
 	methods: {
 		menuScroll() {
@@ -57,8 +72,8 @@ export default {
 			if (!window) return;
 			if (window.outerWidth <= 1024) {
 				this.isMobile = true;
-            }
-            let vm = this;
+			}
+			let vm = this;
 			window.onresize = function() {
 				if (window.outerWidth <= 1024) {
 					vm.isMobile = true;

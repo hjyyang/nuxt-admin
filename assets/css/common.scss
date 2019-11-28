@@ -1,0 +1,73 @@
+.fixed_contact {
+	position: fixed;
+	z-index: 99;
+	top: 40%;
+	right: 0px;
+	transform: translateY(-50%);
+	width: 40px;
+	background: #ffffff;
+	padding: 20px 0px;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 0.5);
+	background: $currentColor;
+	transition: all 0.3s linear;
+	&:hover {
+		padding-right: 6px;
+		background: #00a7e0;
+	}
+	li {
+		position: relative;
+		margin-bottom: 14px;
+		text-align: center;
+		&:last-of-type {
+			margin-bottom: 0px;
+		}
+		.popup {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			transform: translateX(-100%) scale(0);
+			width: 160px;
+			height: 160px;
+			border-radius: 4px;
+			overflow: hidden;
+			transition: all 0.3s;
+			transform-origin: right top;
+		}
+		&:hover {
+			.popup {
+				transform: translateX(-100%) scale(1);
+			}
+			i {
+				opacity: 0.8;
+			}
+		}
+	}
+	a {
+		display: block;
+	}
+	i {
+		font-size: 30px;
+		cursor: pointer;
+		color: #ffffff;
+		transition: all 0.3s;
+	}
+}
+
+.fiexd_nav {
+	position: fixed;
+	left: 50px;
+	top: 50%;
+    background: #ffffff;
+    padding: 10px 0px;
+	border: 1px solid #e7e7e7;
+	border-radius: 10px;
+	font-size: 13px;
+    text-align: center;
+	box-shadow: 0 1px 10px -6px rgba(0, 0, 0, 0.5);
+    li{
+        padding: 3px 10px;
+        cursor: pointer;
+    }
+}

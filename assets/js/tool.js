@@ -27,10 +27,21 @@ yTool.prototype = {
 		}
 	},
 	lazy: function() {
-        
-    }
+		var winSection = {
+			t: 0,
+			l: 0,
+			r: 0,
+			b: 0,
+			w: 0,
+			h: 0
+		};
+		window.onresize = function() {
+        };
+
+	}
 };
 yTool.prototype.init.prototype = yTool.prototype;
+yTool.lazysize = yTool.prototype.lazy;
 
 function tick() {
 	//获取动画进度
