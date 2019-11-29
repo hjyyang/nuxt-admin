@@ -37,7 +37,6 @@ export default {
 		document.getElementsByTagName("body")[0].className = "";
 		this.menuScroll();
         this.mobileMonitor();
-        yTool.lazysize();
 	},
 	methods: {
 		menuScroll() {
