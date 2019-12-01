@@ -10,7 +10,9 @@
 				</li>
 				<li>
 					<i class="iconfont icon-weixin"></i>
-                    <div class="popup"><img src="http://via.placeholder.com/160x160?text=1" alt=""></div>
+					<div class="popup">
+						<img src="http://via.placeholder.com/160x160?text=1" alt />
+					</div>
 				</li>
 			</ul>
 		</div>
@@ -36,12 +38,12 @@ export default {
 	mounted() {
 		document.getElementsByTagName("body")[0].className = "";
 		this.menuScroll();
-        this.mobileMonitor();
+		this.mobileMonitor();
 	},
 	methods: {
 		menuScroll() {
 			let scrollTop = 0;
-			window.onscroll = () => {
+			window.addEventListener("scroll", function() {
 				if (
 					document.documentElement &&
 					document.documentElement.scrollTop
@@ -65,7 +67,7 @@ export default {
 							)[0].className = "page_header";
 					}
 				}
-			};
+			});
 		},
 		mobileMonitor() {
 			if (!window) return;
@@ -73,13 +75,13 @@ export default {
 				this.isMobile = true;
 			}
 			let vm = this;
-			window.onresize = function() {
+			window.addEventListener("resize", function() {
 				if (window.outerWidth <= 1024) {
 					vm.isMobile = true;
 				} else {
 					vm.isMobile = false;
 				}
-			};
+			});
 		}
 	}
 };
