@@ -9,9 +9,9 @@
             <div class="fiexd_nav">
                 <div class="nav_wrap">
                     <ul @click="selectCategory">
-                        <li class="on corresponding">纯音乐</li>
-                        <li class="corresponding">民谣</li>
-                        <li class="corresponding">吉他曲</li>
+                        <li class="on corresponding" data-index="0">纯音乐</li>
+                        <li class="corresponding" data-index="1">民谣</li>
+                        <li class="corresponding" data-index="2">吉他曲</li>
                     </ul>
                 </div>
             </div>
@@ -221,6 +221,108 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="item lazyload on" data-index="2">
+                        <h2 class="col_title">
+                            <div class="title_wrap">
+                                <div class="title_main">
+                                    <span>吉他曲</span>
+                                    <div class="play">
+                                        <i class="el-icon-video-play"></i>顺序播放
+                                    </div>
+                                </div>
+                            </div>
+                        </h2>
+                        <ul>
+                            <li>
+                                <nuxt-link to="/music/天空之城">
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">天空之城</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">无题</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">天空之城</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">无题</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">天空之城</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">无题</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">天空之城</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">无题</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">天空之城</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">无题</div>
+                                </nuxt-link>
+                            </li>
+                            <li>
+                                <nuxt-link to>
+                                    <div class="poster">
+                                        <img data-src="/upload/2019/10/tiankongzhichneg.jpeg" class="lazyload" alt />
+                                    </div>
+                                    <div class="title">天空之城</div>
+                                </nuxt-link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
@@ -234,11 +336,17 @@ export default {
         return {};
     },
     asyncData() {},
-    mounted() {
-        yTool.lazysize();
-    },
+    mounted() {},
     methods: {
-        selectCategory: function() {}
+        selectCategory: function(e) {
+            let target = e.target;
+            while (target.nodeName !== "UL") {
+                if (target.nodeName === "LI") {
+                    yTool(document.querySelectorAll('.lazyload.on')[target.getAttribute('data-index')]).anchor(500,80);
+                }
+                target = target.parentNode;
+            }
+        }
     }
 };
 </script>

@@ -117,11 +117,6 @@ export default {
 					path: "/archive",
 					subMenu: [
 						{
-							name: "文章",
-							icon: "el-icon-document",
-							path: "/article"
-						},
-						{
 							name: "分类",
 							icon: "iconfont icon-icon_category",
 							path: "/classify"
@@ -134,7 +129,7 @@ export default {
 						{
 							name: "书单",
 							icon: "iconfont icon-book",
-							path: "/bookList"
+							path: "/book-list"
 						}
 					],
 					show: false

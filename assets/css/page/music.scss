@@ -53,6 +53,19 @@
             }
         }
 
+        a{
+            position: relative;
+            display: block;
+            padding-top: 100%;
+        }
+
+        .poster{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            max-width: 100%;
+        }
+
         .title {
             position: absolute;
             bottom: 0px;

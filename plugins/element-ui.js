@@ -32,7 +32,6 @@ import {
     RadioButton,
     Collapse,
     CollapseItem,
-    Image,
 } from "element-ui";
 import lang from "element-ui/lib/locale/lang/zh-CN";
 import locale from 'element-ui/lib/locale';
@@ -71,7 +70,6 @@ Vue.component(RadioGroup.name, RadioGroup);
 Vue.component(RadioButton.name, RadioButton);
 Vue.component(Collapse.name, Collapse);
 Vue.component(CollapseItem.name, CollapseItem);
-Vue.component(Image.name, Image);
 
 Vue.prototype.$msgbox = MessageBox;
 Vue.prototype.$alert = MessageBox.alert;

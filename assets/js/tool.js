@@ -9,11 +9,11 @@ yTool.prototype = {
   init: function (elem) {
     this.elem = elem ? elem : null;
   },
-  anchor: function (duration) {
+  anchor: function (duration,offsetTop) {
     options = {
       start: window ? window.scrollY : 0,
       prop: "scrollTo",
-      end: this.elem.offsetTop,
+      end: offsetTop ? this.elem.offsetTop - offsetTop : this.elem.offsetTop,
       duration: duration,
       startTime: Date.now(),
       unit: "px"

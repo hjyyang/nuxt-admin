@@ -55,7 +55,7 @@
 						</div>
 						<div class="post_image">
 							<nuxt-link to="/">
-								<el-image :src="'http://via.placeholder.com/430x300?text='+index" lazy></el-image>
+								<img class="lazyload" src="" :data-src="'http://via.placeholder.com/430x300?text='+index" alt="">
 							</nuxt-link>
 						</div>
 					</div>

@@ -61,7 +61,7 @@
 	top: 50%;
     background: #ffffff;
     padding: 10px 0px;
-	border: 1px solid #e7e7e7;
+	// border: 1px solid #e7e7e7;
 	border-radius: 10px;
 	font-size: 13px;
     text-align: center;
@@ -69,8 +69,10 @@
     li{
         padding: 3px 10px;
 		cursor: pointer;
+		transition: all .1s;
 		&.on{
-			color: red;
+			background: $currentColor;
+			color: #ffffff;
 		}
     }
 }

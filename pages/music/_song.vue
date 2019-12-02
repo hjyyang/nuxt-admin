@@ -15,19 +15,19 @@
 				</div>
 				<div class="song_score">
 					<div class="sc_item">
-						<el-image src="/upload/2019/10/wuti1.png" lazy></el-image>
+						<img src="" data-src="/upload/2019/10/wuti1.png" class="lazyload" alt="">
 					</div>
 					<div class="sc_item">
-						<el-image src="/upload/2019/10/wuti2.png" lazy></el-image>
+						<img src="" data-src="/upload/2019/10/wuti2.png" class="lazyload" alt="">
 					</div>
 					<div class="sc_item">
-						<el-image src="/upload/2019/10/wuti3.png" lazy></el-image>
+						<img src="" data-src="/upload/2019/10/wuti3.png" class="lazyload" alt="">
 					</div>
 					<div class="sc_item">
-						<el-image src="/upload/2019/10/wuti4.png" lazy></el-image>
+						<img src="" data-src="/upload/2019/10/wuti4.png" class="lazyload" alt="">
 					</div>
 					<div class="sc_item">
-						<el-image src="/upload/2019/10/wuti5.png" lazy></el-image>
+						<img src="" data-src="/upload/2019/10/wuti5.png" class="lazyload" alt="">
 					</div>
 				</div>
 			</div>
