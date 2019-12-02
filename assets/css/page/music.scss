@@ -8,22 +8,26 @@
     .nav {
         max-width: 240px;
         width: 100%;
-	}
-	.nav-wrap{
-		max-width: 200px;
-		li{
-			padding: 12px 10px;
-			border-bottom: 1px solid #d8d6d6;
-			color: #000000;
-			cursor: pointer;
-			&.current{
-				color: $currentColor;
-			}
-		}
-	}
+    }
+
+    .nav-wrap {
+        max-width: 200px;
+
+        li {
+            padding: 12px 10px;
+            border-bottom: 1px solid #d8d6d6;
+            color: #000000;
+            cursor: pointer;
+
+            &.current {
+                color: $currentColor;
+            }
+        }
+    }
 
     .content {
-		width: 100%;
+        width: 100%;
+
         ul {
             display: flex;
             flex-wrap: wrap;
@@ -117,9 +121,12 @@
             }
         }
 
-        .item:hover {
-            .title_main {
-                transform: translateY(-50%);
+        .item {
+            margin-bottom: 60px;
+            &:hover {
+                .title_main {
+                    transform: translateY(-50%);
+                }
             }
         }
     }
