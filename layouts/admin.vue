@@ -103,13 +103,16 @@ export default {
 		};
 	},
 	mounted() {
-		document.getElementsByTagName("body")[0].className = "admin";
+		document.getElementsByTagName("body")[0].classList.add("admin");
 		if (window) {
 			if (window.outerWidth <= 540) {
 				this.mobile = true;
 				this.menuShow = false;
 			}
 		}
+    },
+    beforeDestroy: function() {
+		document.getElementsByTagName("body")[0].classList.remove("admin");
 	},
 	methods: {
 		dropdownCommand(command) {

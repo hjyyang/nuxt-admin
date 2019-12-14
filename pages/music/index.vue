@@ -6,15 +6,6 @@
             </div>
         </section>
         <section class="music_wrap">
-            <div class="fiexd_nav">
-                <div class="nav_wrap">
-                    <ul @click="selectCategory">
-                        <li class="on corresponding" data-index="0">纯音乐</li>
-                        <li class="corresponding" data-index="1">民谣</li>
-                        <li class="corresponding" data-index="2">吉他曲</li>
-                    </ul>
-                </div>
-            </div>
             <div class="minContainer">
                 <div class="content">
                     <div class="item lazyload on" data-index="0">
@@ -338,15 +329,6 @@ export default {
     asyncData() {},
     mounted() {},
     methods: {
-        selectCategory: function(e) {
-            let target = e.target;
-            while (target.nodeName !== "UL") {
-                if (target.nodeName === "LI") {
-                    yTool(document.querySelectorAll('.lazyload.on')[target.getAttribute('data-index')]).anchor(500,80);
-                }
-                target = target.parentNode;
-            }
-        }
     }
 };
 </script>

@@ -55,7 +55,7 @@
 						</div>
 						<div class="post_image">
 							<nuxt-link to="/">
-								<img class="lazyload" src="" :data-src="'http://via.placeholder.com/430x300?text='+index" alt="">
+								<img class="lazyload" src :data-src="'http://via.placeholder.com/430x300?text='+index" alt />
 							</nuxt-link>
 						</div>
 					</div>
@@ -77,7 +77,12 @@ export default {
 		};
 	},
 	asyncData() {},
-	mounted() {},
+	mounted() {
+		document.getElementsByTagName("body")[0].classList.add("home");
+	},
+	beforeDestroy: function() {
+		document.getElementsByTagName("body")[0].classList.remove("home");
+	},
 	methods: {
 		bannerDown(e) {
 			yTool(this.$refs.aTarget).anchor(500);

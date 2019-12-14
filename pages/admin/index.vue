@@ -9,7 +9,7 @@
 			</div>
 			<!-- <div class="map_data_wrap card">
 				<div class="map_data"></div>
-			</div> -->
+			</div>-->
 		</div>
 	</section>
 </template>

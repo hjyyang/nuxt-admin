@@ -261,7 +261,8 @@ export default {
 			this.postData.newCategoryValue = "";
 		},
 		postContentChange() {
-			//文章内容变化事件
+            //文章内容变化事件
+            console.log(this.$refs.md.d_render)
 		}
 	}
 };

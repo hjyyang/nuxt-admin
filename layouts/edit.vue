@@ -10,8 +10,11 @@ export default {
 		return {};
 	},
 	mounted() {
-		document.getElementsByTagName("body")[0].className = "edit";
-	}
+		document.getElementsByTagName("body")[0].classList.add("edit");
+	},
+	beforeDestroy() {
+        document.getElementsByTagName("body")[0].classList.remove("edit");
+    }
 };
 </script>
 

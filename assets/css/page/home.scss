@@ -1,3 +1,27 @@
+body.home {
+	padding-top: 0px;
+	.app_header {
+		.page_header {
+            background: rgba($color: #fff, $alpha: 0);
+            box-shadow: none;
+			&:hover,
+			&.show {
+				background: rgba($color: #fff, $alpha: 0.95);
+				box-shadow: 0 1px 30px -8px rgba(0, 0, 0, 0.5);
+				nav#app_menu {
+					ul.menu {
+						display: flex;
+					}
+				}
+            }
+            nav#app_menu {
+                ul.menu {
+                    display: none;
+                }
+            }
+		}
+	}
+}
 .home_banner {
 	.banner_content {
 		display: flex;
@@ -11,8 +35,8 @@
 	.banner_main {
 		position: relative;
 		display: flex;
-        align-items: center;
-        max-height: 1080px;
+		align-items: center;
+		max-height: 1080px;
 		height: 100vh;
 		background-position: center top;
 		background-attachment: fixed;
@@ -201,11 +225,11 @@ h2.col_title {
 		margin-left: 20px;
 		background: $background;
 		transform: translate(0%, 10px);
-    }
-    i.min{
-        font-size: 14px;
-        font-style: normal;
-    }
+	}
+	i.min {
+		font-size: 14px;
+		font-style: normal;
+	}
 }
 .home_article {
 	padding-top: 80px;

@@ -36,7 +36,6 @@ export default {
 		};
 	},
 	mounted() {
-		document.getElementsByTagName("body")[0].className = "";
 		this.menuScroll();
 		this.mobileMonitor();
 		yTool.lazysize();
