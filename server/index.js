@@ -1,8 +1,17 @@
 const Koa = require('koa')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
+//------------引入bodyParser  -----------------
+const bodyParser = require('koa-bodyparser')
+
+//------------引入接口 start-----------------
+const file = require('./api/file')
+//------------引入接口 end-----------------
 
 const app = new Koa()
+
+//------------使用 bodyParser 处理http请求  -----------------
+app.use(bodyParser())
 
 // Import and Set Nuxt.js options
 const config = require('../nuxt.config.js')
