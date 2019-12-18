@@ -44,20 +44,22 @@ export default {
 	layout: "admin",
 	data() {
 		return {
-			fileList: [
-				{
-					name: "food.jpeg",
-					url: "http://via.placeholder.com/200x100"
-				},
-				{
-					name: "food2.jpeg",
-					url:
-						"https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-				}
-			],
+			fileList: [],
 			fileDialogVisible: false,
 			filedialogImageUrl: {}
 		};
+	},
+	async asyncData(app) {
+		return await app
+			.$axios({
+				method: "get",
+				url: "/file/get"
+			})
+			.then(res => {
+				return {
+					fileList: res.data.files
+				};
+			});
 	},
 	mounted() {},
 	methods: {
@@ -80,13 +82,33 @@ export default {
 						type: "warning"
 					})
 						.then(() => {
-							console.log(fileIndex);
+							this.deleteFile(
+								fileIndex,
+								this.fileList[fileIndex].url
+							);
 						})
 						.catch(() => {});
 					break;
 				}
 				target = target.parentNode;
 			}
+		},
+		deleteFile(index, path) {
+			this.$axios({
+				method: "post",
+				url: "/file/delete",
+				data: {
+					filePath: path
+				}
+			}).then(res => {
+				if (res.data.result) {
+					this.fileList.splice(parseInt(index), 1);
+					this.$message({
+						type: "success",
+						message: "删除成功!"
+					});
+				}
+			});
 		},
 		beforeAvatarUpload(file) {
 			const isLt2M = file.size / 1024 / 1024 < 2;

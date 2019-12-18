@@ -18,5 +18,7 @@ var sequelize = new Sequelize(
 );
 
 var dataTables = {};
+dataTables.mySequelize = sequelize;
+console.log(sequelize);
 
 module.exports = dataTables;
