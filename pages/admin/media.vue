@@ -4,11 +4,12 @@
 			<el-upload
 				class="upload"
 				drag
-				action="/"
+				action="/file/upload"
 				:file-list="fileList"
 				multiple
 				:show-file-list="false"
 				:before-upload="beforeAvatarUpload"
+				:on-success="uploadEV"
 			>
 				<i class="el-icon-upload"></i>
 				<div class="el-upload__text">
@@ -116,6 +117,9 @@ export default {
 				this.$message.error("上传文件大小不能超过 2MB!");
 			}
 			return isLt2M;
+		},
+		uploadEV(res, file, fileList) {
+            this.fileList.push(res);
 		}
 	}
 };
