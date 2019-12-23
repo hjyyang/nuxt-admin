@@ -6,6 +6,7 @@ const bodyParser = require("koa-bodyparser");
 
 //------------引入接口 start-----------------
 const file = require("./api/file");
+const user = require("./api/user");
 //------------引入接口 end-----------------
 
 const app = new Koa();
@@ -36,6 +37,7 @@ async function start() {
 
 	//------------使用接口url start-----------------
 	app.use(file.routes()).use(file.allowedMethods());
+	app.use(user.routes()).use(user.allowedMethods());
 	//------------使用接口url end-----------------
 
 	app.use(ctx => {

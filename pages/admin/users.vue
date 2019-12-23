@@ -16,50 +16,17 @@
 					<span>邮箱地址:</span>
 					<em title="点击复制">12345789@163.com</em>
 				</p>
+				<p>
+					<span>微信:</span>
+					<em title="点击复制">12345789</em>
+				</p>
 				<div class="item_meta">
 					<el-tag size="small">普通用户</el-tag>
-					<el-tag type="info" size="small" effect="plain" class="handle">
+					<el-tag type="info" size="small" effect="plain" class="handle" @click="userHandle">
 						<i class="iconfont icon-liebiao_o"></i>操作
 					</el-tag>
 				</div>
-				<div class="item_action">
-					<ul>
-						<li>
-							<el-tag size="small">普通用户</el-tag>
-						</li>
-						<li>
-							<el-tag size="small" class="admin">管理员</el-tag>
-						</li>
-						<li>
-							<el-tag size="small" type="danger">
-								<i class="el-icon-delete"></i>删除
-							</el-tag>
-						</li>
-					</ul>
-				</div>
-			</div>
-			<div class="item">
-				<div class="user_head">
-					<div class="head">
-						<img src="http://via.placeholder.com/32x32" alt />
-					</div>
-					<span>jon</span>
-				</div>
-				<p>
-					<span>ID:</span>
-					<em title="点击复制">123466</em>
-				</p>
-				<p>
-					<span>邮箱地址:</span>
-					<em title="点击复制">12345789@163.com</em>
-				</p>
-				<div class="item_meta">
-					<el-tag size="small" class="admin">管理员</el-tag>
-					<el-tag type="info" size="small" effect="plain" class="handle">
-						<i class="iconfont icon-liebiao_o"></i>操作
-					</el-tag>
-				</div>
-				<div class="item_action">
+				<div class="item_action" v-show="false">
 					<ul>
 						<li>
 							<el-tag size="small">普通用户</el-tag>
@@ -96,12 +63,21 @@ export default {
 			currentPage: 1
 		};
 	},
+	mounted() {
+		this.$axios({
+			method: "post",
+			url: "/api/findAllUser"
+		}).then(res => {});
+	},
 	methods: {
 		handleSizeChange(val) {
 			console.log(`每页 ${val} 条`);
 		},
 		handleCurrentChange(val) {
 			console.log(`当前页: ${val}`);
+		},
+		userHandle() {
+			console.log(123);
 		}
 	}
 };

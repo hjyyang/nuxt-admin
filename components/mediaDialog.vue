@@ -18,11 +18,12 @@
 						<el-upload
 							class="upload"
 							drag
-							action="/"
+							action="/file/upload"
 							:file-list="fileList"
 							multiple
 							:show-file-list="false"
 							:before-upload="beforeAvatarUpload"
+							:on-success="uploadEV"
 						>
 							<i class="el-icon-upload"></i>
 							<div class="el-upload__text">
@@ -43,20 +44,18 @@ export default {
 	data() {
 		return {
 			activeName: "list",
-			fileList: [
-				{
-					name: "food.jpeg",
-					url: "http://via.placeholder.com/200x100"
-				},
-				{
-					name: "food2.jpeg",
-					url:
-						"https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100"
-				}
-			]
+			fileList: []
 		};
 	},
 	props: ["mediaDialogVisible"],
+	mounted() {
+		this.$axios({
+			method: "get",
+			url: "/file/get"
+		}).then(res => {
+			this.fileList = res.data.files;
+		});
+	},
 	methods: {
 		dialogClose(done) {
 			this.$emit("visible", false);
@@ -74,12 +73,19 @@ export default {
 				target = target.parentNode;
 			}
 		},
-		beforeAvatarUpload() {
+		beforeAvatarUpload(file) {
 			const isLt2M = file.size / 1024 / 1024 < 2;
 			if (!isLt2M) {
 				this.$message.error("上传文件大小不能超过 2MB!");
 			}
 			return isLt2M;
+		},
+		uploadEV(res, file, fileList) {
+			this.fileList.push(res);
+			this.$message({
+				type: "success",
+				message: "上传成功!"
+			});
 		}
 	}
 };

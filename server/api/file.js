@@ -30,12 +30,12 @@ router.post("/delete", async ctx => {
 	};
 });
 
-router.get("/modify", async ctx => {
-	let oldPath = ctx.request.body.oldPath,
-		newPath = ctx.request.body.newPath,
-		message = null;
-	message = await fileMethod.rename(oldPath, newPath);
-	ctx.body = { result: message };
-});
+// router.get("/modify", async ctx => {
+// 	let oldPath = ctx.request.body.oldPath,
+// 		newPath = ctx.request.body.newPath,
+// 		message = null;
+// 	message = await fileMethod.rename(oldPath, newPath);
+// 	ctx.body = { result: message };
+// });
 
 module.exports = router;

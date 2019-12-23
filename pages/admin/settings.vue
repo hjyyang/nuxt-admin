@@ -11,7 +11,7 @@
 							<el-input v-model="formData.region"></el-input>
 						</el-form-item>
 						<el-form-item label="Logo">
-							<el-input v-model="formData.logo"></el-input>
+							<el-input v-model="formData.logo" clearable></el-input>
 							<div class="pic" @click="mediaDialogVisible = true">
 								<i class="el-icon-plus"></i>
 								<div class="pic_wrap">
