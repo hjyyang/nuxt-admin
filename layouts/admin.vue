@@ -93,6 +93,7 @@
 <script>
 import Header from "~/components/header.vue";
 export default {
+	middleware: "auth",
 	components: {
 		Header
 	},
@@ -110,8 +111,8 @@ export default {
 				this.menuShow = false;
 			}
 		}
-    },
-    beforeDestroy: function() {
+	},
+	beforeDestroy: function() {
 		document.getElementsByTagName("body")[0].classList.remove("admin");
 	},
 	methods: {

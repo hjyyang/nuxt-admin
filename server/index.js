@@ -4,6 +4,11 @@ const { Nuxt, Builder } = require("nuxt");
 //------------引入bodyParser  -----------------
 const bodyParser = require("koa-bodyparser");
 
+//------------引入koa-jwt做路由鉴权-----------------
+const jwt = require("koa-jwt");
+//鉴权密钥，需要与发放到token密钥一致
+const SECRET = "this is my secret";
+
 //------------引入接口 start-----------------
 const file = require("./api/file");
 const user = require("./api/user");
@@ -35,17 +40,28 @@ async function start() {
 		await nuxt.ready();
 	}
 
+	app.use((ctx, next) => {
+		if (ctx.url.match(/^\/api/) || ctx.url.match(/^\/file/)) {
+			//路由判断是否以/api或/file开头到url，是则去往下一个jwt中间件，否则直接输入内容
+			return next();
+		} else {
+			ctx.status = 200;
+			ctx.respond = false; // Bypass Koa's built-in response handling
+			ctx.req.ctx = ctx; // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
+			nuxt.render(ctx.req, ctx.res);
+		}
+	});
+	//使用路由鉴权中间件，判断请求到路由是否需要鉴权
+	app.use(
+		jwt({ secret: SECRET }).unless({
+			path: [/^\/api\/login/, /^\/api\/register/]
+		})
+	);
+
 	//------------使用接口url start-----------------
 	app.use(file.routes()).use(file.allowedMethods());
 	app.use(user.routes()).use(user.allowedMethods());
 	//------------使用接口url end-----------------
-
-	app.use(ctx => {
-		ctx.status = 200;
-		ctx.respond = false; // Bypass Koa's built-in response handling
-		ctx.req.ctx = ctx; // This might be useful later on, e.g. in nuxtServerInit or with nuxt-stash
-		nuxt.render(ctx.req, ctx.res);
-	});
 
 	app.listen(port, host);
 	consola.ready({

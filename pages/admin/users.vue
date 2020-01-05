@@ -74,15 +74,6 @@ export default {
 	},
 	mounted() {
 		this.getUsers(1);
-		// this.$axios({
-		// 	method: "post",
-		// 	url: "/api/addUser",
-		// 	data: {
-        //         user_name: 'jon',
-        //         password: '123456',
-        //         email: '123456789@163.com'
-		// 	}
-		// });
 	},
 	methods: {
 		getUsers(page) {
@@ -92,15 +83,16 @@ export default {
 				data: {
 					page: page
 				}
-			}).then(res => {
-				res.data.users.forEach(item => {
-					item.show = false;
-				});
-				this.usersdata = {
-					count: res.data.count,
-					users: res.data.users
-				};
-			});
+			})
+				.then(res => {
+					res.data.users.forEach(item => {
+						item.show = false;
+					});
+					this.usersdata = {
+						count: res.data.count,
+						users: res.data.users
+					};
+				})
 		},
 		handleCurrentChange(val) {
 			this.getUsers(val);

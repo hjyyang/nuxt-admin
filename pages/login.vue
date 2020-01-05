@@ -10,7 +10,13 @@
 						<el-input v-model="loginForm.userName" placeholder="Name"></el-input>
 					</el-form-item>
 					<el-form-item prop="pass">
-						<el-input type="password" v-model="loginForm.pass" show-password placeholder="Password" autocomplete="off"></el-input>
+						<el-input
+							type="password"
+							v-model="loginForm.pass"
+							show-password
+							placeholder="Password"
+							autocomplete="off"
+						></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button @click="submitForm('loginForm')" type="primary">登入</el-button>
@@ -54,11 +60,23 @@ export default {
 		submitForm(formName) {
 			this.$refs[formName].validate(valid => {
 				if (valid) {
-					alert("submit!");
+					this.login();
 				} else {
 					console.log("error submit!!");
 					return false;
 				}
+			});
+		},
+		login() {
+			this.$axios({
+				method: "post",
+				url: "/api/login",
+				data: {
+					user_name: this.loginForm.userName,
+					password: this.loginForm.pass
+				}
+			}).then(res => {
+				console.log(res.data);
 			});
 		}
 	}
