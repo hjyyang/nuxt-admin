@@ -129,6 +129,7 @@ router.post("/login", async ctx => {
 		result = null;
 	if (!user_name || !password) {
 		return (ctx.body = {
+			result: false,
 			status: 10000,
 			message: "用户名或密码不能为空！"
 		});
@@ -141,13 +142,35 @@ router.post("/login", async ctx => {
 	});
 	if (!result) {
 		return (ctx.body = {
+			result: false,
 			status: 10000,
 			message: "用户名或密码错误！"
 		});
 	}
+	ctx.session.authUser = {
+		result: true,
+		id: result.dataValues.id,
+		userName: result.dataValues.name,
+		email: result.dataValues.email,
+		role: result.dataValues.role,
+		token: jsonwebtoken.sign(
+			{
+				id: result.dataValues.id,
+				userName: result.dataValues.name,
+				email: result.dataValues.email,
+				role: result.dataValues.role
+			},
+			SECRET,
+			{ expiresIn: "1h" }
+		)
+	}
 
 	ctx.body = {
 		result: true,
+		id: result.dataValues.id,
+		userName: result.dataValues.name,
+		email: result.dataValues.email,
+		role: result.dataValues.role,
 		token: jsonwebtoken.sign(
 			{
 				id: result.dataValues.id,
@@ -161,6 +184,6 @@ router.post("/login", async ctx => {
 	};
 });
 
-router.post("/logout", async ctx => {});
+router.post("/logout", async ctx => { });
 
 module.exports = router;
