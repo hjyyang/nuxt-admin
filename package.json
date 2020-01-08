@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.5.4",
+    "cookieparser": "^0.1.0",
     "cross-env": "^5.2.0",
     "echarts": "^4.3.0",
     "element-ui": "^2.4.11",
@@ -22,7 +23,6 @@
     "koa-jwt": "^3.6.0",
     "koa-multer": "^1.0.2",
     "koa-router": "^7.4.0",
-    "koa-session": "^5.12.3",
     "mavon-editor": "^2.7.5",
     "md5-node": "^1.0.1",
     "mysql2": "^2.0.2",

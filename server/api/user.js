@@ -126,7 +126,8 @@ router.post("/register", async ctx => {
 router.post("/login", async ctx => {
 	let user_name = ctx.request.body.user_name,
 		password = ctx.request.body.password,
-		result = null;
+		result = null,
+		token = "";
 	if (!user_name || !password) {
 		return (ctx.body = {
 			result: false,
@@ -147,23 +148,27 @@ router.post("/login", async ctx => {
 			message: "用户名或密码错误！"
 		});
 	}
-	ctx.session.authUser = {
-		result: true,
-		id: result.dataValues.id,
-		userName: result.dataValues.name,
-		email: result.dataValues.email,
-		role: result.dataValues.role,
-		token: jsonwebtoken.sign(
-			{
-				id: result.dataValues.id,
-				userName: result.dataValues.name,
-				email: result.dataValues.email,
-				role: result.dataValues.role
-			},
-			SECRET,
-			{ expiresIn: "1h" }
-		)
-	}
+
+	//生成令牌
+	token = jsonwebtoken.sign(
+		{
+			id: result.dataValues.id,
+			userName: result.dataValues.name,
+			email: result.dataValues.email,
+			role: result.dataValues.role
+		},
+		SECRET,
+		{ expiresIn: new Date().getTime() + 6000 * 30 + "" } //半个小时
+	);
+
+	try {
+		ctx.cookies.set("authUser", JSON.stringify(token), {
+			maxAge: 1000 * 60 * 60 * 24,
+			overwrite: true
+		});
+	} catch (err) {
+        console.log(err)
+    }
 
 	ctx.body = {
 		result: true,
@@ -171,19 +176,10 @@ router.post("/login", async ctx => {
 		userName: result.dataValues.name,
 		email: result.dataValues.email,
 		role: result.dataValues.role,
-		token: jsonwebtoken.sign(
-			{
-				id: result.dataValues.id,
-				userName: result.dataValues.name,
-				email: result.dataValues.email,
-				role: result.dataValues.role
-			},
-			SECRET,
-			{ expiresIn: "1h" }
-		)
+		token: token
 	};
 });
 
-router.post("/logout", async ctx => { });
+router.post("/logout", async ctx => {});
 
 module.exports = router;

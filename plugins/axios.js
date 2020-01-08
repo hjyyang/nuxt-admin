@@ -14,7 +14,7 @@ function endLoading() {
 	loading.close();
 }
 
-export default function (app) {
+export default function(app) {
 	let axios = app.$axios;
 	//设置axios请求拦截器
 	// app.$axios.interceptors.request.use(config => {
@@ -28,10 +28,11 @@ export default function (app) {
 	//此处写法功能与下面到效果一致
 
 	axios.onRequest(config => {
+        // console.log('请求拦截')
 		if (app.store.state.authUser) {
-			config.headers.authorization = "Bearer " + app.store.state.authUser.token;
+			config.headers.authorization =
+				"Bearer " + app.store.state.authUser.token;
 		}
-		console.log(config)
 		if (process.browser) {
 			//判断是否为客户端（必须）
 			startLoading();

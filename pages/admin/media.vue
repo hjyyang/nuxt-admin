@@ -5,6 +5,7 @@
 				class="upload"
 				drag
 				action="/file/upload"
+				:headers="uploadHeaders"
 				:file-list="fileList"
 				multiple
 				:show-file-list="false"
@@ -46,8 +47,11 @@ export default {
 	data() {
 		return {
 			fileList: [],
+			//element的file-list属性是只读读，如果改变它读值，在同时上传多个文件时会报错
+			showFileList: [],
 			fileDialogVisible: false,
-			filedialogImageUrl: {}
+			filedialogImageUrl: {},
+            uploadHeaders: {}
 		};
 	},
 	async asyncData(app) {
@@ -58,11 +62,15 @@ export default {
 			})
 			.then(res => {
 				return {
-					fileList: res.data.files
+					fileList: res.data.files,
+					showFileList: res.data.files
 				};
 			});
 	},
-	mounted() {},
+	mounted() {
+		this.uploadHeaders.authorization =
+			"Bearer " + this.$store.state.authUser.token;
+	},
 	methods: {
 		fileEv(e) {
 			let ev = ev || window.event,
@@ -119,8 +127,9 @@ export default {
 			return isLt2M;
 		},
 		uploadEV(res, file, fileList) {
-            this.fileList.push(res);
-		}
+            console.log(fileList)
+			// this.showFileList.push(res);
+        }
 	}
 };
 </script>
