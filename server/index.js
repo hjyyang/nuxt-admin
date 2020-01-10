@@ -6,8 +6,8 @@ const bodyParser = require("koa-bodyparser");
 
 //------------引入koa-jwt做路由鉴权-----------------
 const jwt = require("koa-jwt");
-//鉴权密钥，需要与发放到token密钥一致
-const SECRET = "this is my secret";
+const jsonwebtoken = require("jsonwebtoken");
+const tokenOp = require("./common/token");
 
 //------------引入接口 start-----------------
 const file = require("./api/file");
@@ -41,13 +41,57 @@ async function start() {
 	}
 
 	app.use((ctx, next) => {
-		console.log(ctx.cookies.get('authUser'));
-		return next();
-	});
-
-	app.use((ctx, next) => {
+		if (
+			ctx.url.match(/^\/api\/login/) ||
+			ctx.url.match(/^\/api\/register/)
+		) {
+			return next();
+		}
 		if (ctx.url.match(/^\/api/) || ctx.url.match(/^\/file/)) {
-			//路由判断是否以/api或/file开头到url，是则去往下一个jwt中间件，否则直接输入内容
+			//路由判断是否以/api或/file开头的url，是则进行鉴权，否则直接输入内容
+			let authorization = ctx.headers.authorization,
+				token;
+			if (ctx.headers) {
+				if (!authorization) {
+					ctx.status = 401;
+					return (ctx.body = "Bad permissions");
+				}
+				token = authorization.split(" ")[1];
+				try {
+					let decoded = jsonwebtoken.verify(token, tokenOp.secret),
+						refresh = tokenOp.refreshFc(decoded);
+					if (refresh) {
+						//在刷新时间范围内请求则刷新令牌
+						try {
+							let newToken = jsonwebtoken.sign(
+								{
+									id: decoded.id,
+									userName: decoded.userName,
+									email: decoded.email,
+									role: decoded.role
+								},
+								tokenOp.secret,
+								{
+									expiresIn: tokenOp.validTime + ""
+								}
+							);
+							ctx.cookies.set(
+								"authUser",
+								JSON.stringify(newToken),
+								{
+									maxAge: tokenOp.validTime,
+									overwrite: true
+								}
+							);
+						} catch (err) {
+							console.log(err);
+						}
+					}
+				} catch (err) {
+					ctx.status = 401;
+					return (ctx.body = "Bad permissions");
+				}
+			}
 			return next();
 		} else {
 			ctx.status = 200;
@@ -56,12 +100,6 @@ async function start() {
 			nuxt.render(ctx.req, ctx.res);
 		}
 	});
-	//使用路由鉴权中间件，判断请求到路由是否需要鉴权
-	app.use(
-		jwt({ secret: SECRET }).unless({
-			path: [/^\/api\/login/, /^\/api\/register/]
-		})
-	);
 
 	//------------使用接口url start-----------------
 	app.use(file.routes()).use(file.allowedMethods());

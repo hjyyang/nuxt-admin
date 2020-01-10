@@ -4,8 +4,7 @@ const md5 = require("md5-node");
 const validator = require("validator");
 //引入jsonwebtoken发放令牌
 const jsonwebtoken = require("jsonwebtoken");
-//发放token密钥，需要与鉴权密钥一致
-const SECRET = "this is my secret";
+const tokenOp = require("../common/token");
 
 const router = new Router({
 	prefix: "/api"
@@ -157,18 +156,20 @@ router.post("/login", async ctx => {
 			email: result.dataValues.email,
 			role: result.dataValues.role
 		},
-		SECRET,
-		{ expiresIn: new Date().getTime() + 6000 * 30 + "" } //半个小时
+		tokenOp.secret,
+		{ expiresIn: tokenOp.validTime + "" }
 	);
 
 	try {
-		ctx.cookies.set("authUser", JSON.stringify(token), {
-			maxAge: 1000 * 60 * 60 * 24,
-			overwrite: true
-		});
+		if (ctx.cookies) {
+			ctx.cookies.set("authUser", JSON.stringify(token), {
+				maxAge: tokenOp.validTime,
+				overwrite: true
+			});
+		}
 	} catch (err) {
-        console.log(err)
-    }
+		console.log(err);
+	}
 
 	ctx.body = {
 		result: true,
