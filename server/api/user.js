@@ -181,6 +181,15 @@ router.post("/login", async ctx => {
 	};
 });
 
-router.post("/logout", async ctx => {});
+router.post("/logout", async ctx => {
+	ctx.cookies.set("authUser", "", {
+		maxAge: 0,
+		overwrite: true
+	});
+	ctx.body = {
+		result: true,
+		message: "已注销！"
+	};
+});
 
 module.exports = router;

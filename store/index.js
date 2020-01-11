@@ -21,8 +21,8 @@ export const actions = {
 				"base64"
 			).toString();
 			try {
-                auth = JSON.parse(auth);
-                auth.token = parsed.authUser;
+				auth = JSON.parse(auth);
+				auth.token = parsed.authUser;
 				// console.log(auth);
 				commit("SET_USER", auth);
 			} catch (err) {
@@ -49,7 +49,9 @@ export const actions = {
 	},
 
 	async logout({ commit }) {
-		await this.$axios.post("/api/logout");
-		commit("SET_USER", null);
+		let res = await this.$axios.post("/api/logout");
+		if (res.data.result) {
+			commit("SET_USER", null);
+		}
 	}
 };

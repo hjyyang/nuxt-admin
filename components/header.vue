@@ -51,10 +51,15 @@
 						<i class="iconfont icon-user1"></i>
 					</div>
 					<el-dropdown-menu slot="dropdown" class="app_dropdown">
-						<el-dropdown-item command="/admin">后台管理</el-dropdown-item>
-						<!-- <el-dropdown-item command="/user">我的主页</el-dropdown-item> -->
-						<el-dropdown-item command="/login">Log In</el-dropdown-item>
-						<!-- <el-dropdown-item command="logout">注销</el-dropdown-item> -->
+						<el-dropdown-item
+							command="/admin"
+							v-if="($store.state.authUser && $store.state.authUser.role === 2)"
+						>后台管理</el-dropdown-item>
+						<template v-if="$store.state.authUser">
+							<el-dropdown-item command="/aboutMe">我的主页</el-dropdown-item>
+							<el-dropdown-item command="logout">注销</el-dropdown-item>
+						</template>
+						<el-dropdown-item command="/login" v-else>登录</el-dropdown-item>
 					</el-dropdown-menu>
 				</el-dropdown>
 			</div>
@@ -183,7 +188,7 @@ export default {
 					type: "warning"
 				})
 					.then(() => {
-						console.log(123);
+						this.$store.dispatch("logout");
 					})
 					.catch(() => {});
 			} else {
