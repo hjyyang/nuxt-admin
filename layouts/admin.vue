@@ -17,11 +17,11 @@
 								<img src="http://via.placeholder.com/32x32" alt />
 							</div>
 							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item command="/admin">后台管理</el-dropdown-item>
-								<!-- <el-dropdown-item command="/user">我的主页</el-dropdown-item> -->
-								<el-dropdown-item command="/login" divided>注册</el-dropdown-item>
-								<el-dropdown-item command="/login">登录</el-dropdown-item>
-								<el-dropdown-item command="logout">注销</el-dropdown-item>
+								<template v-if="$store.state.authUser">
+									<el-dropdown-item command="/aboutMe">我的主页</el-dropdown-item>
+									<el-dropdown-item command="logout">注销</el-dropdown-item>
+								</template>
+								<el-dropdown-item command="/login" v-else>登录</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
 					</nav>

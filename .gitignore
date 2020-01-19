@@ -91,4 +91,4 @@ sw.*
 *.swp
 
 # upload directories
-./static/upload/
+static/upload/

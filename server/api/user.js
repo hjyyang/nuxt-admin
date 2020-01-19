@@ -36,11 +36,22 @@ router.post("/findAllUser", async ctx => {
 });
 
 router.post("/updateUser", async ctx => {
-	let user_id = ctx.request.body.user_id,
-		name = ctx.request.body.name,
-		email = ctx.request.body.email,
-		WeChat = ctx.request.body.WeChat,
-		role = ctx.request.body.role;
+	let { user_id, name, email, WeChat, role } = ctx.request.body;
+	console.log(user_id, name, email, WeChat, role);
+	if (!user_id) {
+		return (ctx.body = {
+			status: 10001,
+			message: "请输入正确字段或值！"
+		});
+	}
+	// await User.update(
+	// 	{ lastName: "Doe" },
+	// 	{
+	// 		where: {
+	// 			lastName: null
+	// 		}
+	// 	}
+	// );
 
 	ctx.body = {
 		result: true
