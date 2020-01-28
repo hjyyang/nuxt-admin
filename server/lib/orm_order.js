@@ -1,7 +1,7 @@
 const Sequelize = require("sequelize");
 const config = require("./config");
 
-var sequelize = new Sequelize(
+let sequelize = new Sequelize(
 	config.database,
 	config.username,
 	config.password,
@@ -17,10 +17,10 @@ var sequelize = new Sequelize(
 	}
 );
 
-var dataTables = {};
+let dataTables = {};
 dataTables.mySequelize = sequelize;
 
-var User = sequelize.define(
+let User = sequelize.define(
 	"user",
 	{
 		//user是表名，会在后面自动加上s（users）
@@ -52,30 +52,52 @@ var User = sequelize.define(
 
 dataTables.User = User;
 
-var Post = sequelize.define(
+let Post = sequelize.define(
 	"post",
 	{
 		id: {
-			type: Sequelize.INTEGER(10),
+			type: Sequelize.BIGINT(20),
 			primaryKey: true,
 			autoIncrement: true
+		},
+		post_author: {
+			type: Sequelize.BIGINT(20),
+			defaultValue: 1
 		},
 		post_title: {
 			type: Sequelize.STRING,
 			defaultValue: "not title"
 		},
 		post_content: {
-            type: Sequelize.TEXT
-        },
+			type: Sequelize.TEXT
+		},
 		post_describe: {
-            type: Sequelize.STRING
-        },
+			type: Sequelize.STRING
+		},
 		publish_date: {
-            type: Sequelize.DATE
-        },
+			type: Sequelize.DATE
+		},
 		modification_date: {
-            type: Sequelize.DATE
-        }
+			type: Sequelize.DATE
+		},
+		post_status: {
+			type: Sequelize.INTEGER(10)
+		},
+		like_count: {
+			type: Sequelize.INTEGER(20)
+		},
+		pv: {
+			type: Sequelize.INTEGER(20)
+		},
+		feature_image: {
+			type: Sequelize.STRING
+		},
+		comment_count: {
+			type: Sequelize.BIGINT(20)
+		},
+		comment_status: {
+			type: Sequelize.STRING(20)
+		}
 	},
 	{
 		timestamps: false
@@ -83,5 +105,30 @@ var Post = sequelize.define(
 );
 
 dataTables.Post = Post;
+
+let Relationship = sequelize.define(
+	"term_relationship",
+	{
+		object_id: {
+			type: Sequelize.BIGINT,
+			defaultValue: 0,
+			primaryKey: true
+		},
+		term_taxonomy_id: {
+			type: Sequelize.BIGINT,
+			defaultValue: 0,
+			primaryKey: true
+		},
+		term_order: {
+			type: Sequelize.INTEGER,
+			defaultValue: 0
+		}
+	},
+	{
+		timestamps: false
+	}
+);
+
+dataTables.Relationship = Relationship;
 
 module.exports = dataTables;
