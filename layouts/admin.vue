@@ -2,7 +2,7 @@
 	<div class="admin_layout">
 		<header class="admin_header is_fixed">
 			<div class="page_header">
-				<div class="container">
+				<div class="bigContainer">
 					<div class="ment_show" @click="menuShow = !menuShow" v-if="mobile">
 						<i class="iconfont icon-caidan"></i>
 					</div>
@@ -152,7 +152,7 @@ export default {
 			background-clip: content-box;
 		}
 	}
-	.container {
+	.bigContainer {
 		display: flex;
 		align-items: center;
 		width: 100%;

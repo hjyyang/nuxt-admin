@@ -107,7 +107,7 @@ let Post = sequelize.define(
 dataTables.Post = Post;
 
 let Relationship = sequelize.define(
-	"term_relationship",
+	"term_relationships",
 	{
 		object_id: {
 			type: Sequelize.BIGINT,
@@ -125,10 +125,39 @@ let Relationship = sequelize.define(
 		}
 	},
 	{
-		timestamps: false
+		timestamps: false,
+		freezeTableName: true
 	}
 );
 
 dataTables.Relationship = Relationship;
+
+let Category = sequelize.define(
+	"category",
+	{
+		id: {
+			type: Sequelize.BIGINT,
+			autoIncrement: true,
+			primaryKey: true
+		},
+		name: {
+			type: Sequelize.STRING(200),
+			defaultValue: ""
+		},
+		slug: {
+			type: Sequelize.STRING(200),
+			defaultValue: ""
+		}
+	},
+	{
+		timestamps: false,
+		freezeTableName: true
+	}
+);
+dataTables.Category = Category;
+
+Category.hasOne(Relationship, { foreignKey: "term_taxonomy_id" });
+//belongsTo 是根据Category的外键作为条件去查询Relationship的主键。
+//hasOne是指定Relationship的字段作为外键条件去查询Category的主键，即Relationship表的term_taxonomy_id字段等于Category表的主键（id。
 
 module.exports = dataTables;

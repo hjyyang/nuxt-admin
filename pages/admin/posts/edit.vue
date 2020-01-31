@@ -8,8 +8,8 @@
 				<input type="text" placeholder="输入文章标题..." v-model="postData.postTitle" />
 			</div>
 			<div class="status_text">
-				文章自动保存到
-				<nuxt-link to title="最近保存于 2019/8/27 下午9:53:20">草稿</nuxt-link>
+				{{saveStatus ? "保存中..." : "文章自动保存到"}}
+				<nuxt-link to v-show="!saveStatus" title="最近保存于 2019/8/27 下午9:53:20">草稿</nuxt-link>
 			</div>
 			<div class="cover_img_btn">
 				<el-popover
@@ -123,6 +123,7 @@ export default {
 			mediaDialogVisible: false,
 			postData: {
 				//文章编辑数据
+				postId: null,
 				coverImg: "",
 				categoryList: [
 					{
@@ -175,10 +176,14 @@ export default {
 				preview: true,
 				navigation: false,
 				imagelink: true
-			}
+			},
+			delay: null,
+			saveStatus: false
 		};
 	},
 	mounted() {
+		this.postData.postId = this.$route.query.id;
+		this.getCurrentPost();
 		if (window) {
 			if (window.outerWidth <= 768) {
 				this.toolbarsOption.preview = false;
@@ -260,9 +265,26 @@ export default {
 			this.categoryInputVisible = false;
 			this.postData.newCategoryValue = "";
 		},
-		postContentChange() {
-            //文章内容变化事件
-            console.log(this.$refs.md.d_render)
+		postContentChange(con) {
+			//文章内容变化事件
+			// console.log(this.$refs.md.d_render);
+			window.clearInterval(this.delay);
+			this.delay = setTimeout(() => {
+				this.saveChane();
+			}, 3000);
+		},
+		saveChane() {
+			this.saveStatus = true;
+		},
+		async getCurrentPost() {
+			let res = await this.$axios({
+				method: "post",
+				url: "/api/findPost",
+				data: {
+					postId: this.postData.postId
+				}
+			});
+			console.log(res);
 		}
 	}
 };
