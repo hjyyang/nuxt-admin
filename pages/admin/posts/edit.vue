@@ -54,7 +54,7 @@
 			<el-button type="primary" class="publish_btn">确定并发布</el-button>
 			<div class="category_wrap">
 				<h4>分类</h4>
-				<el-radio-group v-model="postData.currentCategory" size="small">
+				<el-radio-group v-model="postData.currentCategory[0]" size="small">
 					<el-radio
 						:label="item.cValue"
 						v-for="(item,index) in postData.categoryList"
@@ -125,17 +125,8 @@ export default {
 				//文章编辑数据
 				postId: null,
 				coverImg: "",
-				categoryList: [
-					{
-						cName: "unclassified",
-						cValue: 0
-					},
-					{
-						cName: "javascript",
-						cValue: 1
-					}
-				],
-				currentCategory: 0,
+				categoryList: [],
+				currentCategory: [0],
 				newCategoryValue: "",
 				postTags: [
 					{
@@ -149,10 +140,12 @@ export default {
 						selected: false
 					}
 				],
-				NewTagValue: "",
-				postTitle: "",
-				editContent: "",
-				postDescribe: ""
+				NewTagValue: "", //新增标签值
+				postTitle: "", //文章标题
+				editContent: "", //文章内容
+				postDescribe: "", //文章描述
+				postStatus: 0, //文章状态，0为草稿，1为发布
+				commentStatus: false //评论是否开启
 			},
 			whoClick: "",
 			drawerVisible: false,
@@ -183,7 +176,9 @@ export default {
 	},
 	mounted() {
 		this.postData.postId = this.$route.query.id;
-		this.getCurrentPost();
+		if (this.postData.postId) {
+			this.getCurrentPost();
+		}
 		if (window) {
 			if (window.outerWidth <= 768) {
 				this.toolbarsOption.preview = false;
@@ -270,11 +265,29 @@ export default {
 			// console.log(this.$refs.md.d_render);
 			window.clearInterval(this.delay);
 			this.delay = setTimeout(() => {
-				this.saveChane();
+				// this.saveChane();
 			}, 3000);
 		},
-		saveChane() {
-			this.saveStatus = true;
+		async saveChane() {
+			let res = await this.$axios({
+				method: "post",
+				url: "/api/addAndUploadPost",
+				data: {
+					id: this.postData.postId,
+					author: this.$store.state.authUser.id,
+					title: this.postData.postTitle,
+					content: this.postData.editContent,
+					describe: this.postData.postDescribe,
+					category: this.postData.categoryList,
+					status: this.postData.postStatus,
+					featureImage: this.postData.coverImg,
+					commentStatus: this.postData.commentStatus
+						? "open"
+						: "close",
+					categoryUpload: this.postData.categoryUpload
+				}
+			});
+			console.log(res);
 		},
 		async getCurrentPost() {
 			let res = await this.$axios({
@@ -284,7 +297,34 @@ export default {
 					postId: this.postData.postId
 				}
 			});
-			console.log(res);
+			this.postData.coverImg = res.data.post.coverImg;
+			this.postData.postTitle = res.data.post.postTitle;
+			this.postData.editContent =
+				res.data.post.editContent === null
+					? ""
+					: res.data.post.editContent;
+			this.postData.postDescribe = res.data.post.postDescribe;
+			this.postData.commentStatus = res.data.post.commentStatus;
+			this.postData.postStatus = res.data.post.postStatus;
+			this.postData.currentCategory.length = 0;
+
+			let interimObj = {}; //新增临时对象用于去重
+			for (let i in res.data.category) {
+				if (
+					res.data.category[i].term_relationship !== null &&
+					res.data.category[i].term_relationship.postId ===
+						parseInt(this.postData.postId)
+				) {
+					this.postData.currentCategory.push(
+						res.data.category[i].cValue
+					);
+				}
+				if (!interimObj[res.data.category[i].cValue]) {
+					//如果对象中找不到当前数组元素的值则将改值存进临时对象与去重后的数组中
+					interimObj[res.data.category[i].cValue] = 1;
+					this.postData.categoryList.push(res.data.category[i]);
+				}
+			}
 		}
 	}
 };

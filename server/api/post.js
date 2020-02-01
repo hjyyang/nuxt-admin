@@ -142,9 +142,24 @@ router.post("/addAndUploadPost", async ctx => {
 router.post("/findPost", async ctx => {
 	let { postId } = ctx.request.body,
 		findRes = null,
-		category = null,
-		categoryList = [];
+		category = null;
+	if (!postId) {
+		return (ctx.body = {
+			code: 10004,
+			message: "请输入正确字段或值！"
+		});
+	}
 	findRes = await Post.findOne({
+		attributes: [
+			["id", "postId"],
+			["post_author", "author"],
+			["post_title", "postTitle"],
+			["post_content", "editContent"],
+			["post_describe", "postDescribe"],
+			["feature_image", "coverImg"],
+			["post_status", "postStatus"],
+			["comment_status", "commentStatus"]
+		],
 		where: {
 			id: postId
 		}
@@ -157,12 +172,10 @@ router.post("/findPost", async ctx => {
 		include: [
 			{
 				model: Relationship,
-				where: {
-					object_id: postId
-				},
-				attributes: {
-					exclude: ["object_id", "term_taxonomy_id", "term_order"]
-				}
+				// where: {
+				// 	object_id: postId
+				// },
+				attributes: [["object_id", "postId"]]
 			}
 		]
 	});
