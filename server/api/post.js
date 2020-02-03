@@ -3,8 +3,12 @@ const {
 	Post,
 	mySequelize,
 	Relationship,
-	Category
+	Category,
+	Tag
 } = require("../lib/orm_order");
+
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 const router = new Router({
 	prefix: "/api"
@@ -37,13 +41,20 @@ router.post("/addAndUploadPost", async ctx => {
 			content,
 			describe,
 			category,
-			categoryUpload,
+			categoryUpdate,
 			status,
 			featureImage,
 			commentStatus
 		} = ctx.request.body,
 		relationshipArr = [],
 		postId = null;
+	if (id && isNaN(parseInt(id))) {
+		//id非数字类型时
+		return (ctx.body = {
+			result: false,
+			message: "请输入正确的字段值！"
+		});
+	}
 
 	if (!id) {
 		//不存在id则插入数据
@@ -53,7 +64,7 @@ router.post("/addAndUploadPost", async ctx => {
 				let resCre = await findOrCreate(
 					{
 						author: author,
-						title: titl,
+						title: titl ? titl : "not titile",
 						content: content,
 						describe: describe,
 						status: status,
@@ -81,14 +92,34 @@ router.post("/addAndUploadPost", async ctx => {
 					transaction: t
 				});
 			}
-		});
-		return (ctx.body = {
-			result: true,
-			id: postId
+			return (ctx.body = {
+				result: true,
+				id: postId,
+				postTitle: postRes[0].dataValues.post_title
+			});
 		});
 	} else {
 		//存在id则修改post内容
 		await mySequelize.transaction(async t => {
+			async function titleFcn(titl) {
+				//递归函数，递归查询是否文章标题重复，更新不重复的标题
+				let findRes = await Post.findOne({
+					where: {
+						post_title: titl,
+						id: {
+							[Op.ne]: id
+						}
+					}
+				});
+				if (findRes) {
+					title = titl + "(新)";
+					return await titleFcn(title);
+				} else {
+					return true;
+				}
+			}
+			await titleFcn(title);
+
 			let res = await Post.update(
 				{
 					post_author: author,
@@ -113,7 +144,7 @@ router.post("/addAndUploadPost", async ctx => {
 					message: "不存在该文章！"
 				});
 			}
-			if (categoryUpload) {
+			if (categoryUpdate) {
 				//分类有更新
 				await Relationship.destroy({
 					where: {
@@ -133,7 +164,8 @@ router.post("/addAndUploadPost", async ctx => {
 				}
 			}
 			return (ctx.body = {
-				result: true
+				result: true,
+				postTitle: title
 			});
 		});
 	}
@@ -143,27 +175,23 @@ router.post("/findPost", async ctx => {
 	let { postId } = ctx.request.body,
 		findRes = null,
 		category = null;
-	if (!postId) {
-		return (ctx.body = {
-			code: 10004,
-			message: "请输入正确字段或值！"
+	if (postId) {
+		findRes = await Post.findOne({
+			attributes: [
+				["id", "postId"],
+				["post_author", "author"],
+				["post_title", "postTitle"],
+				["post_content", "editContent"],
+				["post_describe", "postDescribe"],
+				["feature_image", "coverImg"],
+				["post_status", "postStatus"],
+				["comment_status", "commentStatus"]
+			],
+			where: {
+				id: postId
+			}
 		});
 	}
-	findRes = await Post.findOne({
-		attributes: [
-			["id", "postId"],
-			["post_author", "author"],
-			["post_title", "postTitle"],
-			["post_content", "editContent"],
-			["post_describe", "postDescribe"],
-			["feature_image", "coverImg"],
-			["post_status", "postStatus"],
-			["comment_status", "commentStatus"]
-		],
-		where: {
-			id: postId
-		}
-	});
 	category = await Category.findAll({
 		attributes: [
 			["name", "cName"],
@@ -180,11 +208,22 @@ router.post("/findPost", async ctx => {
 		]
 	});
 
+	if (findRes === null) {
+		//无结果只返回分类查询数据
+		return (ctx.body = {
+			result: true,
+			category: category
+		});
+	}
 	ctx.body = {
 		result: true,
 		post: findRes,
 		category: category
 	};
+});
+
+router.post("/findAllPost", async ctx => {
+	return (ctx.body = {});
 });
 
 module.exports = router;

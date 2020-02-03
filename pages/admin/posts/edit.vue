@@ -1,5 +1,5 @@
 <template>
-	<section class="edit">
+	<section class="edit" @keyup="saveChane">
 		<header>
 			<nuxt-link to="/admin/posts" class="go_back">
 				<i class="iconfont icon-fanhui"></i>
@@ -54,7 +54,7 @@
 			<el-button type="primary" class="publish_btn">确定并发布</el-button>
 			<div class="category_wrap">
 				<h4>分类</h4>
-				<el-radio-group v-model="postData.currentCategory[0]" size="small">
+				<el-radio-group v-model="postData.currentCategory[0]" size="small" @change="categoryChage">
 					<el-radio
 						:label="item.cValue"
 						v-for="(item,index) in postData.categoryList"
@@ -75,36 +75,23 @@
 					</div>
 				</div>
 			</div>
-			<div class="tag_wrap">
-				<h4>标签</h4>
-				<div class="tag_main">
-					<el-tag
-						:key="index"
-						:type="tag.selected ? 'success' : ''"
-						v-for="(tag,index) in postData.postTags"
-						:disable-transitions="false"
-						@click="selectTagEv(index)"
-					>{{tag.tagName}}</el-tag>
-					<el-button
-						v-if="!tagInputVisible"
-						class="button_new_tag"
-						size="small"
-						@click="showNewTagInput"
-					>+ 新增标签</el-button>
-					<el-input
-						class="input_new_tag"
-						v-else
-						v-model="postData.NewTagValue"
-						ref="saveTagInput"
-						size="small"
-						@keyup.enter.native="tagInputConfirm"
-						@blur="tagInputConfirm"
-					></el-input>
-				</div>
-			</div>
 			<div class="describe_wrap">
 				<h4>描述</h4>
-				<el-input type="textarea" :rows="4" placeholder="请输入内容" v-model="postData.postDescribe"></el-input>
+				<el-input
+					type="textarea"
+					:rows="4"
+					placeholder="请输入内容"
+					v-model="postData.postDescribe"
+					@blur="saveChane"
+				></el-input>
+			</div>
+			<div class="comment_status">
+				<h4>评论</h4>
+				<el-switch
+					v-model="postData.commentStatus"
+					@change="commentChage"
+					active-icon-class="el-icon-check"
+				></el-switch>&nbsp;开启评论
 			</div>
 		</el-drawer>
 	</section>
@@ -127,30 +114,18 @@ export default {
 				coverImg: "",
 				categoryList: [],
 				currentCategory: [0],
+				beforeCaregory: null,
 				newCategoryValue: "",
-				postTags: [
-					{
-						tagName: "js",
-						tagIndex: 0,
-						selected: true
-					},
-					{
-						tagName: "css",
-						tagIndex: 3,
-						selected: false
-					}
-				],
-				NewTagValue: "", //新增标签值
 				postTitle: "", //文章标题
 				editContent: "", //文章内容
 				postDescribe: "", //文章描述
 				postStatus: 0, //文章状态，0为草稿，1为发布
-				commentStatus: false //评论是否开启
+				commentStatus: false, //评论是否开启
+				categoryUpdate: false //是否有更新分类
 			},
 			whoClick: "",
 			drawerVisible: false,
 			categoryInputVisible: false,
-			tagInputVisible: false,
 			toolbarsOption: {
 				//富文本编辑器工具栏配置
 				bold: true,
@@ -176,9 +151,9 @@ export default {
 	},
 	mounted() {
 		this.postData.postId = this.$route.query.id;
-		if (this.postData.postId) {
-			this.getCurrentPost();
-		}
+		//获取文章数据
+		this.getCurrentPost();
+
 		if (window) {
 			if (window.outerWidth <= 768) {
 				this.toolbarsOption.preview = false;
@@ -206,6 +181,7 @@ export default {
 			}
 		});
 	},
+	destroyed() {},
 	methods: {
 		mediaDialogVisibleEv(e) {
 			//media组件控制显示隐藏
@@ -226,50 +202,55 @@ export default {
 			}
 			this.mediaDialogVisible = false;
 		},
+		//当前页面控制media组件显示隐藏
 		mediaDialogShowEv(s) {
-			//当前页面控制media组件显示隐藏
 			this.whoClick = s;
 			this.mediaDialogVisible = true;
 		},
-		selectTagEv(e) {
-			//标签选择
-			this.postData.postTags[e].selected = !this.postData.postTags[e]
-				.selected;
-		},
-		showNewTagInput() {
-			//显示tag添加input
-			this.tagInputVisible = true;
-			this.$nextTick(_ => {
-				this.$refs.saveTagInput.$refs.input.focus();
-			});
-		},
-		tagInputConfirm() {
-			//新增tag确认事件
-			this.tagInputVisible = false;
-			this.postData.NewTagValue = "";
-		},
+		//显示分类添加input框
 		showCategoryTagInput() {
-			//显示catgory添加input
 			this.categoryInputVisible = true;
 			this.$nextTick(_ => {
 				this.$refs.saveCategoryInput.$refs.input.focus();
 			});
 		},
+		//新增分类确认事件
 		categoryInputConfirm() {
-			//新增category确认事件
 			this.categoryInputVisible = false;
 			this.postData.newCategoryValue = "";
 		},
+		//分类选择事件
+		categoryChage() {
+			if (
+				this.postData.currentCategory[0] !==
+				this.postData.beforeCaregory
+			) {
+				this.postData.categoryUpdate = true;
+			} else {
+				this.postData.categoryUpdate = false;
+			}
+			this.saveChane();
+		},
+		//文章内容改变事件
 		postContentChange(con) {
 			//文章内容变化事件
 			// console.log(this.$refs.md.d_render);
+		},
+		//评论状态改变
+		commentChage() {
+			this.saveChane();
+		},
+		//保存更新事件
+		saveChane() {
+			this.saveStatus = true;
 			window.clearInterval(this.delay);
 			this.delay = setTimeout(() => {
-				// this.saveChane();
+				this.updatePostData();
 			}, 3000);
 		},
-		async saveChane() {
-			let res = await this.$axios({
+		//修改更新当前文章数据
+		updatePostData() {
+			this.$axios({
 				method: "post",
 				url: "/api/addAndUploadPost",
 				data: {
@@ -278,17 +259,35 @@ export default {
 					title: this.postData.postTitle,
 					content: this.postData.editContent,
 					describe: this.postData.postDescribe,
-					category: this.postData.categoryList,
+					category: this.postData.currentCategory,
 					status: this.postData.postStatus,
 					featureImage: this.postData.coverImg,
 					commentStatus: this.postData.commentStatus
 						? "open"
 						: "close",
-					categoryUpload: this.postData.categoryUpload
+					categoryUpdate: this.postData.categoryUpdate
 				}
-			});
-			console.log(res);
+			})
+				.then(res => {
+					if (res.data.id) {
+						this.$router.push({
+							query: {
+								id: res.data.id
+							}
+						});
+						this.postData.postId = res.data.id;
+					}
+					if (
+						res.data.postTitle &&
+						res.data.postTitle !== this.postData.title
+					) {
+						this.postData.postTitle = res.data.postTitle;
+					}
+					this.saveStatus = false;
+				})
+				.catch(err => {});
 		},
+		//获取当前文章数据
 		async getCurrentPost() {
 			let res = await this.$axios({
 				method: "post",
@@ -297,15 +296,18 @@ export default {
 					postId: this.postData.postId
 				}
 			});
-			this.postData.coverImg = res.data.post.coverImg;
-			this.postData.postTitle = res.data.post.postTitle;
-			this.postData.editContent =
-				res.data.post.editContent === null
-					? ""
-					: res.data.post.editContent;
-			this.postData.postDescribe = res.data.post.postDescribe;
-			this.postData.commentStatus = res.data.post.commentStatus;
-			this.postData.postStatus = res.data.post.postStatus;
+			if (res.data.post) {
+				this.postData.coverImg = res.data.post.coverImg;
+				this.postData.postTitle = res.data.post.postTitle;
+				this.postData.editContent =
+					res.data.post.editContent === null
+						? ""
+						: res.data.post.editContent;
+				this.postData.postDescribe = res.data.post.postDescribe;
+				this.postData.commentStatus =
+					res.data.post.commentStatus === "close" ? false : true;
+				this.postData.postStatus = res.data.post.postStatus;
+			}
 			this.postData.currentCategory.length = 0;
 
 			let interimObj = {}; //新增临时对象用于去重
@@ -318,6 +320,7 @@ export default {
 					this.postData.currentCategory.push(
 						res.data.category[i].cValue
 					);
+					this.postData.beforeCaregory = res.data.category[i].cValue;
 				}
 				if (!interimObj[res.data.category[i].cValue]) {
 					//如果对象中找不到当前数组元素的值则将改值存进临时对象与去重后的数组中
@@ -493,27 +496,11 @@ export default {
 			border-bottom-left-radius: 0px;
 		}
 	}
-	.tag_wrap {
+	.describe_wrap {
 		padding-top: 30px;
 		padding-bottom: 20px;
-		.tag_main {
-			line-height: 32px;
-		}
-		.el-tag {
-			cursor: pointer;
-			& + .el-tag {
-				margin: 0px 0px 16px 12px;
-			}
-		}
-		.button_new_tag {
-			margin-left: 10px;
-		}
-		.input_new_tag {
-			max-width: 93px;
-			margin-left: 10px;
-		}
 	}
-	.describe_wrap {
+	.comment_status {
 		padding-top: 30px;
 	}
 }

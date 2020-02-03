@@ -63,10 +63,6 @@
 								<i class="el-icon-menu"></i>
 								<span slot="title">分类</span>
 							</el-menu-item>
-							<el-menu-item index="/admin/posts/tag">
-								<i class="el-icon-price-tag"></i>
-								<span slot="title">标签</span>
-							</el-menu-item>
 						</el-submenu>
 						<el-menu-item index="/admin/users" class="hover_translate">
 							<i class="el-icon-s-custom"></i>
