@@ -51,7 +51,11 @@
 			v-on:getUrl="getUrl"
 		/>
 		<el-drawer :visible.sync="drawerVisible" direction="rtl" class="edit_drawer">
-			<el-button type="primary" class="publish_btn">确定并发布</el-button>
+			<el-button
+				type="primary"
+				class="publish_btn"
+				@click="publishEv"
+			>{{postData.postStatus === 0 ? "确定并发布" : "修改"}}</el-button>
 			<div class="category_wrap">
 				<h4>分类</h4>
 				<el-radio-group v-model="postData.currentCategory[0]" size="small" @change="categoryChage">
@@ -181,7 +185,6 @@ export default {
 			}
 		});
 	},
-	destroyed() {},
 	methods: {
 		mediaDialogVisibleEv(e) {
 			//media组件控制显示隐藏
@@ -217,7 +220,29 @@ export default {
 		//新增分类确认事件
 		categoryInputConfirm() {
 			this.categoryInputVisible = false;
-			this.postData.newCategoryValue = "";
+			this.$axios({
+				method: "post",
+				url: "/api/addCategory",
+				data: {
+					cName: this.postData.newCategoryValue
+				}
+			})
+				.then(res => {
+					if (res.data.data[1]) {
+						this.postData.categoryList.push({
+							cValue: res.data.data[0].id,
+							cName: res.data.data[0].name
+						});
+					} else {
+						this.$message({
+							type: "warning",
+							message: "该分类已存在!"
+						});
+					}
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 		//分类选择事件
 		categoryChage() {
@@ -249,10 +274,10 @@ export default {
 			}, 3000);
 		},
 		//修改更新当前文章数据
-		updatePostData() {
-			this.$axios({
+		async updatePostData() {
+			return await this.$axios({
 				method: "post",
-				url: "/api/addAndUploadPost",
+				url: "/api/addAndUpdatePost",
 				data: {
 					id: this.postData.postId,
 					author: this.$store.state.authUser.id,
@@ -284,6 +309,7 @@ export default {
 						this.postData.postTitle = res.data.postTitle;
 					}
 					this.saveStatus = false;
+					return true;
 				})
 				.catch(err => {});
 		},
@@ -326,6 +352,32 @@ export default {
 					//如果对象中找不到当前数组元素的值则将改值存进临时对象与去重后的数组中
 					interimObj[res.data.category[i].cValue] = 1;
 					this.postData.categoryList.push(res.data.category[i]);
+				}
+			}
+		},
+		//发布文章
+		async publishEv() {
+			let postData = this.postData;
+			if (postData.postTitle === "" && postData.editContent === "") {
+				this.$message.error("缺少文章标题或内容!");
+				return false;
+			}
+			if (this.postData.postStatus === 0) {
+				this.postData.postStatus = 1;
+				let updateRes = await this.updatePostData();
+				if (updateRes) {
+					this.$message({
+						type: "success",
+						message: "已发布!"
+					});
+				}
+			} else {
+				let updateRes = await this.updatePostData();
+				if (updateRes) {
+					this.$message({
+						type: "success",
+						message: "已修改!"
+					});
 				}
 			}
 		}

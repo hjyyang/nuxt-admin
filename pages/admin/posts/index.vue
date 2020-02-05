@@ -52,7 +52,7 @@
 					<el-table-column prop="last_modified_date" label="修改时间" width="150"></el-table-column>
 					<el-table-column prop="like_count" label="喜欢数量" width="110"></el-table-column>
 					<el-table-column prop="count" label="浏览数量" width="110"></el-table-column>
-					<el-table-column fixed="right" label="状态" width="120">
+					<el-table-column fixed="right" label="发布状态" width="120">
 						<template slot-scope="scope">
 							<el-switch
 								v-model="scope.row.publish_status"

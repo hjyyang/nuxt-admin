@@ -33,7 +33,7 @@ let findOrCreate = async (op, t) => {
 	});
 };
 
-router.post("/addAndUploadPost", async ctx => {
+router.post("/addAndUpdatePost", async ctx => {
 	let {
 			id,
 			author,
@@ -224,6 +224,38 @@ router.post("/findPost", async ctx => {
 
 router.post("/findAllPost", async ctx => {
 	return (ctx.body = {});
+});
+
+router.post("/addCategory", async ctx => {
+	let { cName } = ctx.request.body,
+		slug = null;
+	if (!cName) {
+		return (ctx.body = {
+			result: false,
+			message: "请输入正确都字段或值！"
+		});
+	}
+	slug = cName.replace(/[ |_]/g, "-");
+	let res = await Category.findOrCreate({
+		where: {
+			slug: slug
+		},
+		defaults: {
+			name: cName
+		}
+	});
+	if (res[1]) {
+		return (ctx.body = {
+			result: true,
+			data: res
+		});
+	} else {
+		return (ctx.body = {
+			result: false,
+            message: "该分类名已存在！",
+            data: res
+		});
+	}
 });
 
 module.exports = router;
