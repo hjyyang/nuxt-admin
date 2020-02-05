@@ -3,8 +3,7 @@ const {
 	Post,
 	mySequelize,
 	Relationship,
-	Category,
-	Tag
+	Category
 } = require("../lib/orm_order");
 
 const sequelize = require("sequelize");
@@ -26,8 +25,8 @@ let findOrCreate = async (op, t) => {
 			feature_image: op.featureImage,
 			post_status: op.status,
 			comment_status: op.commentStatus,
-			publish_date: new Date(),
-			modification_date: new Date()
+			createdAt: new Date(),
+			updatedAt: new Date()
 		},
 		transaction: t
 	});
@@ -129,7 +128,7 @@ router.post("/addAndUpdatePost", async ctx => {
 					post_status: status,
 					feature_image: featureImage,
 					comment_status: commentStatus,
-					modification_date: new Date()
+					updatedAt: new Date()
 				},
 				{
 					where: {
@@ -223,7 +222,48 @@ router.post("/findPost", async ctx => {
 });
 
 router.post("/findAllPost", async ctx => {
-	return (ctx.body = {});
+	let { title, time, page } = ctx.request.body,
+		whereObj = {};
+	if (!page || isNaN(parseInt(page)) || (!!time && !Array.isArray(time))) {
+		return (ctx.body = {
+			result: false,
+			message: "请输入正确的字段或值！"
+		});
+	}
+	if (title) {
+		whereObj.post_title = {
+			[Op.like]: "%" + title + "%"
+		};
+	}
+	if (time) {
+		whereObj.createdAt = {
+			[Op.between]: time
+		};
+	}
+	let res = await Post.findAndCountAll({
+		order: [
+			//倒序排列updatedAt数据
+			["updatedAt", "DESC"]
+		],
+		where: whereObj,
+		attributes: [
+			["id", "id"],
+			["post_title", "title"],
+			["post_describe", "describe"],
+			["createdAt", "createdAt"],
+			["updatedAt", "last_modified_date"],
+			["post_status", "publish_status"],
+			["like_count", "like_count"],
+			["pv", "pv"]
+		],
+		offset: 10 * (page - 1),
+		limit: 10
+	});
+
+	return (ctx.body = {
+		result: true,
+		postList: res
+	});
 });
 
 router.post("/addCategory", async ctx => {
@@ -252,10 +292,35 @@ router.post("/addCategory", async ctx => {
 	} else {
 		return (ctx.body = {
 			result: false,
-            message: "该分类名已存在！",
-            data: res
+			message: "该分类名已存在！",
+			data: res
 		});
 	}
+});
+
+router.post("/deleteCategory", async ctx => {
+	let { cId } = ctx.request.body;
+	if (!cId || isNaN(parseInt(cId))) {
+		//如果不存在或者不为数字类型
+		return (ctx.body = {
+			result: false,
+			message: "请输入正确的字段或值！"
+		});
+	}
+	let res = await Category.destroy({
+		where: {
+			id: cId
+		}
+	});
+	if (res === 0) {
+		return (ctx.body = {
+			result: false,
+			message: "不存在该分类！"
+		});
+	}
+	return (ctx.body = {
+		result: true
+	});
 });
 
 module.exports = router;

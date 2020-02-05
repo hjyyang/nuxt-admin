@@ -4,7 +4,7 @@
 			<div class="search_wrap">
 				<div class="search_title">
 					<el-input v-model="searchTitleValue" placeholder="通过标题搜索"></el-input>
-					<el-button type="primary" icon="el-icon-search"></el-button>
+					<el-button type="primary" icon="el-icon-search" @click="searchData"></el-button>
 				</div>
 				<div class="search_date">
 					<el-date-picker
@@ -17,7 +17,7 @@
 						end-placeholder="结束时间"
 						:picker-options="pickerOptions"
 					></el-date-picker>
-					<el-button type="primary" icon="el-icon-search">搜索</el-button>
+					<el-button type="primary" icon="el-icon-search" @click="searchData">搜索</el-button>
 				</div>
 			</div>
 			<div class="post_operation">
@@ -48,10 +48,10 @@
 						</template>
 					</el-table-column>
 					<el-table-column prop="describe" label="描述" min-width="140"></el-table-column>
-					<el-table-column prop="publish_date" label="发布时间" width="150" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="createdAt" label="创建时间" width="150" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="last_modified_date" label="修改时间" width="150"></el-table-column>
 					<el-table-column prop="like_count" label="喜欢数量" width="110"></el-table-column>
-					<el-table-column prop="count" label="浏览数量" width="110"></el-table-column>
+					<el-table-column prop="pv" label="浏览数量" width="110"></el-table-column>
 					<el-table-column fixed="right" label="发布状态" width="120">
 						<template slot-scope="scope">
 							<el-switch
@@ -130,19 +130,19 @@ export default {
 				{
 					title: "test",
 					describe: "this is the describe",
-					publish_date: "2019-08-03",
+					createdAt: "2019-08-03",
 					last_modified_date: "2019-08-16",
 					like_count: 2,
-					count: 3,
+					pv: 3,
 					publish_status: true
 				},
 				{
 					title: "test",
 					describe: "this is the describe",
-					publish_date: "2019-08-03",
+					createdAt: "2019-08-03",
 					last_modified_date: "2019-08-16",
 					like_count: 2,
-					count: 3,
+					pv: 3,
 					publish_status: false
 				}
 			],
@@ -157,45 +157,49 @@ export default {
 		},
 		postDeleteEv() {
 			//文章删除事件
-			this.$confirm(
-				"你确定要删除这篇文章吗?",
-				"提示",
-				{
-					confirmButtonText: "确定",
-					cancelButtonText: "取消",
-					type: "warning"
-				}
-			)
+			this.$confirm("你确定要删除这篇文章吗?", "提示", {
+				confirmButtonText: "确定",
+				cancelButtonText: "取消",
+				type: "warning"
+			})
 				.then(() => {})
 				.catch(() => {});
 		},
 		multipleSelectionDelete() {
 			//文章多选删除
-
-			this.$confirm(
-				"确定删除选中的文章？",
-				"提示",
-				{
-					confirmButtonText: "确定",
-					cancelButtonText: "取消",
-					type: "warning"
-				}
-			)
+			this.$confirm("确定删除选中的文章？", "提示", {
+				confirmButtonText: "确定",
+				cancelButtonText: "取消",
+				type: "warning"
+			})
 				.then(() => {})
 				.catch(() => {});
 		},
 		postStatusChange(val) {
 			//文章发布开关
 			console.log(val);
-			setTimeout(()=>{
+			setTimeout(() => {
 				this.postsData[val].publish_status = false;
-			},1000)
+			}, 1000);
 		},
 		sizeChange(val) {
 			console.log(`每页 ${val} 条`);
 		},
 		currentChange(val) {
 			console.log(`当前页: ${val}`);
+		},
+		//根据条件搜索数据
+		async searchData() {
+			let res = await this.$axios({
+				method: "post",
+				url: "/api/findAllPost",
+				data: {
+					page: this.currentPage,
+					title: this.searchTitleValue,
+					time: this.searchDateValue
+				}
+			});
+			console.log(res);
 		}
 	}
 };
@@ -250,7 +254,7 @@ export default {
 		.edit {
 			margin-right: 10px;
 			color: #409eff;
-            background: none;
+			background: none;
 		}
 		.delete {
 			color: #f56c6c;
@@ -267,20 +271,20 @@ export default {
 	}
 }
 
-@media (max-width:1000px){
-    .posts_main {
-        .search_wrap{
-            flex-wrap: wrap;
-        }
-        .search_title{
-            margin-bottom: 20px;
-        }
-    }
+@media (max-width: 1000px) {
+	.posts_main {
+		.search_wrap {
+			flex-wrap: wrap;
+		}
+		.search_title {
+			margin-bottom: 20px;
+		}
+	}
 }
 
-@media (max-width: 540px){
-    .posts{
-        padding: 30px 10px;
-    }
+@media (max-width: 540px) {
+	.posts {
+		padding: 30px 10px;
+	}
 }
 </style>
