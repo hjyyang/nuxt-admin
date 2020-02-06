@@ -170,8 +170,9 @@ router.post("/addAndUpdatePost", async ctx => {
 	}
 });
 
-router.post("/findPost", async ctx => {
-	let { postId } = ctx.request.body,
+router.get("/findPost", async ctx => {
+	let postId = ctx.request.query.id,
+		postTitle = ctx.request.query.title,
 		findRes = null,
 		category = null;
 	if (postId) {
@@ -259,10 +260,52 @@ router.post("/findAllPost", async ctx => {
 		offset: 10 * (page - 1),
 		limit: 10
 	});
-
 	return (ctx.body = {
 		result: true,
 		postList: res
+	});
+});
+
+router.post("/deletePost", async ctx => {
+	let { postId } = ctx.request.body;
+	if (!postId || (!!postId && !Array.isArray(postId))) {
+		return (ctx.body = {
+			result: false,
+			message: "请输入正确的字段或值！"
+		});
+	}
+	await mySequelize.transaction(async t => {
+		let postRes = await mySequelize.queryInterface.bulkDelete(
+			"posts",
+			{
+				id: {
+					[Op.in]: postId
+				}
+			},
+			{
+				transaction: t
+			}
+		);
+		await mySequelize.queryInterface.bulkDelete(
+			"term_relationships",
+			{
+				object_id: {
+					[Op.in]: postId
+				}
+			},
+			{
+				transaction: t
+			}
+		);
+		if (postRes[0].affectedRows === 0) {
+			return (ctx.body = {
+				result: false,
+				message: "不存在的文章！"
+			});
+		}
+		return (ctx.body = {
+			result: true
+		});
 	});
 });
 

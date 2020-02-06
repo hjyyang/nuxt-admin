@@ -44,7 +44,7 @@
 					<el-table-column type="selection" width="55" fixed></el-table-column>
 					<el-table-column label="标题" width="120" fixed>
 						<template slot-scope="scope">
-							<nuxt-link to>{{ scope.row.title }}</nuxt-link>
+							<nuxt-link :to="'/admin/posts/edit?id='+scope.row.id">{{ scope.row.title }}</nuxt-link>
 						</template>
 					</el-table-column>
 					<el-table-column prop="describe" label="描述" min-width="140"></el-table-column>
@@ -62,10 +62,12 @@
 						</template>
 					</el-table-column>
 					<el-table-column fixed="right" label="操作" width="120">
-						<nuxt-link to class="edit">
-							<i class="el-icon-edit"></i>
-						</nuxt-link>
-						<i class="el-icon-delete delete" @click="postDeleteEv"></i>
+						<template slot-scope="scope">
+							<nuxt-link :to="'/admin/posts/edit?id='+scope.row.id" class="edit">
+								<i class="el-icon-edit"></i>
+							</nuxt-link>
+							<i class="el-icon-delete delete" @click="postDeleteEv(scope.row.id)"></i>
+						</template>
 					</el-table-column>
 				</el-table>
 				<div class="paged">
@@ -74,7 +76,7 @@
 						@current-change="currentChange"
 						:current-page.sync="currentPage"
 						layout="prev, pager, next, jumper"
-						:total="100"
+						:total="pagedCount"
 					></el-pagination>
 				</div>
 			</div>
@@ -83,6 +85,7 @@
 </template>
 
 <script>
+import yTool from "~/assets/js/tool";
 export default {
 	layout: "admin",
 	data() {
@@ -126,43 +129,31 @@ export default {
 					}
 				]
 			},
-			postsData: [
-				{
-					title: "test",
-					describe: "this is the describe",
-					createdAt: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					pv: 3,
-					publish_status: true
-				},
-				{
-					title: "test",
-					describe: "this is the describe",
-					createdAt: "2019-08-03",
-					last_modified_date: "2019-08-16",
-					like_count: 2,
-					pv: 3,
-					publish_status: false
-				}
-			],
+			postsData: [],
 			multipleSelection: [],
-			currentPage: 1
+			currentPage: 1,
+			pagedCount: 0
 		};
+	},
+	mounted() {
+		this.searchData();
 	},
 	methods: {
 		selectionChange(val) {
-			//多选事件
+            //多选事件
+            console.log(val)
 			this.multipleSelection = val;
 		},
-		postDeleteEv() {
+		postDeleteEv(e) {
 			//文章删除事件
 			this.$confirm("你确定要删除这篇文章吗?", "提示", {
 				confirmButtonText: "确定",
 				cancelButtonText: "取消",
 				type: "warning"
 			})
-				.then(() => {})
+				.then(() => {
+                    console.log(e)
+                })
 				.catch(() => {});
 		},
 		multipleSelectionDelete() {
@@ -172,7 +163,9 @@ export default {
 				cancelButtonText: "取消",
 				type: "warning"
 			})
-				.then(() => {})
+				.then(() => {
+                    console.log(this.multipleSelection)
+                })
 				.catch(() => {});
 		},
 		postStatusChange(val) {
@@ -199,7 +192,29 @@ export default {
 					time: this.searchDateValue
 				}
 			});
-			console.log(res);
+			if (res.data.result) {
+				this.pagedCount = res.data.postList.count;
+				let rows = [],
+					data = res.data.postList.rows,
+					i;
+				for (i in data) {
+					rows[i] = {};
+					rows[i].id = data[i].id;
+					rows[i].title = data[i].title;
+					rows[i].describe = data[i].describe;
+					rows[i].createdAt = new Date(
+						yTool().getTimeStamp(data[i].createdAt)
+					).format("yyyy-MM-dd");
+					rows[i].last_modified_date = new Date(
+						yTool().getTimeStamp(data[i].last_modified_date)
+					).format("yyyy-MM-dd");
+					rows[i].publish_status =
+						data[i].publish_status === 1 ? true : false;
+					rows[i].like_count = data[i].like_count;
+					rows[i].pv = data[i].pv;
+				}
+				this.postsData = rows;
+			}
 		}
 	}
 };

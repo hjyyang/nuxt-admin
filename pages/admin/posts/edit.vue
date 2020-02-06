@@ -316,11 +316,8 @@ export default {
 		//获取当前文章数据
 		async getCurrentPost() {
 			let res = await this.$axios({
-				method: "post",
-				url: "/api/findPost",
-				data: {
-					postId: this.postData.postId
-				}
+				method: "get",
+				url: "/api/findPost?id=" + this.postData.postId
 			});
 			if (res.data.post) {
 				this.postData.coverImg = res.data.post.coverImg;
@@ -333,6 +330,9 @@ export default {
 				this.postData.commentStatus =
 					res.data.post.commentStatus === "close" ? false : true;
 				this.postData.postStatus = res.data.post.postStatus;
+			} else {
+                //根据id无当前文章则清除参数
+				this.$router.replace("/admin/posts/edit")
 			}
 			this.postData.currentCategory.length = 0;
 

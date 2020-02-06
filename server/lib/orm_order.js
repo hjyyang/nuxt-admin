@@ -74,14 +74,14 @@ let Post = sequelize.define(
 		post_describe: {
 			type: Sequelize.STRING
 		},
-		publish_date: {
+		createdAt: {
 			type: Sequelize.DATE
 		},
-		modification_date: {
+		updatedAt: {
 			type: Sequelize.DATE
 		},
 		post_status: {
-			type: Sequelize.INTEGER(10)
+			type: Sequelize.TINYINT(1)
 		},
 		like_count: {
 			type: Sequelize.INTEGER(20)
