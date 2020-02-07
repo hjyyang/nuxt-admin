@@ -56,7 +56,7 @@
 						<template slot-scope="scope">
 							<el-switch
 								v-model="scope.row.publish_status"
-								@change="postStatusChange(1)"
+								@change="postStatusChange(scope.$index,scope.row.id)"
 								active-icon-class="el-icon-check"
 							></el-switch>
 						</template>
@@ -72,8 +72,8 @@
 				</el-table>
 				<div class="paged">
 					<el-pagination
-						@size-change="sizeChange"
 						@current-change="currentChange"
+						:page-size="10"
 						:current-page.sync="currentPage"
 						layout="prev, pager, next, jumper"
 						:total="pagedCount"
@@ -140,9 +140,11 @@ export default {
 	},
 	methods: {
 		selectionChange(val) {
-            //多选事件
-            console.log(val)
-			this.multipleSelection = val;
+			//多选事件
+			this.multipleSelection = [];
+			for (let i in val) {
+				this.multipleSelection.push(val[i].id);
+			}
 		},
 		postDeleteEv(e) {
 			//文章删除事件
@@ -152,8 +154,10 @@ export default {
 				type: "warning"
 			})
 				.then(() => {
-                    console.log(e)
-                })
+					this.multipleSelection = [];
+					this.multipleSelection.push(e);
+					this.deletePost();
+				})
 				.catch(() => {});
 		},
 		multipleSelectionDelete() {
@@ -164,22 +168,24 @@ export default {
 				type: "warning"
 			})
 				.then(() => {
-                    console.log(this.multipleSelection)
-                })
+					this.deletePost();
+				})
 				.catch(() => {});
 		},
-		postStatusChange(val) {
+		async postStatusChange(index, val) {
 			//文章发布开关
-			console.log(val);
-			setTimeout(() => {
-				this.postsData[val].publish_status = false;
-			}, 1000);
-		},
-		sizeChange(val) {
-			console.log(`每页 ${val} 条`);
+			let res = await this.$axios({
+				method: "post",
+				url: "/api/addAndUpdatePost",
+				data: {
+					id: val,
+					status: this.postsData[index].publish_status ? 1 : 0
+				}
+			});
 		},
 		currentChange(val) {
-			console.log(`当前页: ${val}`);
+			this.currentPage = val;
+			this.searchData();
 		},
 		//根据条件搜索数据
 		async searchData() {
@@ -214,6 +220,20 @@ export default {
 					rows[i].pv = data[i].pv;
 				}
 				this.postsData = rows;
+			}
+		},
+		async deletePost() {
+			let deleteArr = this.multipleSelection;
+			let res = await this.$axios({
+				method: "post",
+				url: "/api/deletePost",
+				data: {
+					postId: deleteArr
+				}
+			});
+			if (res.data.result) {
+				this.multipleSelection = [];
+				this.searchData();
 			}
 		}
 	}

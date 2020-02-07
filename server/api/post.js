@@ -117,7 +117,7 @@ router.post("/addAndUpdatePost", async ctx => {
 					return true;
 				}
 			}
-			await titleFcn(title);
+			title ? await titleFcn(title) : null;
 
 			let res = await Post.update(
 				{
