@@ -20,9 +20,9 @@
 					@cell-click="editEv"
 				>
 					<el-table-column type="selection" width="55" fixed></el-table-column>
-					<el-table-column label="名字" width="120" fixed prop="name" class-name="cName"></el-table-column>
-					<el-table-column prop="describe" label="描述" min-width="140"></el-table-column>
-					<el-table-column prop="count" label="总数" width="110"></el-table-column>
+					<el-table-column label="名字" fixed prop="name" class-name="cName"></el-table-column>
+					<el-table-column prop="sulg" label="sulg"></el-table-column>
+					<el-table-column prop="count" label="总数"></el-table-column>
 					<el-table-column fixed="right" label="操作" width="120">
 						<template slot-scope="scope">
 							<i class="el-icon-edit edit" @click="editCategoriesEv(scope.row.cId)"></i>
@@ -35,9 +35,6 @@
 				<el-form :label-position="labelPosition" :model="newCategoryData">
 					<el-form-item label="名称">
 						<el-input v-model="newCategoryData.name"></el-input>
-					</el-form-item>
-					<el-form-item label="描述">
-						<el-input v-model="newCategoryData.description"></el-input>
 					</el-form-item>
 					<el-form-item>
 						<el-button type="primary" @click="categoriesOperateEv">{{edit_or_new ? '修改' : '保存'}}</el-button>
@@ -57,13 +54,11 @@ export default {
 				{
 					cId: 0,
 					name: "未分类",
-					describe: "",
 					count: 3
 				},
 				{
 					cId: 1,
 					name: "javascript",
-					describe: "",
 					count: 4
 				}
 			],

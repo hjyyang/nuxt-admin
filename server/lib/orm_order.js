@@ -106,6 +106,7 @@ let Post = sequelize.define(
 
 dataTables.Post = Post;
 
+
 let Relationship = sequelize.define(
 	"term_relationships",
 	{
@@ -131,6 +132,7 @@ let Relationship = sequelize.define(
 );
 
 dataTables.Relationship = Relationship;
+Post.hasMany(Relationship, { foreignKey: "object_id" });
 
 let Category = sequelize.define(
 	"category",

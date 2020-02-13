@@ -223,7 +223,7 @@ router.get("/findPost", async ctx => {
 });
 
 router.post("/findAllPost", async ctx => {
-	let { title, time, page } = ctx.request.body,
+	let { title, time, page, category } = ctx.request.body,
 		whereObj = {};
 	if (!page || isNaN(parseInt(page)) || (!!time && !Array.isArray(time))) {
 		return (ctx.body = {
@@ -240,6 +240,41 @@ router.post("/findAllPost", async ctx => {
 		whereObj.createdAt = {
 			[Op.between]: time
 		};
+	}
+	if (category && !isNaN(parseInt(category))) {
+		let res = await Post.findAndCountAll({
+			order: [
+				//倒序排列updatedAt数据
+				["updatedAt", "DESC"]
+			],
+			where: whereObj,
+			attributes: [
+				["post_title", "title"],
+				["post_describe", "describe"],
+				["createdAt", "createdAt"],
+				["updatedAt", "last_modified_date"],
+				["post_status", "publish_status"],
+				["like_count", "like_count"],
+				["pv", "pv"]
+			],
+			offset: 10 * (page - 1),
+			limit: 10,
+			include: [
+				{
+					model: Relationship,
+					where: {
+						term_taxonomy_id: category
+					},
+					attributes: [
+                        ["object_id","id"]
+                    ]
+				}
+			]
+		});
+		return (ctx.body = {
+			result: true,
+			postList: res
+		});
 	}
 	let res = await Post.findAndCountAll({
 		order: [
@@ -307,6 +342,19 @@ router.post("/deletePost", async ctx => {
 			result: true
 		});
 	});
+});
+
+router.get("/getCategory", async ctx => {
+	let res = await Category.findAll({
+		attributes: [
+			["id", "cId"],
+			["name", "cName"]
+		]
+	});
+	ctx.body = {
+		result: true,
+		data: res
+	};
 });
 
 router.post("/addCategory", async ctx => {

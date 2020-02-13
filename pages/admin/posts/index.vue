@@ -4,7 +4,12 @@
 			<div class="search_wrap">
 				<div class="search_title">
 					<el-input v-model="searchTitleValue" placeholder="通过标题搜索"></el-input>
-					<el-button type="primary" icon="el-icon-search" @click="searchData"></el-button>
+					<!-- <el-button type="primary" icon="el-icon-search" @click="searchData"></el-button> -->
+				</div>
+				<div class="search_category">
+					<el-select v-model="selectValue" clearable placeholder="选择分类">
+						<el-option v-for="item in categoryList" :key="item.cId" :label="item.cName" :value="item.cId"></el-option>
+					</el-select>
 				</div>
 				<div class="search_date">
 					<el-date-picker
@@ -132,11 +137,21 @@ export default {
 			postsData: [],
 			multipleSelection: [],
 			currentPage: 1,
-			pagedCount: 0
+			pagedCount: 0,
+			categoryList: [],
+			selectCaregory: null,
+			selectValue: ""
 		};
 	},
 	mounted() {
-		this.searchData();
+		this.$axios({
+			method: "get",
+			url: "/api/getCategory"
+		}).then(res => {
+			this.categoryList = res.data.data;
+			this.hashQuery();
+			this.searchData();
+		});
 	},
 	methods: {
 		selectionChange(val) {
@@ -195,7 +210,8 @@ export default {
 				data: {
 					page: this.currentPage,
 					title: this.searchTitleValue,
-					time: this.searchDateValue
+					time: this.searchDateValue,
+					category: this.selectValue
 				}
 			});
 			if (res.data.result) {
@@ -205,7 +221,11 @@ export default {
 					i;
 				for (i in data) {
 					rows[i] = {};
-					rows[i].id = data[i].id;
+					if (!data[i].id) {
+						rows[i].id = data[i].term_relationships[0].id;
+					} else {
+						rows[i].id = data[i].id;
+					}
 					rows[i].title = data[i].title;
 					rows[i].describe = data[i].describe;
 					rows[i].createdAt = new Date(
@@ -235,6 +255,14 @@ export default {
 				this.multipleSelection = [];
 				this.searchData();
 			}
+		},
+		hashQuery() {
+			let categories = this.$route.query.categories;
+			for (let i in this.categoryList) {
+				if (this.categoryList[i].cName === categories) {
+					this.selectValue = this.categoryList[i].cId;
+				}
+			}
 		}
 	}
 };
@@ -251,20 +279,21 @@ export default {
 	background: #ffffff;
 	.search_wrap {
 		display: flex;
+		> div {
+			margin-right: 20px;
+			&:last-of-type {
+				margin: 0px;
+			}
+		}
 	}
 	.search_title {
 		display: flex;
 		max-width: 300px;
 		width: 100%;
-		margin-right: 40px;
-		input {
-			border-top-right-radius: 0px;
-			border-bottom-right-radius: 0px;
-			border-right: 0px;
-		}
+	}
+	.search_date {
 		button {
-			border-top-left-radius: 0px;
-			border-bottom-left-radius: 0px;
+			margin-left: 20px;
 		}
 	}
 	.post_operation {
