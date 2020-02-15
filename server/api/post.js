@@ -265,9 +265,7 @@ router.post("/findAllPost", async ctx => {
 					where: {
 						term_taxonomy_id: category
 					},
-					attributes: [
-                        ["object_id","id"]
-                    ]
+					attributes: [["object_id", "id"]]
 				}
 			]
 		});
@@ -345,10 +343,17 @@ router.post("/deletePost", async ctx => {
 });
 
 router.get("/getCategory", async ctx => {
-	let res = await Category.findAll({
+	let res = await Relationship.findAll({
 		attributes: [
-			["id", "cId"],
-			["name", "cName"]
+			["term_taxonomy_id", "cId"],
+			[sequelize.fn("COUNT", sequelize.col("term_taxonomy_id")), "count"]
+		],
+		group: "term_taxonomy_id",
+		include: [
+			{
+				model: Category,
+				attributes: [["name", "cName"], "slug"]
+			}
 		]
 	});
 	ctx.body = {

@@ -20,8 +20,8 @@
 					@cell-click="editEv"
 				>
 					<el-table-column type="selection" width="55" fixed></el-table-column>
-					<el-table-column label="名字" fixed prop="name" class-name="cName"></el-table-column>
-					<el-table-column prop="sulg" label="sulg"></el-table-column>
+					<el-table-column label="名字" fixed prop="category.cName" class-name="cName"></el-table-column>
+					<el-table-column prop="category.slug" label="slug"></el-table-column>
 					<el-table-column prop="count" label="总数"></el-table-column>
 					<el-table-column fixed="right" label="操作" width="120">
 						<template slot-scope="scope">
@@ -50,18 +50,7 @@ export default {
 	layout: "admin",
 	data() {
 		return {
-			categoriesData: [
-				{
-					cId: 0,
-					name: "未分类",
-					count: 3
-				},
-				{
-					cId: 1,
-					name: "javascript",
-					count: 4
-				}
-			],
+			categoriesData: [],
 			multipleSelection: [],
 			dialogVisible: false,
 			newCategoryData: {
@@ -71,6 +60,9 @@ export default {
 			labelPosition: "top",
 			edit_or_new: false
 		};
+	},
+	mounted() {
+		this.getCategories();
 	},
 	methods: {
 		selectionChange(val) {
@@ -111,7 +103,14 @@ export default {
 				.then(() => {})
 				.catch(() => {});
 		},
-		categoriesOperateEv() {}
+		categoriesOperateEv() {},
+		async getCategories() {
+			let res = await this.$axios({
+				methods: "get",
+				url: "/api/getCategory"
+			});
+            this.categoriesData = res.data.data;
+		}
 	}
 };
 </script>
@@ -143,24 +142,24 @@ export default {
 		padding-top: 30px;
 		.cName {
 			cursor: pointer;
-            &:hover{
-                color: #409eff;
-            }
+			&:hover {
+				color: #409eff;
+			}
 		}
 		i {
 			cursor: pointer;
 		}
-        .edit{
-            color: #409eff;
-        }
-        .delete{
-            color: #f56c6c;
-        }
+		.edit {
+			color: #409eff;
+		}
+		.delete {
+			color: #f56c6c;
+		}
 	}
 }
-@media (max-width: 540px){
-    .admin_categories{
-        padding: 30px 10px;
-    }
+@media (max-width: 540px) {
+	.admin_categories {
+		padding: 30px 10px;
+	}
 }
 </style>
