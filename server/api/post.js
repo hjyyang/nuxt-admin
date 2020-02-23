@@ -343,19 +343,13 @@ router.post("/deletePost", async ctx => {
 });
 
 router.get("/getCategory", async ctx => {
-	let res = await Relationship.findAll({
-		attributes: [
-			["term_taxonomy_id", "cId"],
-			[sequelize.fn("COUNT", sequelize.col("term_taxonomy_id")), "count"]
-		],
-		group: "term_taxonomy_id",
-		include: [
-			{
-				model: Category,
-				attributes: [["name", "cName"], "slug"]
-			}
-		]
-	});
+	let res = await mySequelize.query(
+		`SELECT c.id AS cId, c.name AS cName, c.slug, count(t.term_taxonomy_id) As count FROM category AS c LEFT JOIN term_relationships AS t ON c.id = t.term_taxonomy_id GROUP BY c.id;`,
+		{
+			type: sequelize.QueryTypes.SELECT
+		}
+	);
+
 	ctx.body = {
 		result: true,
 		data: res
@@ -396,27 +390,73 @@ router.post("/addCategory", async ctx => {
 
 router.post("/deleteCategory", async ctx => {
 	let { cId } = ctx.request.body;
-	if (!cId || isNaN(parseInt(cId))) {
+	if (!cId || (!!cId && !Array.isArray(cId))) {
 		//如果不存在或者不为数字类型
 		return (ctx.body = {
 			result: false,
 			message: "请输入正确的字段或值！"
 		});
 	}
-	let res = await Category.destroy({
-		where: {
-			id: cId
+	await mySequelize.transaction(async t => {
+		let res = await mySequelize.queryInterface.bulkDelete(
+			"category",
+			{
+				id: {
+					[Op.in]: cId
+				}
+			},
+			{
+				transaction: t
+			}
+		);
+		if (res[0].affectedRows === 0) {
+			return (ctx.body = {
+				result: false,
+				message: "不存在该分类！"
+			});
 		}
+		await mySequelize.queryInterface.bulkDelete(
+			"term_relationships",
+			{
+				term_taxonomy_id: {
+					[Op.in]: cId
+				}
+			},
+			{
+				transaction: t
+			}
+		);
+		return (ctx.body = {
+			result: true
+		});
 	});
-	if (res === 0) {
+});
+
+router.post("/updateCategory", async ctx => {
+	let { cId, cName } = ctx.request.body,
+		slug = cName.replace(/[ |_]/g, "-");
+
+	if (!cId || isNaN(parseInt(cId))) {
 		return (ctx.body = {
 			result: false,
-			message: "不存在该分类！"
+			message: "请输入正确到字段或值！"
 		});
 	}
-	return (ctx.body = {
-		result: true
-	});
+	let res = await Category.update(
+		{
+			name: cName,
+			slug: slug
+		},
+		{
+			where: {
+				id: cId
+			}
+		}
+	);
+	ctx.body = {
+		result: true,
+		data: res
+	};
 });
 
 module.exports = router;
