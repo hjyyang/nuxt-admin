@@ -299,6 +299,44 @@ router.post("/findAllPost", async ctx => {
 	});
 });
 
+router.post("/findPostList", async ctx => {
+	let { page } = ctx.request.body;
+	if (!page || isNaN(parseInt(page))) {
+		return (ctx.body = {
+			result: false,
+			message: "请输入正确的字段或值！"
+		});
+	}
+	let res = await Post.findAndCountAll({
+		order: [
+			//倒序排列updatedAt数据
+			["updatedAt", "DESC"]
+		],
+		attributes: [
+			["post_title", "title"],
+			["post_describe", "describe"],
+			["feature_image", "image"],
+			["createdAt", "createdAt"],
+			["updatedAt", "last_modified_date"],
+			["like_count", "like_count"],
+			["pv", "pv"]
+		],
+		offset: 10 * (page - 1),
+		limit: 10,
+		include: [
+			{
+				model: Category,
+				attributes: ["name"]
+			}
+		]
+	});
+
+	return (ctx.body = {
+		result: true,
+		postList: res
+	});
+});
+
 router.post("/deletePost", async ctx => {
 	let { postId } = ctx.request.body;
 	if (!postId || (!!postId && !Array.isArray(postId))) {

@@ -106,7 +106,6 @@ let Post = sequelize.define(
 
 dataTables.Post = Post;
 
-
 let Relationship = sequelize.define(
 	"term_relationships",
 	{
@@ -132,7 +131,7 @@ let Relationship = sequelize.define(
 );
 
 dataTables.Relationship = Relationship;
-Post.hasMany(Relationship, { foreignKey: "object_id" });
+Post.hasOne(Relationship, { foreignKey: "object_id" });
 
 let Category = sequelize.define(
 	"category",
@@ -159,8 +158,24 @@ let Category = sequelize.define(
 dataTables.Category = Category;
 
 Category.hasOne(Relationship, { foreignKey: "term_taxonomy_id" });
-Relationship.belongsTo(Category, { foreignKey: "term_taxonomy_id" });
+// Relationship.belongsTo(Category, { foreignKey: "term_taxonomy_id" });
 //belongsTo 是根据Category的外键作为条件去查询Relationship的主键。
 //hasOne是指定Relationship的字段作为外键条件去查询Category的主键，即Relationship表的term_taxonomy_id字段等于Category表的主键（id。
+Post.belongsToMany(Category, {
+	through: {
+		model: Relationship,
+		unique: false
+	},
+	foreignKey: "object_id", //通过外键postId
+	constraints: false
+});
+Category.belongsToMany(Post, {
+	through: {
+		model: Relationship,
+		unique: false
+	},
+	foreignKey: "term_taxonomy_id", //通过外键postId
+	constraints: false
+});
 
 module.exports = dataTables;

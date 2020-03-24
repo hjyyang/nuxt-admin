@@ -222,7 +222,7 @@ export default {
 				for (i in data) {
 					rows[i] = {};
 					if (!data[i].id) {
-						rows[i].id = data[i].term_relationships[0].id;
+						rows[i].id = data[i].term_relationship.id;
 					} else {
 						rows[i].id = data[i].id;
 					}

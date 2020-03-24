@@ -4,7 +4,7 @@
 			<div class="banner_main" style="background-image: url(/hzw-theme/banner2.jpg);">
 				<div class="banner_content">
 					<div class="minContainer">
-						<h1 data-title="HI,JON!">HI,JON!</h1>
+						<h1 data-title="HI,Girl!">HI,Girl!</h1>
 						<div class="passage">
 							<p>食事をするのは生きているためで、生きているのは食事をするためではない、人生は自分のすばらしいことを生きるべきだ</p>
 						</div>
@@ -31,27 +31,29 @@
 							<div class="post_date">
 								<i class="el-icon-time"></i>
 								発表
-								<span>2019-10-01</span>
+								<span>{{new Date(item.createdAt).format("yyyy-MM-dd")}}</span>
 							</div>
 							<h3 class="post_title">
-								<nuxt-link to>这是一个测试标题</nuxt-link>
+								<nuxt-link to>{{item.title}}</nuxt-link>
 							</h3>
 							<div class="post_meta">
 								<div class="post_count">
-									<i class="el-icon-view"></i>70
+									<i class="el-icon-view"></i>
+									{{item.pv}}
 								</div>
-								<div class="post_comment">
+								<!-- <div class="post_comment">
 									<nuxt-link to>
 										<i class="el-icon-chat-dot-round"></i>24
 									</nuxt-link>
-								</div>
-								<div class="post_category">
+								</div>-->
+								<div class="post_category" v-if="item.categories.length > 0">
 									<nuxt-link to>
-										<i class="el-icon-folder-opened"></i>测试
+										<i class="el-icon-folder-opened"></i>
+										{{item.categories[0].name}}
 									</nuxt-link>
 								</div>
 							</div>
-							<div class="post_describe">这是一个测试标题这是一个测试标题这是一个测试标题这是一个测试标题这是一个测试标题这是一个测试标题这是一个测试标题</div>
+							<div class="post_describe">{{item.describe}}</div>
 						</div>
 						<div class="post_image">
 							<nuxt-link to="/">
@@ -60,7 +62,14 @@
 						</div>
 					</div>
 					<div class="more">
-						<el-button type="primary" plain round title="查看更多">より多くを得る</el-button>
+						<el-button type="primary" plain round title="查看更多" v-show="!loadMore" @click="onMore">より多くを得る</el-button>
+						<div class="my_loading" v-show="loadMore">
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+							<span></span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -73,11 +82,30 @@ import yTool from "~/assets/js/tool";
 export default {
 	data() {
 		return {
-			article: [1, 2, 3, 4, 5]
+			article: [],
+			loadMore: false
 		};
 	},
-	asyncData() {},
+	async asyncData(app) {
+		return await app
+			.$axios({
+				method: "post",
+				url: "/api/findPostList",
+				data: {
+					page: 1
+				}
+			})
+			.then(res => {
+				return {
+					article: res.data.postList.rows
+				};
+			})
+			.catch(err => {
+				console.error(err);
+			});
+	},
 	mounted() {
+        this.getData(1);
 		document.getElementsByTagName("body")[0].classList.add("home");
 	},
 	beforeDestroy: function() {
@@ -86,6 +114,20 @@ export default {
 	methods: {
 		bannerDown(e) {
 			yTool(this.$refs.aTarget).anchor(500);
+		},
+		onMore() {
+			this.loadMore = true;
+		},
+		async getData(page) {
+			await this.$axios({
+				method: "post",
+				url: "/api/findPostList",
+				data: {
+					page: page
+				}
+			}).then(res => {
+				console.log(res);
+			});
 		}
 	}
 };

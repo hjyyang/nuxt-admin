@@ -155,7 +155,7 @@ export default {
 	},
 	mounted() {
 		this.postData.postId = this.$route.query.id;
-		//获取文章数据
+		// //获取文章数据
 		this.getCurrentPost();
 
 		if (window) {
@@ -331,8 +331,10 @@ export default {
 					res.data.post.commentStatus === "close" ? false : true;
 				this.postData.postStatus = res.data.post.postStatus;
 			} else {
-                //根据id无当前文章则清除参数
-				this.$router.replace("/admin/posts/edit")
+				//根据id无当前文章则清除参数
+				if (this.postData.postId) {
+					this.$router.replace("/admin/posts/edit");
+				}
 			}
 			this.postData.currentCategory.length = 0;
 
