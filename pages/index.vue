@@ -34,7 +34,7 @@
 								<span>{{new Date(item.createdAt).format("yyyy-MM-dd")}}</span>
 							</div>
 							<h3 class="post_title">
-								<nuxt-link to>{{item.title}}</nuxt-link>
+								<nuxt-link :to="'/post/'+item.postId">{{item.title}}</nuxt-link>
 							</h3>
 							<div class="post_meta">
 								<div class="post_count">
@@ -56,19 +56,29 @@
 							<div class="post_describe">{{item.describe}}</div>
 						</div>
 						<div class="post_image">
-							<nuxt-link to="/">
+							<nuxt-link :to="'/post/'+item.postId">
 								<img class="lazyload" src :data-src="'http://via.placeholder.com/430x300?text='+index" alt />
 							</nuxt-link>
 						</div>
 					</div>
 					<div class="more">
-						<el-button type="primary" plain round title="查看更多" v-show="!loadMore" @click="onMore">より多くを得る</el-button>
-						<div class="my_loading" v-show="loadMore">
+						<el-button
+							type="primary"
+							plain
+							round
+							title="查看更多"
+							v-show="loadMore === 0"
+							@click="onMore"
+						>より多くを得る</el-button>
+						<div class="my_loading" v-show="loadMore === 1">
 							<span></span>
 							<span></span>
 							<span></span>
 							<span></span>
 							<span></span>
+						</div>
+						<div class="over" v-show="loadMore===2">
+							<span>我是有底线的！</span>
 						</div>
 					</div>
 				</div>
@@ -83,7 +93,7 @@ export default {
 	data() {
 		return {
 			article: [],
-			loadMore: false
+			loadMore: 0 //0为有下一页可点击状态，1为加载，2无下一页无法点击
 		};
 	},
 	async asyncData(app) {
@@ -105,7 +115,7 @@ export default {
 			});
 	},
 	mounted() {
-        this.getData(1);
+		this.getData(1);
 		document.getElementsByTagName("body")[0].classList.add("home");
 	},
 	beforeDestroy: function() {

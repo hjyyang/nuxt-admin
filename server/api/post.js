@@ -172,10 +172,14 @@ router.post("/addAndUpdatePost", async ctx => {
 
 router.get("/findPost", async ctx => {
 	let postId = ctx.request.query.id,
-		postTitle = ctx.request.query.title,
+		admin = ctx.request.query.admin,
 		findRes = null,
-		category = null;
-	if (postId) {
+		category = null,
+		whereObj = {};
+	if (postId && !isNaN(parseInt(postId))) {
+		whereObj = {
+			id: postId
+		};
 		findRes = await Post.findOne({
 			attributes: [
 				["id", "postId"],
@@ -185,41 +189,52 @@ router.get("/findPost", async ctx => {
 				["post_describe", "postDescribe"],
 				["feature_image", "coverImg"],
 				["post_status", "postStatus"],
+				["pv", "pv"],
 				["comment_status", "commentStatus"]
 			],
-			where: {
-				id: postId
-			}
+			where: whereObj
 		});
 	}
-	category = await Category.findAll({
-		attributes: [
-			["name", "cName"],
-			["id", "cValue"]
-		],
-		include: [
-			{
-				model: Relationship,
-				// where: {
-				// 	object_id: postId
-				// },
-				attributes: [["object_id", "postId"]]
-			}
-		]
-	});
-
-	if (findRes === null) {
-		//无结果只返回分类查询数据
+	if (admin) {
+		//后台管理获取数据时返回分类
+		category = await Category.findAll({
+			attributes: [
+				["name", "cName"],
+				["id", "cValue"]
+			],
+			include: [
+				{
+					model: Relationship,
+					// where: {
+					// 	object_id: postId
+					// },
+					attributes: [["object_id", "postId"]]
+				}
+			]
+		});
+		if (findRes === null) {
+			//无结果只返回分类查询数据
+			return (ctx.body = {
+				result: true,
+				category: category
+			});
+		}
 		return (ctx.body = {
 			result: true,
+			post: findRes,
 			category: category
 		});
 	}
-	ctx.body = {
+	if (findRes === null) {
+		return (ctx.body = {
+			result: true,
+			message: "无数据！"
+		});
+	}
+	return (ctx.body = {
 		result: true,
-		post: findRes,
-		category: category
-	};
+		post: findRes
+	});
 });
 
 router.post("/findAllPost", async ctx => {
@@ -313,6 +328,7 @@ router.post("/findPostList", async ctx => {
 			["updatedAt", "DESC"]
 		],
 		attributes: [
+			["id", "postId"],
 			["post_title", "title"],
 			["post_describe", "describe"],
 			["feature_image", "image"],
@@ -321,6 +337,9 @@ router.post("/findPostList", async ctx => {
 			["like_count", "like_count"],
 			["pv", "pv"]
 		],
+		where: {
+			post_status: 1
+		},
 		offset: 10 * (page - 1),
 		limit: 10,
 		include: [
