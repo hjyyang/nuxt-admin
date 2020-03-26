@@ -70,7 +70,7 @@
 				<i class="iconfont icon-caidan"></i>
 			</div>
 		</div>
-		<el-drawer :visible.sync="drawerVisible" direction="rtl" class="menu_drawer">
+		<el-drawer :visible.sync="drawerVisible" direction="rtl" class="menu_drawer" :append-to-body="true">
 			<div class="menu_wrpa">
 				<div class="item">
 					<div class="search" @click="searchEv">

@@ -57,7 +57,12 @@
 						</div>
 						<div class="post_image">
 							<nuxt-link :to="'/post/'+item.postId">
-								<img class="lazyload" src :data-src="'http://via.placeholder.com/430x300?text='+index" alt />
+								<img
+									class="lazyload"
+									src
+									:data-src="item.image ? item.image : 'http://via.placeholder.com/430x300/FF8B61/?text=post'"
+									alt
+								/>
 							</nuxt-link>
 						</div>
 					</div>
@@ -93,7 +98,8 @@ export default {
 	data() {
 		return {
 			article: [],
-			loadMore: 0 //0为有下一页可点击状态，1为加载，2无下一页无法点击
+			loadMore: 0, //0为有下一页可点击状态，1为加载，2无下一页无法点击
+			currentPage: 1
 		};
 	},
 	async asyncData(app) {
@@ -115,7 +121,6 @@ export default {
 			});
 	},
 	mounted() {
-		this.getData(1);
 		document.getElementsByTagName("body")[0].classList.add("home");
 	},
 	beforeDestroy: function() {
@@ -126,17 +131,27 @@ export default {
 			yTool(this.$refs.aTarget).anchor(500);
 		},
 		onMore() {
-			this.loadMore = true;
+			this.currentPage++;
+			this.loadMore = 1;
+			this.getData();
 		},
-		async getData(page) {
+		async getData() {
 			await this.$axios({
 				method: "post",
 				url: "/api/findPostList",
 				data: {
-					page: page
+					page: this.currentPage
 				}
 			}).then(res => {
-				console.log(res);
+				if (res.data.postList.rows.length > 0) {
+					this.article.push.apply(
+						this.article,
+						res.data.postList.rows
+					);
+					this.loadMore = 0;
+				} else {
+					this.loadMore = 2;
+				}
 			});
 		}
 	}
