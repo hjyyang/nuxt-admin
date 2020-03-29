@@ -125,7 +125,8 @@ export default {
 				postDescribe: "", //文章描述
 				postStatus: 0, //文章状态，0为草稿，1为发布
 				commentStatus: false, //评论是否开启
-				categoryUpdate: false //是否有更新分类
+				categoryUpdate: false, //是否有更新分类
+				htmlContent: ""
 			},
 			whoClick: "",
 			drawerVisible: false,
@@ -270,6 +271,7 @@ export default {
 			this.saveStatus = true;
 			window.clearInterval(this.delay);
 			this.delay = setTimeout(() => {
+				this.postData.htmlContent = this.$refs.md.d_render;
 				this.updatePostData();
 			}, 3000);
 		},
@@ -290,7 +292,8 @@ export default {
 					commentStatus: this.postData.commentStatus
 						? "open"
 						: "close",
-					categoryUpdate: this.postData.categoryUpdate
+					categoryUpdate: this.postData.categoryUpdate,
+					htmlContent: this.postData.htmlContent
 				}
 			})
 				.then(res => {
@@ -317,7 +320,7 @@ export default {
 		async getCurrentPost() {
 			let res = await this.$axios({
 				method: "get",
-				url: "/api/findPost?id=" + this.postData.postId +"&admin=true"
+				url: "/api/findPost?id=" + this.postData.postId + "&admin=true"
 			});
 			if (res.data.post) {
 				this.postData.coverImg = res.data.post.coverImg;

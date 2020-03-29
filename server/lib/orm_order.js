@@ -71,6 +71,9 @@ let Post = sequelize.define(
 		post_content: {
 			type: Sequelize.TEXT
 		},
+		html_content: {
+			type: Sequelize.TEXT
+		},
 		post_describe: {
 			type: Sequelize.STRING
 		},

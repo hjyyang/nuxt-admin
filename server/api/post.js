@@ -25,6 +25,7 @@ let findOrCreate = async (op, t) => {
 			feature_image: op.featureImage,
 			post_status: op.status,
 			comment_status: op.commentStatus,
+			html_content: op.htmlContent,
 			createdAt: new Date(),
 			updatedAt: new Date()
 		},
@@ -43,7 +44,8 @@ router.post("/addAndUpdatePost", async ctx => {
 			categoryUpdate,
 			status,
 			featureImage,
-			commentStatus
+			commentStatus,
+			htmlContent
 		} = ctx.request.body,
 		relationshipArr = [],
 		postId = null;
@@ -65,6 +67,7 @@ router.post("/addAndUpdatePost", async ctx => {
 						author: author,
 						title: titl ? titl : "not titile",
 						content: content,
+						htmlContent: htmlContent,
 						describe: describe,
 						status: status,
 						featureImage: featureImage,
@@ -124,6 +127,7 @@ router.post("/addAndUpdatePost", async ctx => {
 					post_author: author,
 					post_title: title,
 					post_content: content,
+					html_content: htmlContent,
 					post_describe: describe,
 					post_status: status,
 					feature_image: featureImage,
@@ -175,13 +179,14 @@ router.get("/findPost", async ctx => {
 		admin = ctx.request.query.admin,
 		findRes = null,
 		category = null,
-		whereObj = {};
+		whereObj = {},
+		attributesArr = [];
 	if (postId && !isNaN(parseInt(postId))) {
 		whereObj = {
 			id: postId
 		};
-		findRes = await Post.findOne({
-			attributes: [
+		if (admin) {
+			attributesArr = [
 				["id", "postId"],
 				["post_author", "author"],
 				["post_title", "postTitle"],
@@ -189,9 +194,26 @@ router.get("/findPost", async ctx => {
 				["post_describe", "postDescribe"],
 				["feature_image", "coverImg"],
 				["post_status", "postStatus"],
+				["createdAt", "createdAt"],
 				["pv", "pv"],
 				["comment_status", "commentStatus"]
-			],
+			];
+		} else {
+			attributesArr = [
+				["id", "postId"],
+				["post_author", "author"],
+				["post_title", "postTitle"],
+				["html_content", "htmlContent"],
+				["post_describe", "postDescribe"],
+				["feature_image", "coverImg"],
+				["post_status", "postStatus"],
+				["createdAt", "createdAt"],
+				["pv", "pv"],
+				["comment_status", "commentStatus"]
+			];
+		}
+		findRes = await Post.findOne({
+			attributes: attributesArr,
 			where: whereObj
 		});
 	}
