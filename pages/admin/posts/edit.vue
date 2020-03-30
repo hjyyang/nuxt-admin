@@ -42,6 +42,7 @@
 					:subfield="toolbarsOption.preview"
 					:boxShadow="false"
 					v-model="postData.editContent"
+                    previewBackground="#ffffff"
 				/>
 			</client-only>
 		</main>

@@ -232,7 +232,16 @@ h2.col_title {
 }
 .home_article {
 	padding-top: 80px;
-
+	@keyframes item-an {
+		0% {
+			opacity: 0;
+			transform: translateY(30px);
+		}
+		100% {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
 	.item {
 		position: relative;
 		display: flex;
@@ -242,6 +251,7 @@ h2.col_title {
 		box-shadow: 0 1px 20px -6px rgba(0, 0, 0, 0.5);
 		transition: all 0.3s;
 		overflow: hidden;
+		animation: item-an 1s;
 		&:hover {
 			box-shadow: 0 5px 10px 5px rgba(110, 110, 110, 0.4);
 			img {

@@ -180,6 +180,7 @@ router.get("/findPost", async ctx => {
 		findRes = null,
 		category = null,
 		whereObj = {},
+		updatePv = 0,
 		attributesArr = [];
 	if (postId && !isNaN(parseInt(postId))) {
 		whereObj = {
@@ -216,6 +217,21 @@ router.get("/findPost", async ctx => {
 			attributes: attributesArr,
 			where: whereObj
 		});
+		if (!admin) {
+            //非后台查询增加pv数
+			updatePv = findRes.dataValues.pv;
+			updatePv++;
+			await Post.update(
+				{
+					pv: updatePv
+				},
+				{
+					where: {
+						id: postId
+					}
+				}
+			);
+		}
 	}
 	if (admin) {
 		//后台管理获取数据时返回分类
