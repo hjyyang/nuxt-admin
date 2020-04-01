@@ -4,9 +4,9 @@
 			<div class="logo">
 				<nuxt-link to="/">
 					<ruby>
-						<span>風間の少年</span>
+						<span>此间少年</span>
 						<rp></rp>
-						<rt>风间的少年</rt>
+						<rt>此间少年</rt>
 						<rp></rp>
 					</ruby>
 				</nuxt-link>

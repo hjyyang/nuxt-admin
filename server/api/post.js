@@ -265,7 +265,7 @@ router.get("/findPost", async ctx => {
 	}
 	if (findRes === null) {
 		return (ctx.body = {
-			result: true,
+			result: false,
 			message: "无数据！"
 		});
 	}

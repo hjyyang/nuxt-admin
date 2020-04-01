@@ -324,11 +324,16 @@ h2.col_title {
 	}
 	.post_image {
 		max-width: 430px;
-		width: 100%;
+        width: 100%;
+        max-height: 300px;
 		a {
 			display: block;
 			overflow: hidden;
-		}
+        }
+        img{
+            max-width: none;
+            max-height: 100%;
+        }
 	}
 	.more {
 		padding-top: 40px;

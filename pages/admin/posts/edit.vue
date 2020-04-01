@@ -42,7 +42,7 @@
 					:subfield="toolbarsOption.preview"
 					:boxShadow="false"
 					v-model="postData.editContent"
-                    previewBackground="#ffffff"
+					previewBackground="#ffffff"
 				/>
 			</client-only>
 		</main>
@@ -294,7 +294,7 @@ export default {
 						? "open"
 						: "close",
 					categoryUpdate: this.postData.categoryUpdate,
-					htmlContent: this.postData.htmlContent
+					htmlContent: this.$refs.md.d_render
 				}
 			})
 				.then(res => {

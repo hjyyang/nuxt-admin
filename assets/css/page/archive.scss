@@ -2,18 +2,23 @@
 	display: flex;
 	align-items: center;
 	min-height: 400px;
-	background: pink;
+    background: pink;
+    background-position: center top;
 	h1 {
 		color: #ffffff;
 		font-size: 50px;
-		text-align: center;
+        text-align: center;
+        text-shadow: 4px 2px rgba(0, 0, 0, 0.5);
 	}
 }
 
 .archive {
 	.archive_wrap {
 		padding: 60px 0px 120px;
-	}
+    }
+    .page_banner{
+        background-image: url("~assets/image/manwei.jpeg");
+    }
 }
 
 .timeline {

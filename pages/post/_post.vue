@@ -1,6 +1,9 @@
 <template>
 	<main class="post_detail">
-		<section class="page_banner">
+		<section
+			class="page_banner"
+			:style="postData.coverImg ? 'background-image: url('+postData.coverImg+')': ''"
+		>
 			<div class="minContainer">
 				<h1>{{postData.postTitle}}</h1>
 				<div class="post_info">
@@ -24,7 +27,7 @@ export default {
 		return {
 			postData: {
 				postTitle: "",
-                htmlContent: "",
+				htmlContent: "",
 				postId: Number,
 				author: "",
 				coverImg: "",
@@ -55,10 +58,13 @@ export default {
 				}
 			};
 		} else {
-			return {
-				postData: {}
-			};
+			app.redirect("/404/");
 		}
+	},
+	head() {
+		return {
+			title: this.postData.postTitle
+		};
 	},
 	methods: {},
 	mounted() {
