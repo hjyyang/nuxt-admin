@@ -5,9 +5,9 @@
 				<el-tab-pane label="文件列表" name="list">
 					<div class="file_list">
 						<ul @click="fileEvent" class="list">
-							<li class="file_item" v-for="(item,index) in fileList" :key="index" :fileIndex="index">
+							<li class="file_item" v-for="(item,index) in showFileList" :key="index" :fileIndex="index">
 								<div class="pic">
-									<img :src="item.url" alt />
+									<img :src="item.url ? item.url : item.response.url" alt />
 								</div>
 							</li>
 						</ul>
@@ -44,7 +44,9 @@ export default {
 	data() {
 		return {
 			activeName: "list",
-			fileList: []
+			fileList: [],
+			showFileList: [],
+			timer: -1
 		};
 	},
 	props: ["mediaDialogVisible"],
@@ -54,6 +56,7 @@ export default {
 			url: "/file/get"
 		}).then(res => {
 			this.fileList = res.data.files;
+			this.showFileList = res.data.files;
 		});
 	},
 	methods: {
@@ -81,11 +84,16 @@ export default {
 			return isLt2M;
 		},
 		uploadEV(res, file, fileList) {
-			this.fileList.push(res);
-			this.$message({
-				type: "success",
-				message: "上传成功!"
-			});
+			setTimeout(() => {
+				this.showFileList.push(res);
+			}, 0);
+			window.clearTimeout(this.timer);
+			this.timer = setTimeout(() => {
+				this.$message({
+					type: "success",
+					message: "上传成功!"
+				});
+			}, 100);
 		}
 	}
 };
