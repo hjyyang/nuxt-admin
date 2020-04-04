@@ -11,9 +11,9 @@ let sequelize = new Sequelize(
 		pool: {
 			max: 5,
 			min: 0,
-			idle: 30000
+			idle: 30000,
 		},
-		timezone: "+08:00"
+		timezone: "+08:00",
 	}
 );
 
@@ -27,22 +27,22 @@ let User = sequelize.define(
 		id: {
 			type: Sequelize.INTEGER,
 			primaryKey: true,
-			autoIncrement: true
+			autoIncrement: true,
 		},
 		name: Sequelize.STRING,
 		password: Sequelize.STRING,
 		email: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
 		},
 		WeChat: Sequelize.STRING,
 		join_date: {
 			type: Sequelize.DATE,
-			defaultValue: Sequelize.NOW
+			defaultValue: Sequelize.NOW,
 		},
-		role: Sequelize.TINYINT(10)
+		role: Sequelize.TINYINT(10),
 	},
 	{
-		timestamps: false
+		timestamps: false,
 		//Sequelize默认为每个模型定义了字段id(主键),createdAt和updatedAt,
 		//timestamps 为 false,因此不会创建 `createdAt` 和 `updatedAt` 字段.
 		// freezeTableName: true
@@ -58,52 +58,55 @@ let Post = sequelize.define(
 		id: {
 			type: Sequelize.BIGINT(20),
 			primaryKey: true,
-			autoIncrement: true
+			autoIncrement: true,
 		},
 		post_author: {
 			type: Sequelize.BIGINT(20),
-			defaultValue: 1
+			defaultValue: 1,
 		},
 		post_title: {
 			type: Sequelize.STRING,
-			defaultValue: "not title"
+			defaultValue: "not title",
 		},
 		post_content: {
-			type: Sequelize.TEXT
+			type: Sequelize.TEXT,
 		},
 		html_content: {
-			type: Sequelize.TEXT
+			type: Sequelize.TEXT,
 		},
 		post_describe: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
 		},
 		createdAt: {
-			type: Sequelize.DATE
+			type: Sequelize.DATE,
 		},
 		updatedAt: {
-			type: Sequelize.DATE
+			type: Sequelize.DATE,
+		},
+		publishedAt: {
+			type: Sequelize.DATE,
 		},
 		post_status: {
-			type: Sequelize.TINYINT(1)
+			type: Sequelize.TINYINT(1),
 		},
 		like_count: {
-			type: Sequelize.INTEGER(20)
+			type: Sequelize.INTEGER(20),
 		},
 		pv: {
-			type: Sequelize.INTEGER(20)
+			type: Sequelize.INTEGER(20),
 		},
 		feature_image: {
-			type: Sequelize.STRING
+			type: Sequelize.STRING,
 		},
 		comment_count: {
-			type: Sequelize.BIGINT(20)
+			type: Sequelize.BIGINT(20),
 		},
 		comment_status: {
-			type: Sequelize.STRING(20)
-		}
+			type: Sequelize.STRING(20),
+		},
 	},
 	{
-		timestamps: false
+		timestamps: false,
 	}
 );
 
@@ -115,21 +118,21 @@ let Relationship = sequelize.define(
 		object_id: {
 			type: Sequelize.BIGINT,
 			defaultValue: 0,
-			primaryKey: true
+			primaryKey: true,
 		},
 		term_taxonomy_id: {
 			type: Sequelize.BIGINT,
 			defaultValue: 0,
-			primaryKey: true
+			primaryKey: true,
 		},
 		term_order: {
 			type: Sequelize.INTEGER,
-			defaultValue: 0
-		}
+			defaultValue: 0,
+		},
 	},
 	{
 		timestamps: false,
-		freezeTableName: true
+		freezeTableName: true,
 	}
 );
 
@@ -142,20 +145,20 @@ let Category = sequelize.define(
 		id: {
 			type: Sequelize.BIGINT,
 			autoIncrement: true,
-			primaryKey: true
+			primaryKey: true,
 		},
 		name: {
 			type: Sequelize.STRING(200),
-			defaultValue: ""
+			defaultValue: "",
 		},
 		slug: {
 			type: Sequelize.STRING(200),
-			defaultValue: ""
-		}
+			defaultValue: "",
+		},
 	},
 	{
 		timestamps: false,
-		freezeTableName: true
+		freezeTableName: true,
 	}
 );
 dataTables.Category = Category;
@@ -167,18 +170,18 @@ Category.hasOne(Relationship, { foreignKey: "term_taxonomy_id" });
 Post.belongsToMany(Category, {
 	through: {
 		model: Relationship,
-		unique: false
+		unique: false,
 	},
 	foreignKey: "object_id", //通过外键postId
-	constraints: false
+	constraints: false,
 });
 Category.belongsToMany(Post, {
 	through: {
 		model: Relationship,
-		unique: false
+		unique: false,
 	},
 	foreignKey: "term_taxonomy_id", //通过外键postId
-	constraints: false
+	constraints: false,
 });
 
 module.exports = dataTables;

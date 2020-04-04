@@ -8,7 +8,7 @@
 				<h1>{{postData.postTitle}}</h1>
 				<div class="post_info">
 					<span class="date">{{new Date(postData.createdAt).format("yyyy-MM-dd")}}</span>
-					<span>{{postData.pv}}次阅读</span>
+					<span>{{postData.pv+1}}次阅读</span>
 				</div>
 			</div>
 		</section>

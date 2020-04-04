@@ -1,7 +1,7 @@
 <template>
 	<section class="settings">
 		<div class="setting_main">
-			<el-tabs type="border-card">
+			<el-tabs>
 				<el-tab-pane label="配置">
 					<el-form label-position="right" label-width="140px" :model="formData">
 						<el-form-item label="网站标题">
@@ -35,11 +35,6 @@
 						<el-form-item label="思否">
 							<el-input v-model="formData.type"></el-input>
 						</el-form-item>
-					</el-form>
-				</el-tab-pane>
-                <el-tab-pane label="管理员设置">
-					<el-form label-position="right" label-width="140px" :model="formData">
-						管理员设置
 					</el-form>
 				</el-tab-pane>
 			</el-tabs>

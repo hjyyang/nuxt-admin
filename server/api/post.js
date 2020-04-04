@@ -3,20 +3,20 @@ const {
 	Post,
 	mySequelize,
 	Relationship,
-	Category
+	Category,
 } = require("../lib/orm_order");
 
 const sequelize = require("sequelize");
 const Op = sequelize.Op;
 
 const router = new Router({
-	prefix: "/api"
+	prefix: "/api",
 });
 
 let findOrCreate = async (op, t) => {
 	return await Post.findOrCreate({
 		where: {
-			post_title: op.title
+			post_title: op.title,
 		},
 		defaults: {
 			post_author: op.author,
@@ -27,13 +27,14 @@ let findOrCreate = async (op, t) => {
 			comment_status: op.commentStatus,
 			html_content: op.htmlContent,
 			createdAt: new Date(),
-			updatedAt: new Date()
+			updatedAt: new Date(),
+			publishedAt: op.status === 1 ? new Date() : null,
 		},
-		transaction: t
+		transaction: t,
 	});
 };
 
-router.post("/addAndUpdatePost", async ctx => {
+router.post("/addAndUpdatePost", async (ctx) => {
 	let {
 			id,
 			author,
@@ -45,7 +46,7 @@ router.post("/addAndUpdatePost", async ctx => {
 			status,
 			featureImage,
 			commentStatus,
-			htmlContent
+			htmlContent,
 		} = ctx.request.body,
 		relationshipArr = [],
 		postId = null;
@@ -53,13 +54,13 @@ router.post("/addAndUpdatePost", async ctx => {
 		//id非数字类型时
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确的字段值！"
+			message: "请输入正确的字段值！",
 		});
 	}
 
 	if (!id) {
 		//不存在id则插入数据
-		await mySequelize.transaction(async t => {
+		await mySequelize.transaction(async (t) => {
 			//递归查询标题是否存在
 			async function titleFcn(titl) {
 				let resCre = await findOrCreate(
@@ -71,7 +72,7 @@ router.post("/addAndUpdatePost", async ctx => {
 						describe: describe,
 						status: status,
 						featureImage: featureImage,
-						commentStatus: commentStatus
+						commentStatus: commentStatus,
 					},
 					t
 				);
@@ -91,27 +92,27 @@ router.post("/addAndUpdatePost", async ctx => {
 					relationshipArr[i].term_taxonomy_id = category[i];
 				}
 				await Relationship.bulkCreate(relationshipArr, {
-					transaction: t
+					transaction: t,
 				});
 			}
 			return (ctx.body = {
 				result: true,
 				id: postId,
-				postTitle: postRes[0].dataValues.post_title
+				postTitle: postRes[0].dataValues.post_title,
 			});
 		});
 	} else {
 		//存在id则修改post内容
-		await mySequelize.transaction(async t => {
+		await mySequelize.transaction(async (t) => {
 			async function titleFcn(titl) {
 				//递归函数，递归查询是否文章标题重复，更新不重复的标题
 				let findRes = await Post.findOne({
 					where: {
 						post_title: titl,
 						id: {
-							[Op.ne]: id
-						}
-					}
+							[Op.ne]: id,
+						},
+					},
 				});
 				if (findRes) {
 					title = titl + "(新)";
@@ -132,28 +133,29 @@ router.post("/addAndUpdatePost", async ctx => {
 					post_status: status,
 					feature_image: featureImage,
 					comment_status: commentStatus,
-					updatedAt: new Date()
+                    updatedAt: new Date(),
+                    publishedAt: status === 1 ? new Date() : null,
 				},
 				{
 					where: {
-						id: id
+						id: id,
 					},
-					transaction: t
+					transaction: t,
 				}
 			);
 			if (res[0] === 0) {
 				return (ctx.body = {
 					result: false,
-					message: "不存在该文章！"
+					message: "不存在该文章！",
 				});
 			}
 			if (categoryUpdate) {
 				//分类有更新
 				await Relationship.destroy({
 					where: {
-						object_id: id
+						object_id: id,
 					},
-					transaction: t
+					transaction: t,
 				});
 				if (category && Array.isArray(category)) {
 					for (let i in category) {
@@ -162,19 +164,19 @@ router.post("/addAndUpdatePost", async ctx => {
 						relationshipArr[i].term_taxonomy_id = category[i];
 					}
 					await Relationship.bulkCreate(relationshipArr, {
-						transaction: t
+						transaction: t,
 					});
 				}
 			}
 			return (ctx.body = {
 				result: true,
-				postTitle: title
+				postTitle: title,
 			});
 		});
 	}
 });
 
-router.get("/findPost", async ctx => {
+router.get("/findPost", async (ctx) => {
 	let postId = ctx.request.query.id,
 		admin = ctx.request.query.admin,
 		findRes = null,
@@ -184,7 +186,7 @@ router.get("/findPost", async ctx => {
 		attributesArr = [];
 	if (postId && !isNaN(parseInt(postId))) {
 		whereObj = {
-			id: postId
+			id: postId,
 		};
 		if (admin) {
 			attributesArr = [
@@ -197,7 +199,7 @@ router.get("/findPost", async ctx => {
 				["post_status", "postStatus"],
 				["createdAt", "createdAt"],
 				["pv", "pv"],
-				["comment_status", "commentStatus"]
+				["comment_status", "commentStatus"],
 			];
 		} else {
 			attributesArr = [
@@ -210,25 +212,25 @@ router.get("/findPost", async ctx => {
 				["post_status", "postStatus"],
 				["createdAt", "createdAt"],
 				["pv", "pv"],
-				["comment_status", "commentStatus"]
+				["comment_status", "commentStatus"],
 			];
 		}
 		findRes = await Post.findOne({
 			attributes: attributesArr,
-			where: whereObj
+			where: whereObj,
 		});
 		if (!admin) {
-            //非后台查询增加pv数
+			//非后台查询增加pv数
 			updatePv = findRes.dataValues.pv;
 			updatePv++;
 			await Post.update(
 				{
-					pv: updatePv
+					pv: updatePv,
 				},
 				{
 					where: {
-						id: postId
-					}
+						id: postId,
+					},
 				}
 			);
 		}
@@ -238,7 +240,7 @@ router.get("/findPost", async ctx => {
 		category = await Category.findAll({
 			attributes: [
 				["name", "cName"],
-				["id", "cValue"]
+				["id", "cValue"],
 			],
 			include: [
 				{
@@ -246,59 +248,59 @@ router.get("/findPost", async ctx => {
 					// where: {
 					// 	object_id: postId
 					// },
-					attributes: [["object_id", "postId"]]
-				}
-			]
+					attributes: [["object_id", "postId"]],
+				},
+			],
 		});
 		if (findRes === null) {
 			//无结果只返回分类查询数据
 			return (ctx.body = {
 				result: true,
-				category: category
+				category: category,
 			});
 		}
 		return (ctx.body = {
 			result: true,
 			post: findRes,
-			category: category
+			category: category,
 		});
 	}
 	if (findRes === null) {
 		return (ctx.body = {
 			result: false,
-			message: "无数据！"
+			message: "无数据！",
 		});
 	}
 	return (ctx.body = {
 		result: true,
-		post: findRes
+		post: findRes,
 	});
 });
 
-router.post("/findAllPost", async ctx => {
+router.post("/findAllPost", async (ctx) => {
 	let { title, time, page, category } = ctx.request.body,
 		whereObj = {};
 	if (!page || isNaN(parseInt(page)) || (!!time && !Array.isArray(time))) {
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确的字段或值！"
+			message: "请输入正确的字段或值！",
 		});
 	}
 	if (title) {
 		whereObj.post_title = {
-			[Op.like]: "%" + title + "%"
+			[Op.like]: "%" + title + "%",
 		};
 	}
 	if (time) {
 		whereObj.createdAt = {
-			[Op.between]: time
+			[Op.between]: time,
 		};
 	}
 	if (category && !isNaN(parseInt(category))) {
 		let res = await Post.findAndCountAll({
 			order: [
 				//倒序排列updatedAt数据
-				["updatedAt", "DESC"]
+				["updatedAt", "DESC"],
 			],
 			where: whereObj,
 			attributes: [
@@ -308,7 +310,7 @@ router.post("/findAllPost", async ctx => {
 				["updatedAt", "last_modified_date"],
 				["post_status", "publish_status"],
 				["like_count", "like_count"],
-				["pv", "pv"]
+				["pv", "pv"],
 			],
 			offset: 10 * (page - 1),
 			limit: 10,
@@ -316,21 +318,21 @@ router.post("/findAllPost", async ctx => {
 				{
 					model: Relationship,
 					where: {
-						term_taxonomy_id: category
+						term_taxonomy_id: category,
 					},
-					attributes: [["object_id", "id"]]
-				}
-			]
+					attributes: [["object_id", "id"]],
+				},
+			],
 		});
 		return (ctx.body = {
 			result: true,
-			postList: res
+			postList: res,
 		});
 	}
 	let res = await Post.findAndCountAll({
 		order: [
 			//倒序排列updatedAt数据
-			["updatedAt", "DESC"]
+			["updatedAt", "DESC"],
 		],
 		where: whereObj,
 		attributes: [
@@ -341,29 +343,29 @@ router.post("/findAllPost", async ctx => {
 			["updatedAt", "last_modified_date"],
 			["post_status", "publish_status"],
 			["like_count", "like_count"],
-			["pv", "pv"]
+			["pv", "pv"],
 		],
 		offset: 10 * (page - 1),
-		limit: 10
+		limit: 10,
 	});
 	return (ctx.body = {
 		result: true,
-		postList: res
+		postList: res,
 	});
 });
 
-router.post("/findPostList", async ctx => {
+router.post("/findPostList", async (ctx) => {
 	let { page } = ctx.request.body;
 	if (!page || isNaN(parseInt(page))) {
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确的字段或值！"
+			message: "请输入正确的字段或值！",
 		});
 	}
 	let res = await Post.findAndCountAll({
 		order: [
 			//倒序排列updatedAt数据
-			["updatedAt", "DESC"]
+			["publishedAt", "DESC"],
 		],
 		attributes: [
 			["id", "postId"],
@@ -371,186 +373,187 @@ router.post("/findPostList", async ctx => {
 			["post_describe", "describe"],
 			["feature_image", "image"],
 			["createdAt", "createdAt"],
+			["publishedAt", "publishedAt"],
 			["updatedAt", "last_modified_date"],
 			["like_count", "like_count"],
-			["pv", "pv"]
+			["pv", "pv"],
 		],
 		where: {
-			post_status: 1
+			post_status: 1,
 		},
 		offset: 10 * (page - 1),
 		limit: 10,
 		include: [
 			{
 				model: Category,
-				attributes: ["name"]
-			}
-		]
+				attributes: ["name"],
+			},
+		],
 	});
 
 	return (ctx.body = {
 		result: true,
-		postList: res
+		postList: res,
 	});
 });
 
-router.post("/deletePost", async ctx => {
+router.post("/deletePost", async (ctx) => {
 	let { postId } = ctx.request.body;
 	if (!postId || (!!postId && !Array.isArray(postId))) {
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确的字段或值！"
+			message: "请输入正确的字段或值！",
 		});
 	}
-	await mySequelize.transaction(async t => {
+	await mySequelize.transaction(async (t) => {
 		let postRes = await mySequelize.queryInterface.bulkDelete(
 			"posts",
 			{
 				id: {
-					[Op.in]: postId
-				}
+					[Op.in]: postId,
+				},
 			},
 			{
-				transaction: t
+				transaction: t,
 			}
 		);
 		await mySequelize.queryInterface.bulkDelete(
 			"term_relationships",
 			{
 				object_id: {
-					[Op.in]: postId
-				}
+					[Op.in]: postId,
+				},
 			},
 			{
-				transaction: t
+				transaction: t,
 			}
 		);
 		if (postRes[0].affectedRows === 0) {
 			return (ctx.body = {
 				result: false,
-				message: "不存在的文章！"
+				message: "不存在的文章！",
 			});
 		}
 		return (ctx.body = {
-			result: true
+			result: true,
 		});
 	});
 });
 
-router.get("/getCategory", async ctx => {
+router.get("/getCategory", async (ctx) => {
 	let res = await mySequelize.query(
 		`SELECT c.id AS cId, c.name AS cName, c.slug, count(t.term_taxonomy_id) As count FROM category AS c LEFT JOIN term_relationships AS t ON c.id = t.term_taxonomy_id GROUP BY c.id;`,
 		{
-			type: sequelize.QueryTypes.SELECT
+			type: sequelize.QueryTypes.SELECT,
 		}
 	);
 
 	ctx.body = {
 		result: true,
-		data: res
+		data: res,
 	};
 });
 
-router.post("/addCategory", async ctx => {
+router.post("/addCategory", async (ctx) => {
 	let { cName } = ctx.request.body,
 		slug = null;
 	if (!cName) {
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确都字段或值！"
+			message: "请输入正确都字段或值！",
 		});
 	}
 	slug = cName.replace(/[ |_]/g, "-");
 	let res = await Category.findOrCreate({
 		where: {
-			slug: slug
+			slug: slug,
 		},
 		defaults: {
-			name: cName
-		}
+			name: cName,
+		},
 	});
 	if (res[1]) {
 		return (ctx.body = {
 			result: true,
-			data: res
+			data: res,
 		});
 	} else {
 		return (ctx.body = {
 			result: false,
 			message: "该分类名已存在！",
-			data: res
+			data: res,
 		});
 	}
 });
 
-router.post("/deleteCategory", async ctx => {
+router.post("/deleteCategory", async (ctx) => {
 	let { cId } = ctx.request.body;
 	if (!cId || (!!cId && !Array.isArray(cId))) {
 		//如果不存在或者不为数字类型
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确的字段或值！"
+			message: "请输入正确的字段或值！",
 		});
 	}
-	await mySequelize.transaction(async t => {
+	await mySequelize.transaction(async (t) => {
 		let res = await mySequelize.queryInterface.bulkDelete(
 			"category",
 			{
 				id: {
-					[Op.in]: cId
-				}
+					[Op.in]: cId,
+				},
 			},
 			{
-				transaction: t
+				transaction: t,
 			}
 		);
 		if (res[0].affectedRows === 0) {
 			return (ctx.body = {
 				result: false,
-				message: "不存在该分类！"
+				message: "不存在该分类！",
 			});
 		}
 		await mySequelize.queryInterface.bulkDelete(
 			"term_relationships",
 			{
 				term_taxonomy_id: {
-					[Op.in]: cId
-				}
+					[Op.in]: cId,
+				},
 			},
 			{
-				transaction: t
+				transaction: t,
 			}
 		);
 		return (ctx.body = {
-			result: true
+			result: true,
 		});
 	});
 });
 
-router.post("/updateCategory", async ctx => {
+router.post("/updateCategory", async (ctx) => {
 	let { cId, cName } = ctx.request.body,
 		slug = cName.replace(/[ |_]/g, "-");
 
 	if (!cId || isNaN(parseInt(cId))) {
 		return (ctx.body = {
 			result: false,
-			message: "请输入正确到字段或值！"
+			message: "请输入正确到字段或值！",
 		});
 	}
 	let res = await Category.update(
 		{
 			name: cName,
-			slug: slug
+			slug: slug,
 		},
 		{
 			where: {
-				id: cId
-			}
+				id: cId,
+			},
 		}
 	);
 	ctx.body = {
 		result: true,
-		data: res
+		data: res,
 	};
 });
 

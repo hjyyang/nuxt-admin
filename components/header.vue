@@ -63,17 +63,22 @@
 					</el-dropdown-menu>
 				</el-dropdown>
 			</div>
-			<div class="search" v-if="!mobile" @click="searchEv">
+			<div class="search" v-if="!mobile" @click="searchPopup = true">
 				<i class="el-icon-search"></i>
 			</div>
 			<div class="responsive_menu_toggle" v-if="mobile" @click="openSliderMenu">
 				<i class="iconfont icon-caidan"></i>
 			</div>
 		</div>
-		<el-drawer :visible.sync="drawerVisible" direction="rtl" class="menu_drawer" :append-to-body="true">
+		<el-drawer
+			:visible.sync="drawerVisible"
+			direction="rtl"
+			class="menu_drawer"
+			:append-to-body="true"
+		>
 			<div class="menu_wrpa">
 				<div class="item">
-					<div class="search" @click="searchEv">
+					<div class="search" @click="searchPopup = true">
 						<i class="el-icon-search"></i>
 					</div>
 				</div>
@@ -100,6 +105,21 @@
 				</div>
 			</div>
 		</el-drawer>
+		<div class="fixed_search" v-show="searchPopup">
+			<div class="colse" @click="searchPopup = false">
+				<i class="el-icon-close"></i>
+			</div>
+			<div class="search-main">
+				<i class="el-icon-search"></i>
+				<el-autocomplete
+					v-model="searchContent"
+					:fetch-suggestions="querySearchAsync"
+					placeholder="请输入搜索内容"
+					@select="handleSelect"
+					clearable
+				></el-autocomplete>
+			</div>
+		</div>
 	</header>
 </template>
 
@@ -169,7 +189,10 @@ export default {
 				"hover_translate_vertical"
 			],
 			mobile: this.isMobile,
-			drawerVisible: false
+			drawerVisible: false,
+			searchPopup: false,
+			searchContent: "",
+			timeout: null
 		};
 	},
 	props: {
@@ -205,6 +228,16 @@ export default {
 		},
 		slideToggle(index) {
 			this.menuData[index].show = !this.menuData[index].show;
+		},
+		handleSelect(item) {
+			console.log(item);
+		},
+		querySearchAsync(queryString, cb) {
+			// console.log(queryString)
+			clearTimeout(this.timeout);
+			this.timeout = setTimeout(() => {
+                console.log(queryString)
+            }, 1000);
 		}
 	},
 	watch: {

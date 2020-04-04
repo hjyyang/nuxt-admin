@@ -31,7 +31,7 @@
 							<div class="post_date">
 								<i class="el-icon-time"></i>
 								発表
-								<span>{{new Date(item.createdAt).format("yyyy-MM-dd")}}</span>
+								<span>{{new Date(item.publishedAt).format("yyyy-MM-dd")}}</span>
 							</div>
 							<h3 class="post_title">
 								<nuxt-link :to="'/post/'+item.postId">{{item.title}}</nuxt-link>
