@@ -141,46 +141,46 @@ export default {
 					icon: "el-icon-s-management",
 					path: "/archive",
 					subMenu: [
-						{
-							name: "分类",
-							icon: "iconfont icon-icon_category",
-							path: "/classify"
-						},
-						{
-							name: "标签",
-							icon: "iconfont icon-biaoqian1",
-							path: "/tag"
-						},
-						{
-							name: "书单",
-							icon: "iconfont icon-book",
-							path: "/book-list"
-						}
+						// {
+						// 	name: "分类",
+						// 	icon: "iconfont icon-icon_category",
+						// 	path: "/classify"
+						// },
+						// {
+						// 	name: "标签",
+						// 	icon: "iconfont icon-biaoqian1",
+						// 	path: "/tag"
+						// },
+						// {
+						// 	name: "书单",
+						// 	icon: "iconfont icon-book",
+						// 	path: "/book-list"
+						// }
 					],
 					show: false
 				},
-				{
-					name: "关于",
-					icon: "iconfont icon-about",
-					path: "/about",
-					subMenu: [],
-					show: false
-				},
-				{
-					name: "留言板",
-					icon: "el-icon-edit-outline",
-					path: "/comments",
-					subMenu: [],
-					show: false
-				},
+				// {
+				// 	name: "关于",
+				// 	icon: "iconfont icon-about",
+				// 	path: "/about",
+				// 	subMenu: [],
+				// 	show: false
+				// },
+				// {
+				// 	name: "留言板",
+				// 	icon: "el-icon-edit-outline",
+				// 	path: "/comments",
+				// 	subMenu: [],
+				// 	show: false
+				// },
 
-				{
-					name: "音乐",
-					icon: "iconfont icon-icon-test",
-					path: "/music",
-					subMenu: [],
-					show: false
-				}
+				// {
+				// 	name: "音乐",
+				// 	icon: "iconfont icon-icon-test",
+				// 	path: "/music",
+				// 	subMenu: [],
+				// 	show: false
+				// }
 			],
 			hoverDynamic: [
 				"hover_scale",
@@ -221,7 +221,7 @@ export default {
 			}
 		},
 		searchEv() {
-			console.log(this);
+            console.log(this);
 		},
 		openSliderMenu() {
 			this.drawerVisible = true;

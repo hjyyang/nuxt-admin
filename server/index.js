@@ -13,6 +13,7 @@ const tokenOp = require("./common/token");
 const file = require("./api/file");
 const user = require("./api/user");
 const post = require("./api/post");
+const site = require("./api/site");
 //------------引入接口 end-----------------
 
 const app = new Koa();
@@ -30,7 +31,7 @@ async function start() {
 
 	const {
 		host = process.env.HOST || "127.0.0.1",
-		port = process.env.PORT || 3000
+		port = process.env.PORT || 3000,
 	} = nuxt.options.server;
 
 	// Build in development
@@ -49,7 +50,7 @@ async function start() {
 			return next();
 		}
 		if (ctx.url.match(/^\/api/) || ctx.url.match(/^\/file/)) {
-            return next();
+			return next();
 			//路由判断是否以/api或/file开头的url，是则进行鉴权，否则直接输入内容
 			let authorization = ctx.headers.authorization,
 				token;
@@ -70,11 +71,11 @@ async function start() {
 									id: decoded.id,
 									userName: decoded.userName,
 									email: decoded.email,
-									role: decoded.role
+									role: decoded.role,
 								},
 								tokenOp.secret,
 								{
-									expiresIn: tokenOp.validTime + ""
+									expiresIn: tokenOp.validTime + "",
 								}
 							);
 							ctx.cookies.set(
@@ -82,7 +83,7 @@ async function start() {
 								JSON.stringify(newToken),
 								{
 									maxAge: tokenOp.validTime,
-									overwrite: true
+									overwrite: true,
 								}
 							);
 						} catch (err) {
@@ -107,12 +108,13 @@ async function start() {
 	app.use(file.routes()).use(file.allowedMethods());
 	app.use(user.routes()).use(user.allowedMethods());
 	app.use(post.routes()).use(post.allowedMethods());
+	app.use(site.routes()).use(site.allowedMethods());
 	//------------使用接口url end-----------------
 
 	app.listen(port, host);
 	consola.ready({
 		message: `Server listening on http://${host}:${port}`,
-		badge: true
+		badge: true,
 	});
 }
 
