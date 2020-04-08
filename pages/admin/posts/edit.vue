@@ -321,7 +321,7 @@ export default {
 		async getCurrentPost() {
 			let res = await this.$axios({
 				method: "get",
-				url: "/api/findPost?id=" + this.postData.postId + "&admin=true"
+				url: "/api/findPost?id=" + this.postData.postId
 			});
 			if (res.data.post) {
 				this.postData.coverImg = res.data.post.coverImg;

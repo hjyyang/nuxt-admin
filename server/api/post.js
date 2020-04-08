@@ -133,8 +133,8 @@ router.post("/addAndUpdatePost", async (ctx) => {
 					post_status: status,
 					feature_image: featureImage,
 					comment_status: commentStatus,
-                    updatedAt: new Date(),
-                    publishedAt: status === 1 ? new Date() : null,
+					updatedAt: new Date(),
+					publishedAt: status === 1 ? new Date() : null,
 				},
 				{
 					where: {
@@ -178,18 +178,11 @@ router.post("/addAndUpdatePost", async (ctx) => {
 
 router.get("/findPost", async (ctx) => {
 	let postId = ctx.request.query.id,
-		admin = ctx.request.query.admin,
 		findRes = null,
-		category = null,
-		whereObj = {},
-		updatePv = 0,
-		attributesArr = [];
+		category = null;
 	if (postId && !isNaN(parseInt(postId))) {
-		whereObj = {
-			id: postId,
-		};
-		if (admin) {
-			attributesArr = [
+		findRes = await Post.findOne({
+			attributes: [
 				["id", "postId"],
 				["post_author", "author"],
 				["post_title", "postTitle"],
@@ -200,68 +193,32 @@ router.get("/findPost", async (ctx) => {
 				["createdAt", "createdAt"],
 				["pv", "pv"],
 				["comment_status", "commentStatus"],
-			];
-		} else {
-			attributesArr = [
-				["id", "postId"],
-				["post_author", "author"],
-				["post_title", "postTitle"],
-				["html_content", "htmlContent"],
-				["post_describe", "postDescribe"],
-				["feature_image", "coverImg"],
-				["post_status", "postStatus"],
-				["createdAt", "createdAt"],
-				["pv", "pv"],
-				["comment_status", "commentStatus"],
-			];
-		}
-		findRes = await Post.findOne({
-			attributes: attributesArr,
-			where: whereObj,
+			],
+			where: {
+				id: postId,
+			},
 		});
-		if (!admin) {
-			//非后台查询增加pv数
-			updatePv = findRes.dataValues.pv;
-			updatePv++;
-			await Post.update(
-				{
-					pv: updatePv,
-				},
-				{
-					where: {
-						id: postId,
-					},
-				}
-			);
-		}
 	}
-	if (admin) {
-		//后台管理获取数据时返回分类
-		category = await Category.findAll({
-			attributes: [
-				["name", "cName"],
-				["id", "cValue"],
-			],
-			include: [
-				{
-					model: Relationship,
-					// where: {
-					// 	object_id: postId
-					// },
-					attributes: [["object_id", "postId"]],
-				},
-			],
-		});
-		if (findRes === null) {
-			//无结果只返回分类查询数据
-			return (ctx.body = {
-				result: true,
-				category: category,
-			});
-		}
+	//后台管理获取数据时返回分类
+	category = await Category.findAll({
+		attributes: [
+			["name", "cName"],
+			["id", "cValue"],
+		],
+		include: [
+			{
+				model: Relationship,
+				// where: {
+				// 	object_id: postId
+				// },
+				attributes: [["object_id", "postId"]],
+			},
+		],
+	});
+	if (findRes === null) {
+		//无结果只返回分类查询数据
 		return (ctx.body = {
 			result: true,
-			post: findRes,
 			category: category,
 		});
 	}
@@ -274,6 +231,7 @@ router.get("/findPost", async (ctx) => {
 	return (ctx.body = {
 		result: true,
 		post: findRes,
+		category: category,
 	});
 });
 
@@ -348,49 +306,6 @@ router.post("/findAllPost", async (ctx) => {
 		offset: 10 * (page - 1),
 		limit: 10,
 	});
-	return (ctx.body = {
-		result: true,
-		postList: res,
-	});
-});
-
-router.post("/findPostList", async (ctx) => {
-	let { page } = ctx.request.body;
-	if (!page || isNaN(parseInt(page))) {
-		return (ctx.body = {
-			result: false,
-			message: "请输入正确的字段或值！",
-		});
-	}
-	let res = await Post.findAndCountAll({
-		order: [
-			//倒序排列updatedAt数据
-			["publishedAt", "DESC"],
-		],
-		attributes: [
-			["id", "postId"],
-			["post_title", "title"],
-			["post_describe", "describe"],
-			["feature_image", "image"],
-			["createdAt", "createdAt"],
-			["publishedAt", "publishedAt"],
-			["updatedAt", "last_modified_date"],
-			["like_count", "like_count"],
-			["pv", "pv"],
-		],
-		where: {
-			post_status: 1,
-		},
-		offset: 10 * (page - 1),
-		limit: 10,
-		include: [
-			{
-				model: Category,
-				attributes: ["name"],
-			},
-		],
-	});
-
 	return (ctx.body = {
 		result: true,
 		postList: res,

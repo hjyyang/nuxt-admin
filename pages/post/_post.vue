@@ -40,7 +40,7 @@ export default {
 		// console.log(app.route.params.post);
 		let res = await app.$axios({
 			method: "GET",
-			url: "/api/findPost?id=" + app.route.params.post
+			url: "/port/findPost?post_id=" + app.route.params.post
 		});
 		if (res.data.result) {
 			let data = res.data.post;

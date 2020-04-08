@@ -1,7 +1,7 @@
 <template>
 	<div class="default_layout">
 		<Header :isMobile="isMobile"></Header>
-		<div class="fixed_contact">
+		<!-- <div class="fixed_contact">
 			<ul>
 				<li>
 					<a href>
@@ -15,7 +15,7 @@
 					</div>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 		<nuxt />
 		<Footer />
 	</div>

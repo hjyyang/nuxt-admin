@@ -41,22 +41,14 @@ export default {
 	},
 	async asyncData(app) {
 		let res = await app.$axios({
-			url: "/api/archive",
+			url: "/port/archive",
 			method: "get"
-		});
+        });
 		return {
 			timeData: res.data.data
 		};
 	},
-	mounted() {
-		// this.$axios({
-		// 	url: "/api/archive",
-		// 	method: "get"
-		// }).then(res => {
-		// 	this.timeData = res.data.data;
-		// 	console.log(this.timeData);
-		// });
-	},
+	mounted() {},
 	methods: {}
 };
 </script>

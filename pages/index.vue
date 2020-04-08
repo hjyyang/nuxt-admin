@@ -105,11 +105,8 @@ export default {
 	async asyncData(app) {
 		return await app
 			.$axios({
-				method: "post",
-				url: "/api/findPostList",
-				data: {
-					page: 1
-				}
+				method: "get",
+				url: "/port/findPostList?page=1"
 			})
 			.then(res => {
 				return {
@@ -137,11 +134,8 @@ export default {
 		},
 		async getData() {
 			await this.$axios({
-				method: "post",
-				url: "/api/findPostList",
-				data: {
-					page: this.currentPage
-				}
+				method: "get",
+				url: "/port/findPostList?page=" + this.currentPage
 			}).then(res => {
 				if (res.data.postList.rows.length > 0) {
 					this.article.push.apply(

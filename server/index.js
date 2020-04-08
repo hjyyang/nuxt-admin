@@ -45,12 +45,12 @@ async function start() {
 	app.use((ctx, next) => {
 		if (
 			ctx.url.match(/^\/api\/login/) ||
-			ctx.url.match(/^\/api\/register/)
+			ctx.url.match(/^\/api\/register/) ||
+			ctx.url.match(/^\/port/)
 		) {
 			return next();
 		}
 		if (ctx.url.match(/^\/api/) || ctx.url.match(/^\/file/)) {
-			return next();
 			//路由判断是否以/api或/file开头的url，是则进行鉴权，否则直接输入内容
 			let authorization = ctx.headers.authorization,
 				token;
