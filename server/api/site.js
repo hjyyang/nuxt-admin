@@ -94,7 +94,6 @@ router.get("/archive", async (ctx) => {
 //首页文章列表
 router.get("/findPostList", async (ctx) => {
 	let { page } = ctx.request.query;
-	console.log(page);
 
 	if (!page || isNaN(parseInt(page))) {
 		return (ctx.body = {
