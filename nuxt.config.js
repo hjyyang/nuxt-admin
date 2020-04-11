@@ -64,6 +64,10 @@ module.exports = {
 	 ** Nuxt.js dev-modules
 	 */
 	devModules: [],
+	axios: {
+		// See https://github.com/nuxt-community/axios-module#options
+		proxy: true,
+	},
 	/*
 	 ** Nuxt.js modules
 	 */
@@ -90,5 +94,5 @@ module.exports = {
 		 ** You can extend webpack config here
 		 */
 		extend(config, ctx) {},
-	}
+	},
 };

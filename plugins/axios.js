@@ -27,7 +27,7 @@ export default function(app) {
 	// });
     //此处写法功能与下面到效果一致
     // console.log(process.env.NODE_ENV)
-	axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "jonsblog.top";
+	axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
 	axios.onRequest((config) => {
 		// console.log('请求拦截')
