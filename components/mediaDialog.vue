@@ -21,6 +21,7 @@
 							action="/file/upload"
 							:file-list="fileList"
 							multiple
+							:headers="uploadHeaders"
 							:show-file-list="false"
 							:before-upload="beforeAvatarUpload"
 							:on-success="uploadEV"
@@ -46,11 +47,14 @@ export default {
 			activeName: "list",
 			fileList: [],
 			showFileList: [],
-			timer: -1
+			timer: -1,
+			uploadHeaders: {}
 		};
 	},
 	props: ["mediaDialogVisible"],
 	mounted() {
+this.uploadHeaders.authorization =
+			"Bearer " + this.$store.state.authUser.token;
 		this.$axios({
 			method: "get",
 			url: "/file/get"

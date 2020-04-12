@@ -4,7 +4,7 @@ module.exports = {
 	 ** Headers of the page
 	 */
 	head: {
-		title: process.env.npm_package_name || "",
+		title: "此间少年",
 		meta: [
 			{
 				charset: "utf-8",
