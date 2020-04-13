@@ -92,3 +92,6 @@ sw.*
 
 # upload directories
 static/upload/
+
+# package
+package-lock.json
