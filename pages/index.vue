@@ -118,6 +118,7 @@ export default {
 			});
 	},
 	mounted() {
+        this.getData();
 		document.getElementsByTagName("body")[0].classList.add("home");
 	},
 	beforeDestroy: function() {
@@ -137,6 +138,7 @@ export default {
 				method: "get",
 				url: "/port/findPostList?page=" + this.currentPage
 			}).then(res => {
+                console.log(res)
 				if (res.data.postList.rows.length > 0) {
 					this.article.push.apply(
 						this.article,
