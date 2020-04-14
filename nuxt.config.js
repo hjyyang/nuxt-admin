@@ -16,8 +16,12 @@ module.exports = {
 			{
 				hid: "description",
 				name: "description",
-				content: process.env.npm_package_description || "",
-			},
+				content: "jon的个人博客网站，专注于前端开发",
+            },
+            {
+                name: "keywords",
+                content: "编程,开发,前端,html,css,javascript,node"
+            }
 		],
 		link: [
 			{
@@ -40,7 +44,8 @@ module.exports = {
 	 ** Customize the progress-bar color
 	 */
 	loading: {
-		color: "#fff",
+        color: "#fe4e0e",
+        failedColor: "red"
 	},
 	/*
 	 ** Global CSS

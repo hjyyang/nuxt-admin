@@ -1,18 +1,4 @@
-import { Loading, MessageBox } from "element-ui";
-
-let loading;
-
-function startLoading() {
-	loading = Loading.service({
-		lock: true,
-		text: "加载中……",
-		background: "rgba(0, 0, 0, 0.7)",
-	});
-}
-
-function endLoading() {
-	loading.close();
-}
+import { MessageBox } from "element-ui";
 
 export default function(app) {
 	let axios = app.$axios;
@@ -25,32 +11,30 @@ export default function(app) {
 	// app.$axios.interceptors.response.use(config => {
 	// 	// console.log(config);
 	// });
-    //此处写法功能与下面到效果一致
-    // console.log(process.env.NODE_ENV)
-	axios.defaults.baseURL = process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
+	//此处写法功能与下面到效果一致
+	// console.log(process.env.NODE_ENV)
+	axios.defaults.baseURL =
+		process.env.NODE_ENV === "development" ? "http://localhost:3000" : "";
 
-	axios.onRequest((config) => {
+	axios.onRequest(config => {
 		// console.log('请求拦截')
 		if (app.store.state.authUser) {
 			config.headers.authorization =
 				"Bearer " + app.store.state.authUser.token;
 		}
 		if (process.browser) {
-			//判断是否为客户端（必须）
-			startLoading();
+            //判断是否为客户端（必须）
 		}
 	});
 
-	axios.onResponse((response) => {
+	axios.onResponse(response => {
 		if (process.browser) {
 			//判断是否为客户端（必须）
-			endLoading();
 		}
 	});
 
-	axios.onError((error) => {
+	axios.onError(error => {
 		const code = parseInt(error.response && error.response.status);
-		endLoading();
 		if (code === 400) {
 			app.redirect("/400");
 		}
@@ -58,7 +42,7 @@ export default function(app) {
 			MessageBox.confirm("无权限访问", "提示", {
 				confirmButtonText: "去登录",
 				cancelButtonText: "去首页",
-				type: "warning",
+				type: "warning"
 			})
 				.then(() => {
 					app.redirect("/login");
@@ -67,5 +51,5 @@ export default function(app) {
 					app.redirect("/");
 				});
 		}
-    });
+	});
 }
