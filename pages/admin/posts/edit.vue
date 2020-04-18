@@ -41,6 +41,7 @@
 					fontSize="14px"
 					:subfield="toolbarsOption.preview"
 					:boxShadow="false"
+                    :tabSize="4"
 					v-model="postData.editContent"
 					previewBackground="#ffffff"
 				/>
