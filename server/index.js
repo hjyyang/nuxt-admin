@@ -5,7 +5,7 @@ const { Nuxt, Builder } = require("nuxt");
 const bodyParser = require("koa-bodyparser");
 
 //------------引入koa-jwt做路由鉴权-----------------
-const jwt = require("koa-jwt");
+// const jwt = require("koa-jwt");
 const jsonwebtoken = require("jsonwebtoken");
 const tokenOp = require("./common/token");
 

@@ -35,6 +35,9 @@ module.exports = {
 			},
 		],
 		script: [
+            {
+                src: "https://hm.baidu.com/hm.js?df1b7cadc1b1a53f106bddec21ca393b"
+            },
 			{
 				src: "//at.alicdn.com/t/font_1478929_tapd4n12v3j.js",
 			},
@@ -62,7 +65,10 @@ module.exports = {
 		{
 			src: "@/plugins/vue-mavon-editor",
 			srr: false,
-		},
+        },
+        {
+            src: "@/plugins/ga"
+        },
 		"~/plugins/axios",
 	],
 	/*
