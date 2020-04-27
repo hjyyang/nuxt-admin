@@ -1,13 +1,13 @@
 body.postDetail {
 	.page_banner {
-        align-items: flex-end;
-        background-repeat: no-repeat;
-        background-size: 1920px;
+		align-items: flex-end;
+		background-repeat: no-repeat;
+		background-size: 1920px;
 		h1 {
 			margin-bottom: 20px;
 			font-size: 32px;
-            text-align: left;
-            text-shadow: 4px 0 rgba(0, 0, 0, 0.5);
+			text-align: left;
+			text-shadow: 4px 0 rgba(0, 0, 0, 0.5);
 		}
 		.minContainer {
 			width: 100%;
@@ -113,5 +113,26 @@ body.postDetail {
 		margin: 0px;
 		color: #6a737d;
 		border-left: 0.25em solid #dfe2e5;
+	}
+	table {
+		display: block;
+		width: 100%;
+		overflow: auto;
+		tr {
+			background-color: #fff;
+            border-top: 1px solid #c6cbd1;
+            &:nth-child(2n){
+                background-color: #f6f8fa;
+            }
+		}
+		td {
+			padding: 6px 13px;
+			border: 1px solid #dfe2e5;
+		}
+		th {
+			padding: 6px 13px;
+            border: 1px solid #dfe2e5;
+            font-weight: 600;
+		}
 	}
 }
