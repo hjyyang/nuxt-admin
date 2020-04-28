@@ -1,13 +1,13 @@
 const cookieparser = process.server ? require("cookieparser") : undefined;
 
 export const state = () => ({
-	authUser: null
+	authUser: null,
 });
 
 export const mutations = {
 	SET_USER(state, user) {
 		state.authUser = user;
-	}
+	},
 };
 
 export const actions = {
@@ -16,6 +16,7 @@ export const actions = {
 		let auth = null;
 		if (req.headers.cookie) {
 			const parsed = cookieparser.parse(req.headers.cookie);
+			if (!parsed.authUser) return false;
 			auth = new Buffer(
 				parsed.authUser.split(".")[1],
 				"base64"
@@ -35,7 +36,7 @@ export const actions = {
 		try {
 			const { data } = await this.$axios.post("/api/login", {
 				user_name: username,
-				password: password
+				password: password,
 			});
 			if (data.result) {
 				commit("SET_USER", data);
@@ -53,5 +54,5 @@ export const actions = {
 		if (res.data.result) {
 			commit("SET_USER", null);
 		}
-	}
+	},
 };
